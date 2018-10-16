@@ -4,9 +4,9 @@ import "../universaltoken.sol";
 
 contract CappedUniversalTokenMock is UniversalToken {
 
-  constructor(uint initialAmount)
+  constructor(uint initialCap)
       public
-      UniversalToken(initialAmount, 100, 3000)
+      UniversalToken(initialCap, 100, 3000)
   {
   }
 

@@ -4,7 +4,7 @@ import "../puremoney.sol";
 import "./PauserRoleMock.sol";
 
 // mock class using ERC20Pausable
-contract PausablePureMoneyMock is PureMoney(1000), PauserRoleMock {
+contract PausablePureMoneyMock is PureMoney, PauserRoleMock {
 
   constructor(address initialAccount, uint initialBalance)
       public

@@ -33,7 +33,7 @@ contract LocalToken is Token {
             condition(_universalToken != 0)
             Token(_pmt, _maxTokens)
     {
-        // universalToken = UniversalToken(_universalToken);
+        universalToken = UniversalToken(_universalToken);
         // require(msg.sender == universalToken.owner(), "owner must be the same owner for UniversalToken");
         decimals = DECIMALS;
         symbol = _tokenSymbol;
