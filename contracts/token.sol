@@ -13,7 +13,7 @@ pragma solidity ^0.4.24;
 
 import { CapperRole } from "openzeppelin-solidity/contracts/access/roles/CapperRole.sol";
 import { IERC20 } from "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
-import { ERC20Capped } from "openzeppelin-solidity/contracts/token/ERC20/ERC20Capped.sol";
+import { Capped } from "./Capped.sol";
 import { ERC20Pausable } from "openzeppelin-solidity/contracts/token/ERC20/ERC20Pausable.sol";
 import { Ownable } from "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
@@ -23,7 +23,7 @@ contract Constants {
     uint public constant WAD = 10**DECIMALS;
 }
 
-contract Token is Constants, CapperRole, Ownable, ERC20Pausable, ERC20Capped {
+contract Token is Constants, CapperRole, Ownable, ERC20Pausable, Capped {
     string  public symbol;
     uint256 public decimals;
     string  public name;
@@ -35,8 +35,16 @@ contract Token is Constants, CapperRole, Ownable, ERC20Pausable, ERC20Capped {
 
     constructor(address _owner, uint256 _cap)
         public
-        ERC20Capped(_cap)
+        Capped(_cap)
     {
       super.transferOwnership(_owner);
+      super.addCapper(_owner);
+    }
+
+    function setCap(uint256 _cap)
+      public
+      onlyCapper
+    {
+      super._setCap(_cap);
     }
 }
