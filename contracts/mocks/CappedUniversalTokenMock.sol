@@ -4,11 +4,10 @@ import "../universaltoken.sol";
 
 contract CappedUniversalTokenMock is UniversalToken {
 
-  constructor(address initialAccount, uint256 initialBalance)
+  constructor(uint initialAmount)
       public
-      UniversalToken(initialBalance, 100, 3000)
+      UniversalToken(initialAmount, 100, 3000)
   {
-    super.transferOwnership(initialAccount);
   }
 
 }

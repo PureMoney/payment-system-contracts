@@ -11,20 +11,21 @@ contract UniversalToken is Token {
     uint public xactionFeeNumerator;
     uint public xactionFeeShare;
 
+    // Note: the constructor only sets the Cap, but does not set the initial supply.
+    //
     constructor( 
-        uint initialSupply,
+        uint initialCap,
         uint feeMult,
         uint feeShare
         )
           public
-          Token(msg.sender, initialSupply)
+          Token(msg.sender, initialCap)
     {
-        require(initialSupply > 1000, "initial supply must be greater than 1000");
+        require(initialCap > 1000, "initial supply must be greater than 1000");
         require(feeMult > 0, "fee multiplier must be non-zero");
         symbol = "UETR";
         name = "Universal Evangelist Token - by Rock Stable Token Inc";
         decimals = DECIMALS;
-        super._mint(super.owner(), initialSupply.mul(WAD));
         xactionFeeNumerator = feeMult;
         xactionFeeShare = feeShare;
     }
