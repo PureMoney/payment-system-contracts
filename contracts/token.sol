@@ -12,6 +12,8 @@
 pragma solidity ^0.4.24;
 
 import { CapperRole } from "openzeppelin-solidity/contracts/access/roles/CapperRole.sol";
+import { MinterRole } from "openzeppelin-solidity/contracts/access/roles/MinterRole.sol";
+import { PauserRole } from "openzeppelin-solidity/contracts/access/roles/PauserRole.sol";
 import { IERC20 } from "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 import { Capped } from "./Capped.sol";
 import { ERC20Pausable } from "openzeppelin-solidity/contracts/token/ERC20/ERC20Pausable.sol";
@@ -23,7 +25,7 @@ contract Constants {
     uint public constant WAD = 10**DECIMALS;
 }
 
-contract Token is Constants, CapperRole, Ownable, ERC20Pausable, Capped {
+contract Token is Constants, CapperRole, MinterRole, PauserRole, Ownable, ERC20Pausable, Capped {
     string  public symbol;
     uint256 public decimals;
     string  public name;
