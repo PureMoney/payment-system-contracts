@@ -1,8 +1,8 @@
 const { shouldBehaveLikeERC20Mintable } = require('./behaviors/ERC20Mintable.behavior');
-const ERC20MintableMock = artifacts.require('MintableLocalTokenMock');
+const ERC20MintableMock = artifacts.require('MintablePureMoneyMock');
 const { shouldBehaveLikePublicRole } = require('../../access/roles/PublicRole.behavior');
 
-contract('MintableLocalToken', function ([_, minter, otherMinter, ...otherAccounts]) {
+contract('MintablePureMoney', function ([_, minter, otherMinter, ...otherAccounts]) {
   beforeEach(async function () {
     this.token = await ERC20MintableMock.new(minter, 1000, { from: minter });
   });
