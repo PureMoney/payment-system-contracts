@@ -1,12 +1,12 @@
 pragma solidity ^0.4.24;
 
-import "openzeppelin-solidity/contracts/access/roles/MinterRole.sol";
+import "openzeppelin-solidity/contracts/access/roles/CapperRole.sol";
 
 /**
  * @title Depot
  * @dev Minting can only be directed to Depot accounts.
  */
-contract Depot is MinterRole {
+contract Depot is CapperRole {
 
   mapping(address => bool) private _depotAddress;
 
@@ -17,14 +17,14 @@ contract Depot is MinterRole {
 
   function addDepot(address depot)
     public
-    onlyMinter
+    onlyCapper
   {
     _addDepot(depot);
   }
 
   function removeDepot(address depot)
     public
-    onlyMinter
+    onlyCapper
     onlyDepot(depot)
   {
     _removeDepot(depot);
