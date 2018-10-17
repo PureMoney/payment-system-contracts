@@ -14,7 +14,7 @@ contract PureMoney is Token, IPure {
     constructor( 
         uint initialCap)
           public
-          condition(initialCap > 100)
+          condition(initialCap > 0)
           Token(msg.sender, initialCap)
     {
         symbol = "ROKS";

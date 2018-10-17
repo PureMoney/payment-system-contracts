@@ -27,7 +27,7 @@ contract LocalToken is Token {
             address _universalToken
             )
             public
-            condition(_maxTokens > 10)
+            condition(_maxTokens > 0)
             condition(DENOMINATOR > _taxRateMult.mul(2))
             condition((_taxRateMult > 0 && _govt != 0) || _taxRateMult == 0)
             condition(_universalToken != 0)

@@ -21,7 +21,7 @@ contract UniversalToken is Token {
           public
           Token(msg.sender, initialCap)
     {
-        require(initialCap > 1000, "initial supply must be greater than 1000");
+        require(initialCap > 0, "initial supply must be greater than 0");
         require(feeMult > 0, "fee multiplier must be non-zero");
         symbol = "UETR";
         name = "Universal Evangelist Token - by Rock Stable Token Inc";
