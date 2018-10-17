@@ -9,6 +9,7 @@ contract NoparamTokenMock is Token {
       Token(msg.sender, 200)
   {
     super.addMinter(msg.sender);
+    super.addDepot(msg.sender);
     super.mint(msg.sender, 100);
   }
 }

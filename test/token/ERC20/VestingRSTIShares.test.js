@@ -45,6 +45,7 @@ contract('TokenVesting', function ([_, owner, beneficiary]) {
         beneficiary, this.start, this.cliffDuration, this.duration, true, { from: owner });
 
       this.token = await ERC20Mintable.new(owner, 2 * amount, { from: owner });
+      await this.token.addDepot(this.vesting.address, { from: owner });
       await this.token.mint(this.vesting.address, amount, { from: owner });
     });
 

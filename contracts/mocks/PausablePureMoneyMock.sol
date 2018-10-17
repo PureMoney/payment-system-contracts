@@ -12,7 +12,13 @@ contract PausablePureMoneyMock is PureMoney, PauserRoleMock {
   {
     super.transferOwnership(initialAccount);
     super.addPauser(initialAccount);
+    super.addDepot(initialAccount);
     super.mint(initialAccount, initialBalance);
+  }
+
+  function mint(address to, uint256 amount) public returns (bool) {
+    super.addDepot(to);
+    super.mint(to, amount);
   }
 
 }

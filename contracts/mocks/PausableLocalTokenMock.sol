@@ -13,7 +13,13 @@ contract PausableLocalTokenMock is LocalToken, PauserRoleMock {
       LocalToken(initialBalance.mul(2), 0, 'PLT', 'Pausable Local Token', 'some place', 0, initialAccount, 0x176d83550f672F67adBbfF6Dc71509730D32138b)
   {
     super.transferOwnership(initialAccount);
+    super.addDepot(initialAccount);
     super.mint(initialAccount, initialBalance);
+  }
+
+  function mint(address to, uint256 amount) public returns (bool) {
+    super.addDepot(to);
+    super.mint(to, amount);
   }
 
 }

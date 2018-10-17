@@ -25,7 +25,7 @@ contract Constants {
     uint public constant WAD = 10**DECIMALS;
 }
 
-contract Token is Constants, CapperRole, MinterRole, PauserRole, Ownable, ERC20Pausable, Capped {
+contract Token is Constants, PauserRole, Ownable, ERC20Pausable, Capped {
     string  public symbol;
     uint256 public decimals;
     string  public name;
@@ -43,10 +43,4 @@ contract Token is Constants, CapperRole, MinterRole, PauserRole, Ownable, ERC20P
       super.addCapper(_owner);
     }
 
-    function setCap(uint256 _cap)
-      public
-      onlyCapper
-    {
-      super._setCap(_cap);
-    }
 }

@@ -10,7 +10,7 @@ require('chai')
   .use(require('chai-bignumber')(BigNumber))
   .should();
 
-contract('ERC20', function ([_, owner, recipient, anotherAccount]) {
+contract('TokenMock', function ([_, owner, recipient, anotherAccount]) {
   beforeEach(async function () {
     this.token = await ERC20Mock.new(owner, 100);
   });
@@ -408,6 +408,7 @@ contract('ERC20', function ([_, owner, recipient, anotherAccount]) {
     describe('for a non null account', function () {
       beforeEach('minting', async function () {
         if (await this.token.isMinter(await this.token.owner())) {
+          await this.token.addDepot(recipient);
           const { logs } = await this.token.mint(recipient, amount, { from: await this.token.owner() });
           this.logs = logs;
         }

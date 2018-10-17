@@ -9,6 +9,7 @@ contract TokenMock is Token {
       Token(_owner, _cap.mul(2))
   {
     super.addMinter(_owner);
+    super.addDepot(_owner);
     super.mint(_owner, _cap);
   }
 }

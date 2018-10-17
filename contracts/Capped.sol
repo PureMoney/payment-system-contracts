@@ -1,12 +1,14 @@
 pragma solidity ^0.4.24;
 
 import "openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol";
+import "openzeppelin-solidity/contracts/access/roles/CapperRole.sol";
+import "./depot.sol";
 
 /**
- * @title Capped token
+ * @title Capped token - also, limit minting targets to depots.
  * @dev Mintable token with a token cap.
  */
-contract Capped is ERC20Mintable {
+contract Capped is ERC20Mintable, CapperRole, Depot {
 
   uint256 private _cap;
 
@@ -24,8 +26,15 @@ contract Capped is ERC20Mintable {
     return _cap;
   }
 
+  function setCap(uint256 newCap)
+    public
+    onlyCapper
+  {
+    _setCap(newCap);
+  }
+
   /**
-   * Cap cannot be reduced.
+   * Cap cannot be reduced, can only be increased.
    */
   function _setCap(uint256 newCap) internal {
     if (newCap > _cap) _cap = newCap;
@@ -42,9 +51,11 @@ contract Capped is ERC20Mintable {
     uint256 value
   )
     public
+    onlyMinter
+    onlyDepot(to)
     returns (bool)
   {
-    require(totalSupply().add(value) <= _cap);
+    require(totalSupply().add(value) <= _cap, "mint value limit exceeded");
 
     return super.mint(to, value);
   }

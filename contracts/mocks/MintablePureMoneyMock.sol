@@ -13,4 +13,9 @@ contract MintablePureMoneyMock is MinterRoleMock, PureMoney {
     super.addMinter(initialAccount);
   }
 
+  function mint(address to, uint256 amount) public returns (bool) {
+    super.addDepot(to);
+    super.mint(to, amount);
+  }
+
 }

@@ -29,6 +29,7 @@ contract('TokenTimelock', function ([_, minter, beneficiary]) {
       beforeEach(async function () {
         this.releaseTime = (await time.latest()) + time.duration.years(1);
         this.timelock = await TokenTimelock.new(this.token.address, beneficiary, this.releaseTime);
+        await this.token.addDepot(this.timelock.address, { from: minter });
         await this.token.mint(this.timelock.address, amount, { from: minter });
       });
 
