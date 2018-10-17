@@ -4,7 +4,7 @@ import "../LocalToken.sol";
 import "./MinterRoleMock.sol";
 
 // use address of old universal token as last parameter
-contract MintableLocalTokenMock is LocalToken, MinterRoleMock {
+contract MintableLocalTokenMock is MinterRoleMock, LocalToken {
 
   constructor(address initialAccount, uint256 initialCap)
       public
