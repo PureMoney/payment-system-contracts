@@ -1,10 +1,10 @@
 const expectEvent = require('../../helpers/expectEvent');
 const shouldFail = require('../../helpers/shouldFail');
 
-const ERC20PausableMock = artifacts.require('PausableLocalTokenMock');
+const ERC20PausableMock = artifacts.require('PausablePureMoneyMock');
 const { shouldBehaveLikePublicRole } = require('../../access/roles/PublicRole.behavior');
 
-contract('PausableLocalToken', function ([_, pauser, otherPauser, recipient, anotherAccount, ...otherAccounts]) {
+contract('PausablePureMoney', function ([_, pauser, otherPauser, recipient, anotherAccount, ...otherAccounts]) {
   beforeEach(async function () {
     this.token = await ERC20PausableMock.new(pauser, 100, { from: pauser });
   });
