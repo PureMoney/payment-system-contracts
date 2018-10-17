@@ -4,9 +4,9 @@ import "../puremoney.sol";
 
 contract CappedPureMoneyMock is PureMoney {
 
-  constructor(address initialAccount, uint256 initialBalance)
+  constructor(address initialAccount, uint256 initialCap)
     public
-    PureMoney(initialBalance)
+    PureMoney(initialCap)
   {
     super.transferOwnership(initialAccount);
   }

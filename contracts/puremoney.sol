@@ -12,10 +12,10 @@ contract PureMoney is Token, IPure {
     mapping(address => bool) internal vendorContracts;
 
     constructor( 
-        uint initialSupply)
+        uint initialCap)
           public
-          condition(initialSupply > 100)
-          Token(msg.sender, initialSupply)
+          condition(initialCap > 100)
+          Token(msg.sender, initialCap)
     {
         symbol = "ROKS";
         name = "Rock Stable Token";
