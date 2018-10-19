@@ -50,8 +50,10 @@ contract Payment is Constants {
         precondition(_vendor != 0)
     {
         localToken = LocalToken(_localToken);
-        require(localToken.allowance(_evangelist, msg.sender) >= WAD, "evangelist must have already approved local tokens for vendor");
-        require(localToken.balanceOf(_evangelist) >= WAD, "evangelist must already be licensed for this vendor");
+        if (_evangelist != _vendor) {
+          require(localToken.allowance(_evangelist, msg.sender) >= WAD, "evangelist must have already approved local tokens for vendor");
+          require(localToken.balanceOf(_evangelist) >= WAD, "evangelist must already be licensed for this vendor");
+        }
         feeRate = localToken.universalToken().xactionFeeNumerator();
         taxRate = localToken.taxRateNumerator();
         priceFactor = DENOMINATOR.add(_payTax ? taxRate : 0).add(feeRate);
