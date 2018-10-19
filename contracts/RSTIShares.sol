@@ -25,9 +25,11 @@ contract RSTIShares is Token {
         _;
     }
 
-    constructor(address _owner, uint256 _initialSupply)
+    constructor(address _owner, uint256 _initialCap)
         public
-        Token(_owner, _initialSupply)
+        condition(_initialCap > 0)
+        condition(_owner != address(0))
+        Token(_owner, _initialCap)
     {
         symbol = "MONY";
         name = "Rockstable Token Inc Shares";
