@@ -6,7 +6,10 @@ var Payment = artifacts.require("Payment");
 
 const TokenVesting = artifacts.require('TokenVesting');
 
-
+// Important Note: Before running this script, make sure that the installer (rock) has enough ethers.
+// Each contract requires about 0.358 ether to deploy, and because there are a total of 16 contracts,
+// rock must have at least 0.358 x 16 or  5.728 ethers. Including the migration contract and transactions
+// with it, the total comes up to at least 5.74 ethers.
 
 
 module.exports = function(deployer, network, accounts) {
