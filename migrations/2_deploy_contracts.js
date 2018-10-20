@@ -23,10 +23,6 @@ module.exports = function(deployer, network, accounts) {
 
   var rock = accounts[0];
 
-  if (network == "ropsten") {
-    rock = address("0x95BfD3a00587d4c9EB6846eA7748777e798e7410");
-  }
-
   deployer.deploy(UniversalToken, ether(100000), 100, 3000)
   .then((token) => {
     uToken = token;
