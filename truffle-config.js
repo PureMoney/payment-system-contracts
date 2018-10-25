@@ -12,14 +12,27 @@
  *   },
  */
 
+var HDWalletProvider = require("truffle-hdwallet-provider");
+var mnemonic = "pottery wage multiply float virus endorse cake ceiling excess light awkward animal"; // 12 word mnemonic
+
+
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
   // to customize your Truffle configuration!
   networks: {
     development: {
-      host: "127.0.0.1",
+      host: 'localhost',
       port: 8545,
-      network_id: "*" // Match any network id
+      network_id: '*'
+    },
+    ropsten: {
+      provider: function () {
+        return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/v3/0b49da3d2bea48b6bdd8ba70ce3fa506");
+      },
+      network_id: '3'
     }
+  },
+  solc: {
+    remappings: [":g/github.com/OpenZeppelin/openzeppelin-solidity/=/home/pmt0admin/openzeppelin-solidity/"] 
   }
 };

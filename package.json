@@ -1,0 +1,37 @@
+{
+  "name": "payment-system-contracts",
+  "version": "0.1.0",
+  "description": "Rock Stable Token Inc Payment System Contracts",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "chai": "^4.2.0",
+    "chai-bignumber": "^2.0.2",
+    "ethereumjs-util": "^6.0.0",
+    "ethjs-abi": "^0.2.1",
+    "openzeppelin-solidity": "^2.0.0-rc.3",
+    "truffle-hdwallet-provider": "0.0.6",
+    "web3": "^1.0.0-beta.36"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PureMoney/payment-system-contracts.git"
+  },
+  "keywords": [
+    "Ethereum",
+    "smart",
+    "contracts"
+  ],
+  "author": "Rock Stable Token Inc",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PureMoney/payment-system-contracts/issues"
+  },
+  "homepage": "https://github.com/PureMoney/payment-system-contracts#readme"
+}
