@@ -1,8 +1,7 @@
-const { ethGetBlock } = require('./web3');
 
 // Returns the time of the last mined block in seconds
 async function latest () {
-  const block = await ethGetBlock('latest');
+  const block = await web3.eth.getBlock('latest');
   return block.timestamp;
 }
 

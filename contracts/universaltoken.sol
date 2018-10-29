@@ -33,7 +33,6 @@ contract UniversalToken is Token {
     function modifyTransFee(uint _xactionFeeMult) public
         onlyOwner
     {
-        require(_xactionFeeMult >= 0, 'cannot modify transaction fee to less than zero');
         require(DENOMINATOR > _xactionFeeMult.mul(4), 'cannot modify transaction fee to more than 0.25');
         xactionFeeNumerator = _xactionFeeMult;
     }
@@ -41,7 +40,6 @@ contract UniversalToken is Token {
     function modifyFeeShare(uint _share) public
         onlyOwner
     {
-        require(_share >= 0, 'RSTI share must be zero or more');
         require(DENOMINATOR > _share.mul(3), 'RSTI share must be less than one-third');
         xactionFeeShare = _share;
     }

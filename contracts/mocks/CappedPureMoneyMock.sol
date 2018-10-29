@@ -8,7 +8,7 @@ contract CappedPureMoneyMock is PureMoney {
     public
     PureMoney(initialCap)
   {
-    super.transferOwnership(initialAccount);
+    if (initialAccount != super.owner()) super.transferOwnership(initialAccount);
   }
 
   function mint(address to, uint256 amount) public returns (bool) {

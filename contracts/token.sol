@@ -25,7 +25,7 @@ contract Constants {
     uint public constant WAD = 10**DECIMALS;
 }
 
-contract Token is Constants, PauserRole, Ownable, ERC20Pausable, Capped {
+contract Token is Constants, Ownable, ERC20Pausable, Capped {
     string  public symbol;
     uint256 public decimals;
     string  public name;
@@ -39,8 +39,11 @@ contract Token is Constants, PauserRole, Ownable, ERC20Pausable, Capped {
         public
         Capped(_cap)
     {
-      super.transferOwnership(_owner);
-      super.addCapper(_owner);
+      require(_owner != 0, "proposed owner is null");
+      if (msg.sender != _owner) {
+        super.transferOwnership(_owner);
+        super.addCapper(_owner);
+      }
     }
 
 }

@@ -3,26 +3,42 @@ const { ether } = require('../../helpers/ether');
 const { shouldBehaveLikeERC20Mintable } = require('./behaviors/ERC20Mintable.behavior');
 const { shouldBehaveLikeERC20Capped } = require('./behaviors/ERC20Capped.behavior');
 
-const UniversalToken = artifacts.require('CappedUniversalTokenMock');
-const ERC20Capped = artifacts.require('CappedLocalTokenMock');
+const UniversalToken = artifacts.require('UniversalToken');
+const LocalToken = artifacts.require('LocalToken');
 
 contract('CappedLocalTokenMock', function ([_, minter, ...otherAccounts]) {
   const cap = ether(1000);
   var uToken;
 
-  it('requires a non-zero cap', async function () {
-    uToken = await UniversalToken.new(cap, { from: minter });
-    await shouldFail.reverting(
-      ERC20Capped.new(0, uToken.address, { from: minter })
-    );
+  beforeEach(async function() {
+    uToken = await UniversalToken.new(cap, 100, 3000, { from: minter });
+    // uToken.OwnerModified(function(dummy1, eventData) {
+    //   console.log('universal token event');
+    //   console.log('dummy1: ', dummy1);
+    //   console.log('eventData: ', eventData.event, eventData.args);
+    // });
+    // console.log('created universal token');
   });
 
-  context('once deployed', async function () {
-    beforeEach(async function () {
-      this.token = await ERC20Capped.new(cap, uToken.address, { from: minter });
+    it('requires a non-zero cap', async function () {
+      await shouldFail.reverting(
+        LocalToken.new(0, 0, 'RSLT0001', 'RockStable LocalToken', 'Argentina', 0, minter, uToken.address, { from: minter })
+      );
     });
 
-    shouldBehaveLikeERC20Capped(minter, otherAccounts, cap);
-    shouldBehaveLikeERC20Mintable(minter, otherAccounts);
-  });
+    it('once deployed', async function () {
+      // console.log('tests start, uToken.address: ', uToken.address);
+      beforeEach(async function () {
+        this.token = await LocalToken.new(cap, 0, 'RSLT0002', 'RockStable LocalToken', 'Venezuela', 0, minter, uToken.address, { from: minter });
+        await this.token.addDepot(otherAccounts[0], { from: minter });
+        // console.log('otherAccounts[0]: ', otherAccounts[0]);
+        // console.log('minter: ', minter);
+        // console.log('isMinter: ', await this.token.isMinter(minter));
+        // console.log('isCapper: ', await this.token.isCapper(minter));
+        // console.log('isDepot: ', await this.token.isDepot(otherAccounts[0]));
+      });
+
+      shouldBehaveLikeERC20Capped(minter, otherAccounts, cap);
+      shouldBehaveLikeERC20Mintable(minter, otherAccounts);
+    });
 });

@@ -1,21 +1,21 @@
 pragma solidity ^0.4.24;
 
 import "openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol";
-import "openzeppelin-solidity/contracts/access/roles/CapperRole.sol";
+// import "openzeppelin-solidity/contracts/access/roles/CapperRole.sol";
 import "./depot.sol";
 
 /**
  * @title Capped token - also, limit minting targets to depots.
  * @dev Mintable token with a token cap.
  */
-contract Capped is ERC20Mintable, CapperRole, Depot {
+contract Capped is Depot, ERC20Mintable {
 
   uint256 private _cap;
 
   constructor(uint256 cap)
     public
   {
-    require(cap > 0);
+    require(cap > 0, 'Cap cannot be zero');
     _cap = cap;
   }
 
