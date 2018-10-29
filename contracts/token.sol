@@ -30,8 +30,6 @@ contract Token is Constants, Ownable, ERC20Pausable, Capped {
     uint256 public decimals;
     string  public name;
 
-    event OwnerModified(address owner, address sender, address proposed);
-
     modifier condition(bool _condition) {
       require(_condition, "condition not met");
       _;
@@ -42,7 +40,6 @@ contract Token is Constants, Ownable, ERC20Pausable, Capped {
         Capped(_cap)
     {
       require(_owner != 0, "proposed owner is null");
-      emit OwnerModified( super.owner(), msg.sender, _owner);
       if (msg.sender != _owner) {
         super.transferOwnership(_owner);
         super.addCapper(_owner);

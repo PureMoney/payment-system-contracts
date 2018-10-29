@@ -27,7 +27,7 @@ contract('CappedLocalTokenMock', function ([_, minter, ...otherAccounts]) {
     });
 
     it('once deployed', async function () {
-      console.log('tests start, uToken.address: ', uToken.address);
+      // console.log('tests start, uToken.address: ', uToken.address);
       beforeEach(async function () {
         this.token = await LocalToken.new(cap, 0, 'RSLT0002', 'RockStable LocalToken', 'Venezuela', 0, minter, uToken.address, { from: minter });
         await this.token.addDepot(otherAccounts[0], { from: minter });

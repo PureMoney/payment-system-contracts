@@ -47,14 +47,14 @@ contract LocalToken is Token {
     }
 
     function modifyLocality(string newLocality) public
-        onlyOwner
+        onlyMinter
     {
         localityCode = newLocality;
     }
 
     function modifyTaxRate(uint _taxMult) public
-        onlyOwner
-        condition(DENOMINATOR > 2 * _taxMult)
+        onlyMinter
+        condition(DENOMINATOR > _taxMult.mul(2))
     {
         taxRateNumerator = _taxMult;
     }
@@ -64,16 +64,16 @@ contract LocalToken is Token {
     // To set govtAccount when taxRateNumerator is zero,
     // must set taxRateNumerator first to non-zero value.
     function modifyGovtAccount(address govt) public
-        onlyOwner
-        condition((taxRateNumerator > 0 && govt != 0) ||
-                (taxRateNumerator == 0 && govt == 0))
+        onlyMinter
     {
+        if ((taxRateNumerator > 0 && govt == 0) || (taxRateNumerator == 0 && govt != 0)) revert('invalid input');
         govtAccount = govt;
     }
 
     function modifyPMTAccount(address _pmt) public
         onlyOwner
     {
+        require(_pmt != 0, 'cannot set RockStable address to zero');
         pmtAccount = _pmt;
     }
 }
