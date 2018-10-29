@@ -18,7 +18,7 @@ contract('RS UniversalToken', function ([_, minter, ...otherAccounts]) {
       this.token = await UniversalToken.new(cap, 100, 300, { from: minter });
     });
 
-    it('cann set transaction fee to zero', async function() {
+    it('can set transaction fee to zero', async function() {
       await this.token.modifyTransFee(0, { from: minter });
       (await this.token.xactionFeeNumerator()).should.be.bignumber.equal(0);
     });
