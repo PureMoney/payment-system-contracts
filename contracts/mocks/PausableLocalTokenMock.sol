@@ -8,9 +8,9 @@ import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 contract PausableLocalTokenMock is LocalToken, PauserRoleMock {
   using SafeMath for uint256;
 
-  constructor(address initialAccount, uint256 initialBalance)
+  constructor(address initialAccount, uint256 initialBalance, address uniAddr)
       public
-      LocalToken(initialBalance.mul(2), 0, 'PLT', 'Pausable Local Token', 'some place', 0, initialAccount, 0x176d83550f672F67adBbfF6Dc71509730D32138b)
+      LocalToken(initialBalance.mul(2), 0, 'PLT', 'Pausable Local Token', 'some place', 0, initialAccount, uniAddr)
   {
     super.transferOwnership(initialAccount);
     super.addDepot(initialAccount);

@@ -11,7 +11,7 @@ contract Depot is CapperRole {
   mapping(address => bool) private _depotAddress;
 
   modifier onlyDepot(address depot) {
-    require(_depotAddress[depot], "not a depot address");
+    require(_isDepot(depot), "not a depot address");
     _;
   }
 
@@ -30,6 +30,10 @@ contract Depot is CapperRole {
     _removeDepot(depot);
   }
 
+  function isDepot(address someAddr) public view returns (bool) {
+    return _isDepot(someAddr);
+  }
+
   /**
    * Add a depot address.
    */
@@ -40,6 +44,10 @@ contract Depot is CapperRole {
 
   function _removeDepot(address depot) internal {
     _depotAddress[depot] = false;
+  }
+
+  function _isDepot(address someAddr) internal view returns (bool) {
+    return _depotAddress[someAddr];
   }
 
 }

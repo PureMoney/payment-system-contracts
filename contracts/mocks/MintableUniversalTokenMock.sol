@@ -9,10 +9,10 @@ contract MintableUniversalTokenMock is MinterRoleMock, UniversalToken {
       public
       UniversalToken(initialBalance.mul(2), 100, 3000)
   {
-    super.transferOwnership(initialAccount);
-    super.addMinter(initialAccount);
-    super.addDepot(initialAccount);
-    super.mint(initialAccount, initialBalance);
+    // super.transferOwnership(initialAccount);
+    if (!super.isMinter(initialAccount)) super.addMinter(initialAccount);
+    // super.addDepot(initialAccount);
+    // super.mint(initialAccount, initialBalance);
   }
 
   function mint(address to, uint256 amount) public returns (bool) {

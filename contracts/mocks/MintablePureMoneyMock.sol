@@ -9,8 +9,8 @@ contract MintablePureMoneyMock is MinterRoleMock, PureMoney {
       public
       PureMoney(initialCap)
   {
-    super.transferOwnership(initialAccount);
-    super.addMinter(initialAccount);
+    if (!super.isMinter(initialAccount))
+      super.addMinter(initialAccount);
   }
 
   function mint(address to, uint256 amount) public returns (bool) {

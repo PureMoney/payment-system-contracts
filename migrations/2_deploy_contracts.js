@@ -1,10 +1,9 @@
+var Token = artifacts.require("Token");
 var UniversalToken = artifacts.require("UniversalToken");
+var CappedUniversalTokenMock = artifacts.require("CappedUniversalTokenMock");
 var LocalToken = artifacts.require("LocalToken");
 var PureMoney = artifacts.require("PureMoney");
 var RSTIShares = artifacts.require("RSTIShares");
-var Payment = artifacts.require("Payment");
-
-const TokenVesting = artifacts.require('TokenVesting');
 
 // Important Note: Before running this script, make sure that the installer (rock) has enough ethers.
 // Each contract requires about 0.358 ether to deploy, and because there are a total of 16 contracts,
@@ -13,6 +12,10 @@ const TokenVesting = artifacts.require('TokenVesting');
 
 
 module.exports = function(deployer, network, accounts) {
+  var uToken;
+
+  // if (network === 'develop' || network === 'development') return;
+
   const BigNumber = web3.BigNumber;
 
   // We use the ether function to deal with 18-place decimal numbers;
@@ -27,11 +30,20 @@ module.exports = function(deployer, network, accounts) {
   var rock = accounts[0];
 
   deployer.deploy(UniversalToken, ether(100000), 100, 3000)
-  .then((token) => {
-    uToken = token;
+  // deployer.deploy( CappedUniversalTokenMock, ether(100000))
+  .then((instance) => {
+    uToken = instance;
+    // var token = Token.at(uToken.address);
+    // token.contract.OwnerModified(function(dummy1, eventData) {
+    //   console.log('eventData: ', eventData.event, eventData.args);
+    // });
     return deployer.deploy( LocalToken, ether(10000000), 0, "RST000001", "Local Token for Bellevue, WA (by RockStable Inc)", "Bellevue WA King County United States", 0, rock, uToken.address );
   })
   .then((token) => {
+    // token.OwnerModified(function(dummy1, eventData) {
+    //   console.log('      --> local token event');
+    //   console.log('      eventData: ', eventData.event, eventData.args);
+    // });
     return deployer.deploy( LocalToken, ether(10000000), 0, "RST000002", "Local Token for New York NY (by RockStable Inc)", "New York NY undefined United States", 0, rock, uToken.address );
   })
   .then((token) => {
@@ -72,6 +84,9 @@ module.exports = function(deployer, network, accounts) {
   })
   .then((pMoney) => {
     return deployer.deploy(RSTIShares, accounts[0], authorizedShares);
+  })
+  .then((t) => {
+    console.log('all contracts deployed');
   })
   .catch((err) => {
     console.log(err);

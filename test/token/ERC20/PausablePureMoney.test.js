@@ -1,12 +1,15 @@
 const expectEvent = require('../../helpers/expectEvent');
 const shouldFail = require('../../helpers/shouldFail');
+const { ether } = require('../../helpers/ether');
 
 const ERC20PausableMock = artifacts.require('PausablePureMoneyMock');
 const { shouldBehaveLikePublicRole } = require('../../access/roles/PublicRole.behavior');
 
 contract('PausablePureMoney', function ([_, pauser, otherPauser, recipient, anotherAccount, ...otherAccounts]) {
   beforeEach(async function () {
-    this.token = await ERC20PausableMock.new(pauser, 100, { from: pauser });
+    this.token = await ERC20PausableMock.new(pauser, ether(1000), { from: pauser });
+    await this.token.addDepot(pauser, { from: pauser });
+    await this.token.mint(pauser, 100, { from: pauser });
   });
 
   describe('pauser role', function () {
@@ -15,7 +18,7 @@ contract('PausablePureMoney', function ([_, pauser, otherPauser, recipient, anot
       await this.contract.addPauser(otherPauser, { from: pauser });
     });
 
-    shouldBehaveLikePublicRole(pauser, otherPauser, otherAccounts, 'pauser');
+    shouldBehaveLikePublicRole(pauser, otherPauser, otherAccounts, 'Pauser');
   });
 
   describe('pause', function () {

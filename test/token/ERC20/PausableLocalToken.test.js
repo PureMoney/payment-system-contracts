@@ -1,12 +1,15 @@
 const expectEvent = require('../../helpers/expectEvent');
 const shouldFail = require('../../helpers/shouldFail');
+const { ether } = require('../../helpers/ether');
 
+const UniversalToken = artifacts.require('UniversalToken');
 const ERC20PausableMock = artifacts.require('PausableLocalTokenMock');
 const { shouldBehaveLikePublicRole } = require('../../access/roles/PublicRole.behavior');
 
 contract('PausableLocalToken', function ([_, pauser, otherPauser, recipient, anotherAccount, ...otherAccounts]) {
   beforeEach(async function () {
-    this.token = await ERC20PausableMock.new(pauser, 100, { from: pauser });
+    var uToken = await UniversalToken.new(ether(1000), 100, 3000, { from: pauser });
+    this.token = await ERC20PausableMock.new(pauser, 100, uToken.address, { from: pauser });
   });
 
   describe('pauser role', function () {
