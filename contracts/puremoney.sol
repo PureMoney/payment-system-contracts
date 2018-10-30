@@ -5,9 +5,8 @@ pragma solidity ^0.4.24;
 
 import { Token } from "./token.sol";
 import { Payment } from "./payment.sol";
-import { IPure } from "./ipure.sol";
 
-contract PureMoney is Token, IPure {
+contract PureMoney is Token {
 
     mapping(address => bool) internal vendorContracts;
 
@@ -29,6 +28,10 @@ contract PureMoney is Token, IPure {
         public
         onlyOwner
     {
+        require(_contract != address(0), 'null contract address');
+        Payment pmnt = Payment(_contract);
+        require(pmnt != address(0), 'not a payment contract');
+        require(pmnt.vendor() != address(0), 'vendor not set in payment contract');
         vendorContracts[_contract] = true;
     }
 

@@ -9,7 +9,6 @@
 pragma solidity  ^0.4.24;
 
 import { Constants, Token, LocalToken } from "./LocalToken.sol";
-import { IPure } from "./ipure.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 
 contract Payment is Constants {
@@ -45,9 +44,9 @@ contract Payment is Constants {
         address _localToken,
         address _vendor,
         address _pmntcenter) public // _pmntcenter is address of RSTI ROKS ERC20 contract
-        precondition(_evangelist != 0)
-        precondition(_localToken != 0)
-        precondition(_vendor != 0)
+        precondition(_evangelist != address(0))
+        precondition(_localToken != address(0))
+        precondition(_vendor != address(0))
     {
         localToken = LocalToken(_localToken);
         if (_evangelist != _vendor) {
@@ -63,8 +62,6 @@ contract Payment is Constants {
         vendor = _vendor;
         evangelist = _evangelist;
         payTax = _payTax;
-        IPure _pure = IPure(_pmntcenter);
-        _pure.registerVendor(address(this));
         paymentCenter = Token(_pmntcenter);
     }
 

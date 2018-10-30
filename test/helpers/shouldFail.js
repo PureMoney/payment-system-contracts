@@ -5,6 +5,7 @@ async function shouldFailWithMessage (promise, message) {
   try {
     await promise;
   } catch (error) {
+    // console.log('error message: ', error.message);
     error.message.should.include(message, 'Wrong failure type');
     return;
   }
