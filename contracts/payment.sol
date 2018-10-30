@@ -102,17 +102,20 @@ contract Payment is Constants {
         precondition(vendor != msg.sender)
         payable
     {
-        pmtAccount.transfer(msg.value); // all ethers are deposited with Pure Money
+        // all ethers are deposited with Pure Money
+        pmtAccount.transfer(msg.value);
 
-        emit PaymentConfirmed(msg.sender, address(this), msg.value); // emit payment event for matching with payInRSTK below
+        // emit payment event for matching with payInROKS below
+        emit PaymentConfirmed(msg.sender, address(this), msg.value);
 
-        // Call payInRSTK() from API server - can't call from here because we don't know PUR amount
+        // Call payInROKS() from API server - can't call from here because we don't know PUR amount
     }
 
+    // Pay in ROKS - called from API the Server which must match the above ether payment transaction with
+    // the correct sell order to determine the ROKS (USD) amount to pay the vendor.
     // Note that transaction fee is calculated against net to vendor, and not against raw roks amount.
     // This means that the MainSale POS App must have already added all fees to roks amount.
-    // Pay in ROKS - called from API Server
-    function payInRSTK(uint roks)
+    function payInROKS(uint roks)
         public
         precondition(roks > 1000)
         precondition(paymentCenter.balanceOf(paymentCenter.owner()) > 0)

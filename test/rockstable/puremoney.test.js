@@ -16,6 +16,8 @@ const PureMoney = artifacts.require('PureMoney');
 contract('RS PureMoney', function ([_, minter, ...otherAccounts]) {
   const cap = ether(1000);
   var uToken, lToken, pmnt;
+  var evangelist = otherAccounts[0];
+  var vendor = otherAccounts[1];
 
   context('once deployed', async function () {
     beforeEach(async function () {
@@ -23,30 +25,65 @@ contract('RS PureMoney', function ([_, minter, ...otherAccounts]) {
     });
 
     it('should fail to register an address thats not a payment contract', async function() {
-      await shouldFail.reverting(this.token.registerVendor(otherAccounts[0], { from: minter }));
+      await shouldFail.reverting(this.token.registerVendor(vendor, { from: minter }));
     });
 
     it('should fail to register a null address', async function() {
       await shouldFail.reverting(this.token.registerVendor(ZERO_ADDRESS, { from: minter }));
     });
-  });
 
-  context('with all supporting tokens', async function() {
+    it('should not allow registration of a non-payment contract', async function() {
+      await shouldFail.reverting(this.token.registerVendor(this.token.address, { from: minter }));
+    });
+});
+
+  context('doing payments', async function() {
     beforeEach(async function() {
-      uToken = await UniversalToken.new(cap, 100, 300, { from: minter });
-      lToken = await LocalToken.new(cap, 0, 'RSLT00001', 'India Local Token from Rock Stable', 
-        'India', ZERO_ADDRESS, minter, uToken.address, { from: minter });
-      await lToken.addDepot(minter, { from: minter });
-      await lToken.mint(minter, ether(1000), { from: minter });
       this.token = await PureMoney.new(cap, { from: minter });
-      await lToken.transfer(otherAccounts[0], ether(5), { from: minter });
-      await lToken.approve(minter, ether(1), { from: otherAccounts[0] });
-      pmnt = await Payment.new(false, otherAccounts[0], lToken.address, otherAccounts[1], this.token.address,
-         { from: minter });
+      await this.token.addDepot(minter, { from: minter });
+      await this.token.mint(minter, ether(1000), { from: minter });
     });
 
-    it('should allow valid payment contract', async function() {
-      await this.token.registerVendor(pmnt.address, { from: minter });
+    it('when doing a transfer directly to a vendor, vendor must receive it', async function() {
+      var prevBalance = await this.token.balanceOf(vendor);
+      await this.token.transfer(vendor, ether(10), { from: minter });
+      (await this.token.balanceOf(vendor)).should.be.bignumber.equal(prevBalance + ether(10));
+    });
+
+    it('when doing a trasferFrom directly to a vendor, vendor must receive it', async function() {
+      var prevBalance = await this.token.balanceOf(vendor);
+      await this.token.approve(evangelist, ether(20), { from: minter });
+      await this.token.transferFrom(minter, vendor, ether(10), { from: evangelist });
+      (await this.token.balanceOf(vendor)).should.be.bignumber.equal(prevBalance + ether(10));
+    });
+
+    context('register and then pay valid payment contract', async function() {
+      beforeEach(async function() {
+        uToken = await UniversalToken.new(cap, 100, 300, { from: minter });
+        lToken = await LocalToken.new(cap, 0, 'RSLT00001', 'India Local Token from Rock Stable', 
+          'India', ZERO_ADDRESS, minter, uToken.address, { from: minter });
+        await lToken.addDepot(minter, { from: minter });
+        await lToken.mint(minter, ether(1000), { from: minter });
+        await lToken.transfer(evangelist, ether(5), { from: minter });
+        await lToken.approve(minter, ether(1), { from: evangelist });
+        pmnt = await Payment.new(false, evangelist, lToken.address, vendor, this.token.address,
+          { from: minter });
+      });
+
+      it('when doing a transfer to a payment contract address, vendor must receive it', async function() {
+        var prevBalance = await this.token.balanceOf(vendor);
+        await this.token.registerVendor(pmnt.address, { from: minter });
+        await this.token.transfer(pmnt.address, ether(10), { from: minter });
+        (await this.token.balanceOf(vendor)).should.be.bignumber.equal(prevBalance + ether(10));
+      });
+
+      it('when doing a trasferFrom to a payment contract address, vendor must receive it', async function() {
+        var prevBalance = await this.token.balanceOf(vendor);
+        await this.token.registerVendor(pmnt.address, { from: minter });
+        await this.token.approve(evangelist, ether(20), { from: minter });
+        await this.token.transferFrom(minter, pmnt.address, ether(10), { from: evangelist });
+        (await this.token.balanceOf(vendor)).should.be.bignumber.equal(prevBalance + ether(10));
+      });
     });
   });
 });
