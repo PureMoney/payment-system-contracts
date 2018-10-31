@@ -46,7 +46,12 @@ contract('RS PureMoney', function ([_, minter, ...otherAccounts]) {
 
     it('when doing a transfer directly to a vendor, vendor must receive it', async function() {
       var prevBalance = await this.token.balanceOf(vendor);
-      await this.token.transfer(vendor, ether(10), { from: minter });
+      try {
+        await this.token.transfer(vendor, ether(10), { from: minter });
+      }
+      catch (err) {
+        console.log('==> error: ', err);
+      }
       (await this.token.balanceOf(vendor)).should.be.bignumber.equal(prevBalance + ether(10));
     });
 
@@ -83,6 +88,13 @@ contract('RS PureMoney', function ([_, minter, ...otherAccounts]) {
         await this.token.approve(evangelist, ether(20), { from: minter });
         await this.token.transferFrom(minter, pmnt.address, ether(10), { from: evangelist });
         (await this.token.balanceOf(vendor)).should.be.bignumber.equal(prevBalance + ether(10));
+      });
+
+      it('sending ROKS to an unknown contract address deposits ROKS to that contract', async function() {
+        var prevBalance = await this.token.balanceOf(lToken.address);
+        prevBalance.should.be.bignumber.equal(ZERO_ADDRESS);
+        await this.token.transfer(lToken.address, ether(10), { from: minter });
+        (await this.token.balanceOf(lToken.address)).should.be.bignumber.equal(ether(10));
       });
     });
   });

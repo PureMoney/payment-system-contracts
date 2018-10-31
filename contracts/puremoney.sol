@@ -29,8 +29,7 @@ contract PureMoney is Token {
         onlyOwner
     {
         require(_contract != address(0), 'null contract address');
-        Payment pmnt = Payment(_contract);
-        require(pmnt != address(0), 'not a payment contract');
+        Payment pmnt = Payment(_contract); // reverts if _contract is not a Payment
         require(pmnt.vendor() != address(0), 'vendor not set in payment contract');
         vendorContracts[_contract] = true;
     }
@@ -42,14 +41,11 @@ contract PureMoney is Token {
     function getAccountIfContract(address to) internal view returns (address account)
     {
         // is it a Payment contract?
-        if (vendorContracts[to])
-        {
+        if (vendorContracts[to]) {
             Payment pmnt = Payment(to);
             return pmnt.vendor();
-        }
-        else
-        {
-            return to;
+        } else {
+            return to; // 'to' can be anything
         }
     }
 
