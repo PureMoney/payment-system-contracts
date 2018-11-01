@@ -4,7 +4,7 @@
 pragma solidity ^0.4.24;
 
 import { Token } from "./token.sol";
-import { Payment } from "./payment.sol";
+import { IPayment } from "./IPayment.sol";
 
 contract PureMoney is Token {
 
@@ -29,8 +29,8 @@ contract PureMoney is Token {
         onlyOwner
     {
         require(_contract != address(0), 'null contract address');
-        Payment pmnt = Payment(_contract); // reverts if _contract is not a Payment
-        require(pmnt.vendor() != address(0), 'vendor not set in payment contract');
+        IPayment pmnt = IPayment(_contract); // reverts if _contract is not a Payment
+        require(pmnt.getVendor() != address(0), 'vendor not set in payment contract');
         vendorContracts[_contract] = true;
     }
 
@@ -42,8 +42,8 @@ contract PureMoney is Token {
     {
         // is it a Payment contract?
         if (vendorContracts[to]) {
-            Payment pmnt = Payment(to);
-            return pmnt.vendor();
+            IPayment pmnt = IPayment(to);
+            return pmnt.getVendor();
         } else {
             return to; // 'to' can be anything
         }

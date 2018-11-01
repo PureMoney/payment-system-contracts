@@ -8,13 +8,15 @@
 //
 pragma solidity  ^0.4.24;
 
-import { Constants, Token, LocalToken } from "./LocalToken.sol";
+import { Constants, LocalToken } from "./LocalToken.sol";
+import { IPayment } from "./IPayment.sol";
+import { PureMoney } from "./puremoney.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 
-contract Payment is Constants {
+contract Payment is Constants, IPayment {
     using SafeMath for uint256;
 
-    address public vendor;
+    address private vendor;
     address public evangelist;
     bool public payTax;
     LocalToken public localToken;
@@ -25,10 +27,7 @@ contract Payment is Constants {
     uint public taxRate;
     uint public priceFactor;
 
-    Token paymentCenter;
-
-    // This event should always emit because it is necessary for getting everybody paid in PUR.
-    event PaymentConfirmed(address _customerAddr, address _xactionFee, uint _ethValue);
+    PureMoney paymentCenter;
 
     modifier precondition(bool _condition) {
         require(_condition, "precondition not met");
@@ -54,15 +53,23 @@ contract Payment is Constants {
           require(localToken.balanceOf(_evangelist) >= WAD, "evangelist must already be licensed for this vendor");
         }
         feeRate = localToken.universalToken().xactionFeeNumerator();
+        pmtShare = localToken.universalToken().xactionFeeShare();
         taxRate = localToken.taxRateNumerator();
         priceFactor = DENOMINATOR.add(_payTax ? taxRate : 0).add(feeRate);
         govtAccount = localToken.govtAccount();
+        pmtAccount = localToken.pmtAccount();
         // do the following externally after constructor execution
         //localToken.transferFrom(_evangelist, address(this), WAD);
         vendor = _vendor;
         evangelist = _evangelist;
         payTax = _payTax;
-        paymentCenter = Token(_pmntcenter);
+        paymentCenter = PureMoney(_pmntcenter);
+        emit PaymentContract(_payTax, _evangelist, _localToken, _vendor, _pmntcenter);
+    }
+
+    function getVendor() public view returns (address)
+    {
+        return vendor;
     }
 
     // Transfer this vendor to another evangelist.
@@ -71,7 +78,10 @@ contract Payment is Constants {
         precondition(msg.sender == evangelist)
     {
         if (localToken.transferFrom(toAnotherEvangelist, evangelist, WAD))
+        {
             evangelist = toAnotherEvangelist;
+            emit VendorTransferred(msg.sender, toAnotherEvangelist);
+        }
     }
 
     function setPayTax(bool pay) public
@@ -95,6 +105,44 @@ contract Payment is Constants {
         pmtAccount = localToken.pmtAccount();
     }
 
+    // Pay in ROKS - called from the API Server 
+    // Call to this method is triggered by the PaymentConfirmed event.
+    // The API Server must match the above ether payment transaction with
+    // the correct sell order to determine the ROKS (USD) amount to pay the vendor.
+    // Note that our transaction fee is calculated against net to vendor, and not against raw roks amount.
+    // This means that the MainSale POS App must have already added all fees to roks amount.
+    //
+    // With regards to timing: there should be at least a few seconds from the time MainSale sends the 
+    // InitiatePayment call to the API server, and the time that the customer sends the payment itself.
+    // Therefore, it is likely the ETH sale has executed by the time the API server calls payInROKS.
+    // Nevertheless, the API server should not wait for the trade to execute before executing this
+    // transaction. All that the API server needs to know is data on the order itself, the
+    // most important being how much ROKS the MainSale app requested in exchange for the payment.
+    // This data is known even before the order is placed.
+    //
+    // NOTE: We pay for network fees when executing this transaction, not the customer.
+    //
+    function payInROKS(uint roks) public
+        precondition(roks > 0)
+    {
+        uint xactionFee;
+        uint salesTax;
+
+        uint netToVendor = roks.mul(DENOMINATOR) / priceFactor;
+        if (payTax && taxRate > 0) {
+            xactionFee = netToVendor.mul(feeRate) / DENOMINATOR;
+            salesTax = roks.sub(netToVendor).sub(xactionFee);
+            paymentCenter.transferFrom(pmtAccount, govtAccount, salesTax);
+        } else {
+            xactionFee = roks.sub(netToVendor);
+        }
+        paymentCenter.transferFrom(pmtAccount, vendor, netToVendor);
+        uint share = xactionFee.mul(pmtShare) / DENOMINATOR;
+        // paymentCenter.transferFrom(pmtAccount, pmtAccount, share); // unnecessary
+        paymentCenter.transferFrom(pmtAccount, evangelist, xactionFee.sub(share));
+        // emit DebugEvent(paymentCenter.balanceOf(address(this)));
+    }
+
     // Payment function (in ethers)
     // This is triggered when customer's payment from her wallet is received by network.
     function() public
@@ -105,35 +153,9 @@ contract Payment is Constants {
         // all ethers are deposited with Pure Money
         pmtAccount.transfer(msg.value);
 
-        // emit payment event for matching with payInROKS below
+        // emit payment event for triggering payInROKS below
         emit PaymentConfirmed(msg.sender, address(this), msg.value);
 
         // Call payInROKS() from API server - can't call from here because we don't know PUR amount
-    }
-
-    // Pay in ROKS - called from API the Server which must match the above ether payment transaction with
-    // the correct sell order to determine the ROKS (USD) amount to pay the vendor.
-    // Note that transaction fee is calculated against net to vendor, and not against raw roks amount.
-    // This means that the MainSale POS App must have already added all fees to roks amount.
-    function payInROKS(uint roks)
-        public
-        precondition(roks > 1000)
-        precondition(paymentCenter.balanceOf(paymentCenter.owner()) > 0)
-    {
-        uint xactionFee;
-        uint salesTax;
-
-        uint netToVendor = roks.mul(DENOMINATOR) / priceFactor;
-        if (payTax && taxRate > 0) {
-            xactionFee = netToVendor.mul(feeRate) / DENOMINATOR;
-            salesTax = roks.sub(netToVendor).sub(xactionFee);
-            paymentCenter.transfer(govtAccount, salesTax);
-        } else {
-            xactionFee = roks.sub(netToVendor);
-        }
-        paymentCenter.transfer(vendor, netToVendor);
-        uint share = xactionFee.mul(pmtShare) / DENOMINATOR;
-        paymentCenter.transfer(pmtAccount, share);
-        paymentCenter.transfer(evangelist, xactionFee.sub(share));
     }
 }
