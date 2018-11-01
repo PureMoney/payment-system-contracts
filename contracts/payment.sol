@@ -129,24 +129,26 @@ contract Payment is Constants, IPayment {
         uint salesTax;
 
         uint netToVendor = roks.mul(DENOMINATOR) / priceFactor;
+        address owner = paymentCenter.owner();
         if (payTax && taxRate > 0) {
             xactionFee = netToVendor.mul(feeRate) / DENOMINATOR;
             salesTax = roks.sub(netToVendor).sub(xactionFee);
-            paymentCenter.transferFrom(pmtAccount, govtAccount, salesTax);
+            paymentCenter.transferFrom(owner, govtAccount, salesTax);
         } else {
             xactionFee = roks.sub(netToVendor);
         }
-        paymentCenter.transferFrom(pmtAccount, vendor, netToVendor);
+        paymentCenter.transferFrom(owner, vendor, netToVendor);
         uint share = xactionFee.mul(pmtShare) / DENOMINATOR;
-        // paymentCenter.transferFrom(pmtAccount, pmtAccount, share); // unnecessary
-        paymentCenter.transferFrom(pmtAccount, evangelist, xactionFee.sub(share));
-        // emit DebugEvent(paymentCenter.balanceOf(address(this)));
+        if (owner != pmtAccount)
+            paymentCenter.transferFrom(owner, pmtAccount, share);
+        paymentCenter.transferFrom(owner, evangelist, xactionFee.sub(share));
+        emit DebugEvent(owner, pmtAccount, share);
     }
 
     // Payment function (in ethers)
     // This is triggered when customer's payment from her wallet is received by network.
     function() public
-        precondition(msg.value > 1000 wei)
+        precondition(msg.value > 0 wei)
         precondition(vendor != msg.sender)
         payable
     {

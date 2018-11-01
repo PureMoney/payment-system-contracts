@@ -21,7 +21,7 @@ interface IPayment {
     event VendorTransferred(address _fromEvangelist, address _toEvangelist);
 
     // temporary, for debugging only
-    event DebugEvent(uint value);
+    event DebugEvent(address from, address to, uint value);
 
     function getVendor() external view returns (address);
 

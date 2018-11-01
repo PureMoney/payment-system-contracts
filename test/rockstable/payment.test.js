@@ -36,12 +36,13 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
   var evangelist = otherAccounts[0];
   var vendor = otherAccounts[1];
   var evangelist2 = otherAccounts[2];
+  var pmtAccount = otherAccounts[3];
 
   beforeEach(async function () {
     uToken = await UniversalToken.new(cap, 100, 300, { from: minter });
     // the LocalToken contract needs a UniversalToken
     lToken = await LocalToken.new(cap, 0, 'RSLT00001', 'India Local Token from Rock Stable', 
-      'India', ZERO_ADDRESS, minter, uToken.address, { from: minter });
+      'India', ZERO_ADDRESS, pmtAccount, uToken.address, { from: minter });
     await lToken.addDepot(minter, { from: minter });
     await lToken.mint(minter, ether(1000), { from: minter });
     await lToken.transfer(evangelist, ether(5), { from: minter });

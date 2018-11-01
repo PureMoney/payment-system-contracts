@@ -31,7 +31,7 @@ contract LocalToken is Token {
             condition(DENOMINATOR > _taxRateMult.mul(2))
             condition((_taxRateMult > 0 && _govt != 0) || _taxRateMult == 0)
             condition(_universalToken != 0)
-            Token(_pmt, _maxTokens)
+            Token(msg.sender, _maxTokens)
     {
         universalToken = UniversalToken(_universalToken);
         // require(msg.sender == universalToken.owner(), "owner must be the same owner for UniversalToken");
