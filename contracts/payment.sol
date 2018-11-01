@@ -124,6 +124,7 @@ contract Payment is Constants, IPayment {
     //
     function payInROKS(uint roks) public
         precondition(roks > 0)
+        precondition(roks <= paymentCenter.allowance(paymentCenter.owner(), address(this)))
     {
         uint xactionFee;
         uint salesTax;
