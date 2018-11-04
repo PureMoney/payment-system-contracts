@@ -16,7 +16,6 @@ import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 contract Payment is Constants, IPayment {
     using SafeMath for uint256;
 
-    address private vendor;
     address public evangelist;
     bool public payTax;
     LocalToken public localToken;
@@ -27,10 +26,17 @@ contract Payment is Constants, IPayment {
     uint public taxRate;
     uint public priceFactor;
 
+    address private vendor;
+
     PureMoney paymentCenter;
 
     modifier precondition(bool _condition) {
         require(_condition, "precondition not met");
+        _;
+    }
+
+    modifier onlyPureMoney() {
+        require(msg.sender == address(paymentCenter), "can only be called from PureMoney (ROKS) contract");
         _;
     }
 
@@ -46,20 +52,16 @@ contract Payment is Constants, IPayment {
         precondition(_evangelist != address(0))
         precondition(_localToken != address(0))
         precondition(_vendor != address(0))
+        precondition(_vendor != _evangelist)
     {
         localToken = LocalToken(_localToken);
-        if (_evangelist != _vendor) {
-          require(localToken.allowance(_evangelist, msg.sender) >= WAD, "evangelist must have already approved local tokens for vendor");
-          require(localToken.balanceOf(_evangelist) >= WAD, "evangelist must already be licensed for this vendor");
-        }
+        require(localToken.balanceOf(_evangelist) >= WAD, "evangelist must already be licensed for this vendor");
         feeRate = localToken.universalToken().xactionFeeNumerator();
         pmtShare = localToken.universalToken().xactionFeeShare();
         taxRate = localToken.taxRateNumerator();
         priceFactor = DENOMINATOR.add(_payTax ? taxRate : 0).add(feeRate);
         govtAccount = localToken.govtAccount();
         pmtAccount = localToken.pmtAccount();
-        // do the following externally after constructor execution
-        //localToken.transferFrom(_evangelist, address(this), WAD);
         vendor = _vendor;
         evangelist = _evangelist;
         payTax = _payTax;
@@ -70,6 +72,11 @@ contract Payment is Constants, IPayment {
     function getVendor() public view returns (address)
     {
         return vendor;
+    }
+
+    function getPmtAccount() public view returns (address)
+    {
+        return pmtAccount;
     }
 
     // Transfer this vendor to another evangelist.
@@ -105,6 +112,31 @@ contract Payment is Constants, IPayment {
         pmtAccount = localToken.pmtAccount();
     }
 
+    // Need to deposit local token to this contract during
+    // registration. This can only be called from PureMoney, so can't
+    // test it independently.
+    function depositLocalToken() public onlyPureMoney
+    {
+        // the statement below needs the evangelist to approve 1 local token, with this contract as spender;
+        // the token is deposited also in this payment contract.
+        localToken.transferFrom(evangelist, address(this), WAD);
+    }
+
+    // Deregistering this Payment contract from PureMoney means killing it.
+    // This can only be called from PureMoney, so can't test it independently.
+    function destroy() public onlyPureMoney {
+        // return license to evangelist (this contract "owns" the token)
+        localToken.transfer(evangelist, localToken.balanceOf(address(this)));
+
+        // disable ether payments by resetting pmtAccount, etc
+        evangelist = address(0);
+        // localToken = LocalToken(0);
+        // paymentCenter = PureMoney(0);
+        vendor = address(0);
+        pmtAccount = address(0);
+        selfdestruct(evangelist);
+    }
+
     // Pay in ROKS - called from the API Server 
     // Call to this method is triggered by the PaymentConfirmed event.
     // The API Server must match the above ether payment transaction with
@@ -124,6 +156,7 @@ contract Payment is Constants, IPayment {
     //
     function payInROKS(uint roks) public
         precondition(roks > 0)
+        precondition(owner != pmtAccount)
         precondition(roks <= paymentCenter.allowance(paymentCenter.owner(), address(this)))
     {
         uint xactionFee;
@@ -140,8 +173,7 @@ contract Payment is Constants, IPayment {
         }
         paymentCenter.transferFrom(owner, vendor, netToVendor);
         uint share = xactionFee.mul(pmtShare) / DENOMINATOR;
-        if (owner != pmtAccount)
-            paymentCenter.transferFrom(owner, pmtAccount, share);
+        paymentCenter.transferFrom(owner, pmtAccount, share);
         paymentCenter.transferFrom(owner, evangelist, xactionFee.sub(share));
         emit DebugEvent(owner, pmtAccount, share);
     }
@@ -153,11 +185,15 @@ contract Payment is Constants, IPayment {
         precondition(vendor != msg.sender)
         payable
     {
-        // all ethers are deposited with Pure Money
+        // make sure pmtAccount is set
+        require(pmtAccount != address(0), 'Payment contract is not initialized');
+
+        // all ethers are deposited in Pure Money account
         pmtAccount.transfer(msg.value);
 
         // emit payment event for triggering payInROKS below
-        emit PaymentConfirmed(msg.sender, address(this), msg.value);
+        address source = msg.sender;
+        emit PaymentConfirmed(source, address(this), msg.value);
 
         // Call payInROKS() from API server - can't call from here because we don't know PUR amount
     }

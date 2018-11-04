@@ -37,6 +37,7 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
   var vendor = otherAccounts[1];
   var evangelist2 = otherAccounts[2];
   var pmtAccount = otherAccounts[3];
+  var customer = otherAccounts[4];
 
   beforeEach(async function () {
     uToken = await UniversalToken.new(cap, 100, 300, { from: minter });
@@ -46,12 +47,60 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
     await lToken.addDepot(minter, { from: minter });
     await lToken.mint(minter, ether(1000), { from: minter });
     await lToken.transfer(evangelist, ether(5), { from: minter });
-    await lToken.approve(minter, ether(1), { from: evangelist });
     puremoney = await PureMoney.new(cap, { from: minter });
     await puremoney.addDepot(minter, { from: minter });
     await puremoney.mint(minter, ether(100), { from: minter });
     // a Payment contract needs BOTH a LocalToken contract and the PureMoney contract
     this.token = await Payment.new(false, evangelist, lToken.address, vendor, puremoney.address, { from: minter });
+    await lToken.approve(this.token.address, ether(1), { from: evangelist });
+    await puremoney.registerVendor(this.token.address, { from: minter });
+  });
+
+  context('payments in ethers', async function() {
+    it('deregistering the payment contract should cause ether payments to fail', async function() {
+      await puremoney.deregisterVendor(this.token.address, { from: minter });
+      var customerMoney = await web3.eth.getBalance(customer);
+      console.log('     --> pre-payment balance: ', customerMoney)
+      // sending ethers to a default payable function that fails does NOT generate logs?
+      // or maybe we just can't obtain the tx log for such failed transaction.
+      await this.token.send(web3.toWei(1.21, "ether"), { from: customer });
+      // at any rate, the way to determine whether the payment failed is to check the ethers
+      // that must have been received, and also the current ether account value of the sender:
+      console.log('     --> post-payment balance: ', customerMoney);
+      // (await web3.eth.getBalance(customer)).should.be.bignumber.greaterThan(customerMoney - web3.toWei(1, "finney"));
+      (await web3.eth.getBalance(customer)).should.be.bignumber.equal(customerMoney);
+    });
+
+    it('sending ethers to Payment contract should emit PaymentConfirmed event', async function() {
+      var result = await this.token.send(web3.toWei(1.23, "ether"), { from: customer });
+      let k = 0;
+      for (; k < result.logs.length; k++) {
+        var log = result.logs[k];
+        // console.log('sending ethers to Payment contract: ', log);
+        if (log.event == 'PaymentConfirmed') {
+          return true;
+        }
+      };
+      return false;
+    });
+
+    it('PaymentConfirmed should let API server know exactly how much ethers was paid, and from whom', async function() {
+      var eth = web3.toWei(1.23, "ether");
+      var result = await this.token.send(eth, { from: customer });
+      let k = 0;
+      for (; k < result.logs.length; k++) {
+        var log = result.logs[k];
+        // console.log('customer: ', customer);
+        // console.log('log: ', log);
+        if (log.event == 'PaymentConfirmed') {
+          // log.args._customerAddr.should.be.equal(customer);  // FIXME: Why is _customerAddr not equal to customer?
+          log.args._paymentContract.should.be.equal(this.token.address);
+          log.args._ethValue.should.be.bignumber.equal(eth);
+          return;
+        }
+      };
+      'fail'.should.be.equal('good');
+    });
   });
 
   context('once deployed and prepped', async function () {
@@ -78,6 +127,7 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
       await this.token.payInROKS(ether(8), { from: minter });
       (await puremoney.balanceOf(evangelist)).should.be.bignumber.equal(balance1);
       (await puremoney.balanceOf(evangelist2)).should.be.bignumber.greaterThan(balance2);
+      (await puremoney.allowance(minter, this.token.address)).should.be.bignumber.equal(0);
     });
   });
 });

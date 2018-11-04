@@ -70,21 +70,23 @@ contract('RS PureMoney', function ([_, minter, ...otherAccounts]) {
         await lToken.addDepot(minter, { from: minter });
         await lToken.mint(minter, ether(1000), { from: minter });
         await lToken.transfer(evangelist, ether(5), { from: minter });
-        await lToken.approve(minter, ether(1), { from: evangelist });
         pmnt = await Payment.new(false, evangelist, lToken.address, vendor, this.token.address,
           { from: minter });
+        // all of above steps are normally done in API server, but the step
+        // below is done by MainSale POS app because it needs permission of evangelist.
+        await lToken.approve(pmnt.address, ether(1), { from: evangelist });
+        // back in API server again, to do below step
+        await this.token.registerVendor(pmnt.address, { from: minter });
       });
 
       it('when doing a transfer to a payment contract address, vendor must receive it', async function() {
         var prevBalance = await this.token.balanceOf(vendor);
-        await this.token.registerVendor(pmnt.address, { from: minter });
         await this.token.transfer(pmnt.address, ether(10), { from: minter });
         (await this.token.balanceOf(vendor)).should.be.bignumber.equal(prevBalance + ether(10));
       });
 
       it('when doing a trasferFrom to a payment contract address, vendor must receive it', async function() {
         var prevBalance = await this.token.balanceOf(vendor);
-        await this.token.registerVendor(pmnt.address, { from: minter });
         await this.token.approve(evangelist, ether(20), { from: minter });
         await this.token.transferFrom(minter, pmnt.address, ether(10), { from: evangelist });
         (await this.token.balanceOf(vendor)).should.be.bignumber.equal(prevBalance + ether(10));

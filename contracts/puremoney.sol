@@ -10,6 +10,8 @@ contract PureMoney is Token {
 
     mapping(address => bool) internal vendorContracts;
 
+    event DebugEvent(address from, address to, uint value);
+
     constructor( 
         uint initialCap)
           public
@@ -22,16 +24,36 @@ contract PureMoney is Token {
     }
 
     // Register Vendor
-    // Call this from Payment.sol.
+    // Call this from API server, right after creating a Payment contract.
+    // Deposit local token to payment contract.
     //
     function registerVendor(address _contract)
         public
         onlyOwner
     {
         require(_contract != address(0), 'null contract address');
+        address source = msg.sender;
+        // emit DebugEvent(address(_contract), source, 0);
         IPayment pmnt = IPayment(_contract); // reverts if _contract is not a Payment
         require(pmnt.getVendor() != address(0), 'vendor not set in payment contract');
+        pmnt.depositLocalToken();
         vendorContracts[_contract] = true;
+        emit DebugEvent(pmnt.getVendor(), source, 0);
+    }
+
+    // Deregister a vendor.
+    // Vendor's Payment contract will be destroyed.
+    // If input address is not a Payment contract address, nothing happens.
+    //
+    function deregisterVendor(address _contract)
+        public
+        onlyOwner
+    {
+        require(_contract != address(0), 'null contract address');
+        IPayment pmnt = IPayment(_contract); // reverts if _contract is not a Payment
+        vendorContracts[_contract] = false;
+        pmnt.destroy();
+        emit DebugEvent(pmnt.getPmtAccount(), address(0), 0);
     }
 
     // Determine if TO address is a contract;

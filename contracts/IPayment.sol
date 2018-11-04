@@ -12,7 +12,7 @@ import { Constants, Token, LocalToken } from "./LocalToken.sol";
 
 interface IPayment {
     // This event should always emit because it is necessary for getting everybody paid in PUR.
-    event PaymentConfirmed(address _customerAddr, address _xactionFee, uint _ethValue);
+    event PaymentConfirmed(address indexed _customerAddr, address indexed _paymentContract, uint _ethValue);
 
     // Payment created event
     event PaymentContract(bool _payTax, address _evangelist, address _localToken, address _vendor, address _pmntCenter);
@@ -25,6 +25,8 @@ interface IPayment {
 
     function getVendor() external view returns (address);
 
+    function getPmtAccount() external view returns (address);
+
     // Transfer this vendor to another evangelist.
     // Acquiring evangelist must first approve at least single local token for source vendor.
     function transferThisVendor(address toAnotherEvangelist) external;
@@ -36,6 +38,10 @@ interface IPayment {
     // This refresh routine cost is charged to the evangelist or vendor, but it needs to be done
     // only once a month.
     function refreshFeeParams() external;
+
+    function depositLocalToken() external;
+
+    function destroy() external;
 
     // Pay in ROKS - called from the API Server 
     // Call to this method is triggered by the PaymentConfirmed event.
