@@ -12,6 +12,9 @@ contract PureMoney is Token {
 
     event DebugEvent(address from, address to, uint value);
 
+    // Payment contract registered
+    event PaymentContractRegistered(address _contract);
+
     constructor( 
         uint initialCap)
           public
@@ -26,23 +29,26 @@ contract PureMoney is Token {
     // Register Vendor
     // Call this from API server, right after creating a Payment contract.
     // Deposit local token to payment contract.
+    // An contract that is deregistered cannot be re-registered.
     //
     function registerVendor(address _contract)
         public
         onlyOwner
     {
         require(_contract != address(0), 'null contract address');
-        address source = msg.sender;
+        // address source = msg.sender;
         // emit DebugEvent(address(_contract), source, 0);
         IPayment pmnt = IPayment(_contract); // reverts if _contract is not a Payment
         require(pmnt.getVendor() != address(0), 'vendor not set in payment contract');
+        require(pmnt.getPmtAccount() != address(0), 'RSTI account not set in payment contract');
         pmnt.depositLocalToken();
         vendorContracts[_contract] = true;
-        emit DebugEvent(pmnt.getVendor(), source, 0);
+        // emit DebugEvent(pmnt.getVendor(), source, 0);
+        emit PaymentContractRegistered(_contract);
     }
 
     // Deregister a vendor.
-    // Vendor's Payment contract will be destroyed.
+    // Vendor's Payment contract will be destroyed and cnnot be revived.
     // If input address is not a Payment contract address, nothing happens.
     //
     function deregisterVendor(address _contract)
@@ -50,10 +56,20 @@ contract PureMoney is Token {
         onlyOwner
     {
         require(_contract != address(0), 'null contract address');
+        require(vendorContracts[_contract] == true, 'cannot deregister an unregistered contract');
         IPayment pmnt = IPayment(_contract); // reverts if _contract is not a Payment
         vendorContracts[_contract] = false;
         pmnt.destroy();
         emit DebugEvent(pmnt.getPmtAccount(), address(0), 0);
+    }
+
+    // determine if a payment contract is registered
+    function isRegistered(address _contract)
+        public
+        view
+        returns (bool)
+    {
+        return vendorContracts[_contract];
     }
 
     // Determine if TO address is a contract;

@@ -41,8 +41,12 @@ contract Payment is Constants, IPayment {
     }
 
     // Constructor
-    // Evangelist must first approve single local token for this contract.
+    // Evangelist must approve single local token for this contract right after its creation.
     // RSTI should run this constructor.
+    // NOTE: If the evangelist is RSTI itself, which would be the case if the vendor self-registered,
+    // then RSTI must approve a single local token right after this contructor execution
+    // and this constructor should be called with _evangelist = localToken.pmtAccount().
+    //
     constructor(
         bool _payTax,
         address _evangelist,
@@ -100,7 +104,7 @@ contract Payment is Constants, IPayment {
     // Refresh all parameters for calculating transaction fee and taxes.
     // This allows these parameters to be modified in a single place.
     // This refresh routine cost is charged to the evangelist or vendor, but it needs to be done
-    // only once a month.
+    // at most only once a month.
     function refreshFeeParams() public
         precondition(msg.sender == vendor || msg.sender == evangelist)
     {
@@ -150,7 +154,7 @@ contract Payment is Constants, IPayment {
     // Nevertheless, the API server should not wait for the trade to execute before executing this
     // transaction. All that the API server needs to know is data on the order itself, the
     // most important being how much ROKS the MainSale app requested in exchange for the payment.
-    // This data is known even before the order is placed.
+    // This data is available even before the order is placed.
     //
     // NOTE: We pay for network fees when executing this transaction, not the customer.
     //
@@ -185,6 +189,8 @@ contract Payment is Constants, IPayment {
         precondition(vendor != msg.sender)
         payable
     {
+        require(paymentCenter.isRegistered(address(this)), 'Payment contract must be registered');
+
         // make sure pmtAccount is set
         require(pmtAccount != address(0), 'Payment contract is not initialized');
 
