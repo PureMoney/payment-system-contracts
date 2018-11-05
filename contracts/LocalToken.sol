@@ -46,6 +46,11 @@ contract LocalToken is Token {
         }
     }
 
+    // Modify Territory
+    // This should only be used when the name of the territory that covers the same
+    // area changes in Bing maps.
+    // The location of the territory itself should not be modified; in other words,
+    // a local token, once created, has a fixed territory.
     function modifyLocality(string newLocality) public
         onlyMinter
     {
@@ -59,7 +64,7 @@ contract LocalToken is Token {
         taxRateNumerator = _taxMult;
     }
 
-    // To reset gvtAccount when taxRateNumerator is not zero, 
+    // To reset govtAccount when taxRateNumerator is not zero, 
     // must reset taxRateNumerator first.
     // To set govtAccount when taxRateNumerator is zero,
     // must set taxRateNumerator first to non-zero value.

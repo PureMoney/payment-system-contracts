@@ -11,6 +11,9 @@ contract UniversalToken is Token {
     uint public xactionFeeNumerator;
     uint public xactionFeeShare;
 
+    event ModifyTransFeeCalled(uint newFee);
+    event ModifyFeeShareCalled(uint newShare);
+
     // Note: the constructor only sets the Cap, but does not set the initial supply.
     //
     constructor( 
@@ -35,6 +38,7 @@ contract UniversalToken is Token {
     {
         require(DENOMINATOR > _xactionFeeMult.mul(4), 'cannot modify transaction fee to more than 0.25');
         xactionFeeNumerator = _xactionFeeMult;
+        emit ModifyTransFeeCalled(_xactionFeeMult);
     }
 
     function modifyFeeShare(uint _share) public
@@ -42,5 +46,6 @@ contract UniversalToken is Token {
     {
         require(DENOMINATOR > _share.mul(3), 'RSTI share must be less than one-third');
         xactionFeeShare = _share;
+        emit ModifyFeeShareCalled(_share);
     }
 }

@@ -17,6 +17,9 @@ interface IPayment {
     // Payment created event
     event PaymentContract(bool _payTax, address _evangelist, address _localToken, address _vendor, address _pmntCenter);
 
+    // contract refreshed
+    event PaymentContractRefreshed(address _contract);
+
     // Vendor transferred
     event VendorTransferred(address _fromEvangelist, address _toEvangelist);
 

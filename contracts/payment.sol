@@ -87,6 +87,7 @@ contract Payment is Constants, IPayment {
     // Acquiring evangelist must first approve at least single local token for source vendor.
     function transferThisVendor(address toAnotherEvangelist) public
         precondition(msg.sender == evangelist)
+        precondition(toAnotherEvangelist != evangelist)
     {
         if (localToken.transferFrom(toAnotherEvangelist, evangelist, WAD))
         {
@@ -95,6 +96,9 @@ contract Payment is Constants, IPayment {
         }
     }
 
+    // Turn ON or OFF payment of taxes.
+    // Can be done only by vendor.
+    // NOTE: If the payment tax rate is zero, this setting won't matter; no tax is paid either way.
     function setPayTax(bool pay) public
         precondition(msg.sender == vendor)
     {
@@ -114,6 +118,7 @@ contract Payment is Constants, IPayment {
         priceFactor = DENOMINATOR.add(payTax ? taxRate : 0).add(feeRate);
         govtAccount = localToken.govtAccount();
         pmtAccount = localToken.pmtAccount();
+        emit PaymentContractRefreshed(address(this));
     }
 
     // Need to deposit local token to this contract during
@@ -129,16 +134,18 @@ contract Payment is Constants, IPayment {
     // Deregistering this Payment contract from PureMoney means killing it.
     // This can only be called from PureMoney, so can't test it independently.
     function destroy() public onlyPureMoney {
-        // return license to evangelist (this contract "owns" the token)
+        // return license to evangelist (this contract currently owns the license token)
         localToken.transfer(evangelist, localToken.balanceOf(address(this)));
 
         // disable ether payments by resetting pmtAccount, etc
+        // any ethers owned by this contract is given to evangelist (why not to vendor?)
+        address beneficiary = evangelist;
         evangelist = address(0);
         // localToken = LocalToken(0);
         // paymentCenter = PureMoney(0);
         vendor = address(0);
         pmtAccount = address(0);
-        selfdestruct(evangelist);
+        selfdestruct(beneficiary);
     }
 
     // Pay in ROKS - called from the API Server 

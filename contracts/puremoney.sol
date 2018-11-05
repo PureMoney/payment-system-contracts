@@ -50,6 +50,9 @@ contract PureMoney is Token {
     // Deregister a vendor.
     // Vendor's Payment contract will be destroyed and cnnot be revived.
     // If input address is not a Payment contract address, nothing happens.
+    // NOTE: Use this with care, only if absolutely necessary. We don't want too many deregistered
+    // Payment contracts lying around because if ROKS payment is made to such contracts, the payment
+    // is accumulated but can never be taken out.
     //
     function deregisterVendor(address _contract)
         public
@@ -75,9 +78,15 @@ contract PureMoney is Token {
     // Determine if TO address is a contract;
     // If it is a Payment contract return vendor address.
     // Otherwise, return the input TO address.
+    // NOTE: If the destination is an unregistered / deregistered / destroyed Payment contract, 
+    // transferred ROKS tokens are accumulated in the Payment contract itself and maybe lost forever.
+    // (If the destination is an as yet unregistered Payment contract, the only way to retrieve
+    // the ROKS tokens is to first register and then deregister the Payment contract.)
     //
     function getAccountIfContract(address to) internal view returns (address account)
     {
+        // fail early
+        require(to != address(0), 'destination address is null');
         // is it a Payment contract?
         if (vendorContracts[to]) {
             IPayment pmnt = IPayment(to);
