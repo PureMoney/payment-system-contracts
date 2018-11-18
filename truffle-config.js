@@ -27,7 +27,7 @@ module.exports = {
     },
     ropsten: {
       provider: function () {
-        return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/v3/0b49da3d2bea48b6bdd8ba70ce3fa506");
+        return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/v3/0b49da3d2bea48b6bdd8ba70ce3fa506", 0, 10);
       },
       network_id: '3'
     }
