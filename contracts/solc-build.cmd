@@ -1,0 +1,2 @@
+REM cd \Users\purem\Source\Repos\payment-system-contracts\contracts
+"C:\Program Files\solc\solc.exe" --bin --abi -o ../../api2-puremoney-tech/contracts/abi --allow-paths C:/Users/purem/Source/Repos/payment-system-contracts/node_modules/openzeppelin-solidity/contracts openzeppelin-solidity=/Users/purem/Source/Repos/payment-system-contracts/node_modules/openzeppelin-solidity %1.sol

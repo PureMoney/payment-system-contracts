@@ -36,7 +36,11 @@ module.exports = {
     optimizer: {
       enabled: true,
       runs: 200
-    }
+    },
     // remappings: [":g/github.com/OpenZeppelin/openzeppelin-solidity/=/home/pmt0admin/openzeppelin-solidity/"] 
+    outputSelection: {
+      "universaltoken.sol": {
+        "*": ["abi", "evm.deployedBytecode.object"]}
+    }
   }
 };
