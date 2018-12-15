@@ -12,12 +12,13 @@
     "ethereumjs-util": "^6.0.0",
     "ethjs-abi": "^0.2.1",
     "openzeppelin-solidity": "^2.0.0-rc.3",
-    "truffle-hdwallet-provider": "0.0.6",
+    "truffle-hdwallet-provider": "^0.0.6",
     "web3": "^1.0.0-beta.36"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "truffle test"
+    "test": "truffle test",
+    "ropsten": "truffle exec ropsten/set-pmt-account.js --network ropsten"
   },
   "repository": {
     "type": "git",

@@ -9,6 +9,8 @@ var RSTIShares = artifacts.require("RSTIShares");
 // Each contract requires about 0.358 ether to deploy, and because there are a total of 16 contracts,
 // rock must have at least 0.358 x 16 or  5.728 ethers. Including the migration contract and transactions
 // with it, the total comes up to at least 5.74 ethers.
+// Another Important Note: Run the following before migrating to the main Ethereum network:
+// truffle networks --clean
 
 
 module.exports = function(deployer, network, accounts) {
