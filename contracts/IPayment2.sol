@@ -46,4 +46,13 @@ interface IPayment2 {
 
     function destroy() external;
 
+    function getEthPrice() external view returns (uint);
+
+    function setEthPrice(uint ethPrice) external;
+
+    function getRoksExpected() external view returns (uint);
+
+    function setRoksExpected(uint roksExpected) external;
+
+    function getLocalToken() external view returns (LocalToken);
 }

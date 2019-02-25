@@ -10,7 +10,7 @@ pragma solidity  ^0.4.24;
 
 import { Constants, LocalToken } from "./LocalToken.sol";
 import { IPayment2 } from "./IPayment2.sol";
-import { PureMoney } from "./puremoney.sol";
+import { PureMoney2 } from "./puremoney2.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 
 contract Payment2 is Constants, IPayment2 {
@@ -27,10 +27,11 @@ contract Payment2 is Constants, IPayment2 {
     uint public taxRate;
     uint public txFeeFactor;
     uint public ethPrice; // divide by Constants.DENOMINATOR to get price
+    uint public roksExpected; // roks payment set by API server in InitiatePayment()
 
     address private vendor;
 
-    PureMoney paymentCenter;
+    PureMoney2 paymentCenter;
 
     modifier precondition(bool _condition) {
         require(_condition, "precondition not met");
@@ -38,7 +39,7 @@ contract Payment2 is Constants, IPayment2 {
     }
 
     modifier onlyPureMoney() {
-        require(msg.sender == address(paymentCenter), "can only be called from PureMoney (ROKS) contract");
+        require(msg.sender == address(paymentCenter), "can only be called from PureMoney2 (ROKS) contract");
         _;
     }
 
@@ -71,8 +72,8 @@ contract Payment2 is Constants, IPayment2 {
         vendor = _vendor;
         evangelist = _evangelist;
         payTax = _payTax;
-        paymentCenter = PureMoney(_pmntcenter);
-        ethPrice = 10000; // just a number, any number
+        paymentCenter = PureMoney2(_pmntcenter);
+        ethPrice = 156 * WAD; // just a number, any number
         emit PaymentContract(_payTax, _evangelist, _localToken, _vendor, _pmntcenter);
     }
 
@@ -84,6 +85,31 @@ contract Payment2 is Constants, IPayment2 {
     function getPmtAccount() public view returns (address)
     {
         return pmtAccount;
+    }
+
+    function getEthPrice() public view returns (uint)
+    {
+        return ethPrice;
+    }
+
+    function setEthPrice(uint price) public
+    {
+        ethPrice = price;
+    }
+
+    function getRoksExpected() public view returns (uint)
+    {
+        return roksExpected;
+    }
+
+    function setRoksExpected(uint roks) public
+    {
+        roksExpected = roks;
+    }
+
+    function getLocalToken() public view returns (address)
+    {
+        return address(localToken);
     }
 
     // Transfer this vendor to another evangelist.
@@ -125,7 +151,7 @@ contract Payment2 is Constants, IPayment2 {
     }
 
     // Need to deposit local token to this contract during
-    // registration. This can only be called from PureMoney, so can't
+    // registration. This can only be called from PureMoney2, so can't
     // test it independently.
     function depositLocalToken() public onlyPureMoney
     {
@@ -134,30 +160,29 @@ contract Payment2 is Constants, IPayment2 {
         localToken.transferFrom(evangelist, address(this), WAD);
     }
 
-    // Deregistering this Payment contract from PureMoney means killing it.
-    // This can only be called from PureMoney, so can't test it independently.
+    // Deregistering this Payment contract from PureMoney2 means killing it.
+    // This can only be called from PureMoney2, so can't test it independently.
     function destroy() public onlyPureMoney {
         // return license to evangelist (this contract currently owns the license token)
         localToken.transfer(evangelist, localToken.balanceOf(address(this)));
 
-        // disable ether payments by resetting pmtAccount, etc
-        // any ethers owned by this contract is given to evangelist (why not to vendor?)
+        // Disable ether payments by resetting pmtAccount, etc.
+        // Any ethers owned by this contract is given to evangelist (why not to vendor?).
+        // Can't reset localToken and paymentCenter.
         address beneficiary = evangelist;
         evangelist = address(0);
-        // localToken = LocalToken(0);
-        // paymentCenter = PureMoney(0);
         vendor = address(0);
         pmtAccount = address(0);
         selfdestruct(beneficiary);
     }
 
     // Pay in ROKS - called from default payable method below.
-    // The API Server must modify the ethPrice before the customer makes a payment.
+    // The API Server must modify the ethPrice and roksExpected before the customer makes a payment.
     // The payable method uses ethPrice to determine the ROKS (USD) amount to pay the vendor.
     // Note that our transaction fee is calculated against net to vendor, and not against raw roks amount.
     // This means that the MainSale POS App must have already added all fees to roks amount.
-    // If the customer adds a tip, this contract cannot distinguish between the tip + net and
-    // the net amount, so it will calculate the portions for different actors using tip + net (not net).
+    // If the customer adds a tip, this contract distinguishes between the tip + net and
+    // the net amount by using roksExpected amount as net (tip = netToVendor - roksExpected).
     //
     // With regards to timing: there should be at least a few seconds from the time MainSale sends the 
     // InitiatePayment call to the API server, and the time that the customer sends the payment itself.
@@ -167,22 +192,27 @@ contract Payment2 is Constants, IPayment2 {
     //
     function payInROKS(uint roks) private
         precondition(roks > 0)
-        precondition(owner != pmtAccount)
         precondition(roks <= paymentCenter.allowance(paymentCenter.owner(), address(this)))
     {
         uint xactionFee;
         uint salesTax;
+        uint paidAmount = roks;
+        uint tip = 0;
 
-        uint netToVendor = roks.mul(DENOMINATOR).div(txFeeFactor);
+        if (roks > roksExpected) {
+            tip = roks.sub(roksExpected);
+            paidAmount = roksExpected;
+        }
+        uint netToVendor = paidAmount.mul(DENOMINATOR).div(txFeeFactor);
         address owner = paymentCenter.owner();
         if (payTax && taxRate > 0) {
             xactionFee = netToVendor.mul(feeRate).div(DENOMINATOR);
-            salesTax = roks.sub(netToVendor).sub(xactionFee);
+            salesTax = paidAmount.sub(netToVendor).sub(xactionFee);
             paymentCenter.transferFrom(owner, govtAccount, salesTax);
         } else {
-            xactionFee = roks.sub(netToVendor);
+            xactionFee = paidAmount.sub(netToVendor);
         }
-        paymentCenter.transferFrom(owner, vendor, netToVendor);
+        paymentCenter.transferFrom(owner, vendor, netToVendor + tip);
         uint share = xactionFee.mul(pmtShare).div(DENOMINATOR);
         paymentCenter.transferFrom(owner, pmtAccount, share);
         paymentCenter.transferFrom(owner, evangelist, xactionFee.sub(share));
@@ -194,6 +224,8 @@ contract Payment2 is Constants, IPayment2 {
     function() public
         precondition(msg.value > 0 wei)
         precondition(vendor != msg.sender)
+        precondition(roksExpected > 0 ether)
+        precondition(ethPrice > 1 ether)
         payable
     {
         require(paymentCenter.isRegistered(address(this)), 'Payment contract must be registered');
@@ -204,10 +236,10 @@ contract Payment2 is Constants, IPayment2 {
         // all ethers are deposited in Pure Money account
         pmtAccount.transfer(msg.value);
 
-        uint roks = msg.value.mul(ethPrice).div(DENOMINATOR);
+        uint roks = msg.value.mul(ethPrice).div(WAD);
+        payInROKS(roks);
+
         address source = msg.sender;
         emit PaymentConfirmed(source, address(this), msg.value, roks);
-
-        payInROKS(roks);
     }
 }

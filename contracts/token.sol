@@ -20,7 +20,7 @@ import { ERC20Pausable } from "openzeppelin-solidity/contracts/token/ERC20/ERC20
 import { Ownable } from "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract Constants {
-    uint public constant DENOMINATOR = 10000;
+    uint public constant DENOMINATOR = 10000; // deprecated
     uint public constant DECIMALS = 18;
     uint public constant WAD = 10**DECIMALS;
 }

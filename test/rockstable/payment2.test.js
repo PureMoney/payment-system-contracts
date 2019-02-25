@@ -11,7 +11,7 @@ require('chai')
 const UniversalToken = artifacts.require('UniversalToken');
 const LocalToken = artifacts.require('LocalToken');
 const Payment = artifacts.require('Payment2');
-const PureMoney = artifacts.require('PureMoney');
+const PureMoney = artifacts.require('PureMoney2');
 
 // Every vendor gets a payment contract along with the MainSale app.
 // The customer may always pay directly to the vendor's address; but if she does, the vendor
@@ -31,7 +31,8 @@ const PureMoney = artifacts.require('PureMoney');
 //    vendors or not, the level of transaction fees, locality of vendor, etc.
 //
 contract('RS Payment', function ([_, minter, ...otherAccounts]) {
-  const cap = ether(1000);
+  const cap = ether(1000000000);
+  const approveAmount = ether(1000000);
   var uToken, lToken, puremoney, payment;
   var evangelist = otherAccounts[0];
   var vendor = otherAccounts[1];
@@ -52,21 +53,24 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
     await lToken.transfer(evangelist, ether(5), { from: minter });
     puremoney = await PureMoney.new(cap, { from: minter });
     await puremoney.addDepot(minter, { from: minter });
-    await puremoney.mint(minter, ether(100), { from: minter });
+    await puremoney.mint(minter, cap, { from: minter });
     // a Payment contract needs BOTH a LocalToken contract and the PureMoney contract
     payment = await Payment.new(false, evangelist, lToken.address, vendor, puremoney.address, { from: minter });
     await lToken.approve(payment.address, ether(1), { from: evangelist });
-    await puremoney.registerVendor(payment.address, { from: minter });
+    await puremoney.registerVendor(payment.address, approveAmount, { from: minter });
+
   });
 
-  context('payments in ethers', async function() {
+  context('deregistration', async function() {
     it('deregistering the payment contract should cause ether payments to fail', async function() {
       await puremoney.deregisterVendor(payment.address, { from: minter });
       var customerMoney = await web3.eth.getBalance(customer);
       console.log('     --> pre-payment balance: ', customerMoney)
       // sending ethers to a default payable function that fails does NOT generate logs?
       // or maybe we just can't obtain the tx log for such failed transaction.
-      await puremoney.approve(payment.address, ether(1.21), { from: minter });
+      //await puremoney.approve(payment.address, ether(1.21), { from: minter });
+      await shouldFail.attempting(payment.setEthPrice(ether(156), { from: minter }));
+      await shouldFail.attempting(payment.setRoksExpected(ether(188,76), { from: minter }));
       await payment.send(web3.toWei(1.21, "ether"), { from: customer });
       // at any rate, the way to determine whether the payment failed is to check the ethers
       // that must have been received, and also the current ether account value of the sender:
@@ -76,9 +80,12 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
       // (need to test this hypothesis in the ropsten network)
       (await web3.eth.getBalance(customer)).should.be.bignumber.equal(customerMoney);
     });
+  });
 
+  context('payments in ethers', async function() {
     it('sending ethers to Payment contract should emit PaymentConfirmed event', async function() {
-      await puremoney.approve(payment.address, ether(1.23), { from: minter });
+      await payment.setEthPrice(ether(151), { from: minter });
+      await payment.setRoksExpected(ether(185.73), { from: minter });
       var result = await payment.send(web3.toWei(1.23, "ether"), { from: customer });
       let k = 0;
       for (; k < result.logs.length; k++) {
@@ -93,7 +100,8 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
 
     it('PaymentConfirmed should let API server know exactly how much ethers was paid, and from whom', async function() {
       var eth = web3.toWei(1.23, "ether");
-      await puremoney.approve(payment.address, ether(1.23), { from: minter });
+      await payment.setEthPrice(ether(147), { from: minter });
+      await payment.setRoksExpected(ether(180.81), { from: minter });
       var result = await payment.send(eth, { from: customer });
       let k = 0;
       for (; k < result.logs.length; k++) {
@@ -113,29 +121,35 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
 
   context('once deployed and prepped', async function () {
     it('call to payable should fail if ethers == 0', async function() {
+      await payment.setEthPrice(ether(151), { from: minter });
+      await payment.setRoksExpected(ether(185.73), { from: minter });
       await shouldFail.reverting(payment.send(ether(0), { from: customer }));
     });
 
     it('call to payable should just work if ethers > 0', async function() {
-      await puremoney.approve(payment.address, ether(10), { from: minter });
+      await payment.setEthPrice(ether(149), { from: minter });
+      await payment.setRoksExpected(ether(1490), { from: minter });
       await payment.send(ether(10), { from: customer });
       // check that transaction fees are paid
-      (await puremoney.balanceOf(vendor)).should.be.bignumber.greaterThan(0);
+      (await puremoney.balanceOf(vendor)).should.be.bignumber.greaterThan(ether(1400));
+      (await puremoney.balanceOf(evangelist)).should.be.bignumber.greaterThan(ether(8));
     });
 
     it('call to payable causes payment to current evangelist', async function() {
       var balance1 = await puremoney.balanceOf(evangelist);
       var balance2 = await puremoney.balanceOf(evangelist2);
+      var allowance = await puremoney.allowance(minter, payment.address);
       await lToken.transfer(evangelist2, ether(10), { from: minter });
       await lToken.approve(payment.address, ether(1), { from: evangelist2 });
       await payment.transferThisVendor(evangelist2, { from: evangelist });
       // what gets approved must be total amount minus RockStable's share;
       // API server must calculate RockStable's share and deposit that amount to a "revenue" account
-      await puremoney.approve(payment.address, ether(8), { from: minter });
+      await payment.setEthPrice(ether(150), { from: minter });
+      await payment.setRoksExpected(ether(1200), { from: minter });
       await payment.send(ether(8), { from: customer });
       (await puremoney.balanceOf(evangelist)).should.be.bignumber.equal(balance1);
       (await puremoney.balanceOf(evangelist2)).should.be.bignumber.greaterThan(balance2);
-      (await puremoney.allowance(minter, payment.address)).should.be.bignumber.equal(0);
+      (await puremoney.allowance(minter, payment.address)).should.be.bignumber.lessThan(allowance);
     });
   });
 
@@ -153,39 +167,45 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
     it('changing transaction fee and then calling refreshFeeParams', async function() {
       await uToken.modifyTransFee(112, { from: minter });
       await payment.refreshFeeParams({ from: evangelist });
-      await puremoney.approve(payment.address, ether(10.112), { from: minter });
-      await payment.send(ether(10.112), { from: customer });
-      (await puremoney.balanceOf(vendor)).should.be.bignumber.equal(veBalance + ether(10));
-      (await puremoney.balanceOf(evangelist)).should.be.bignumber.lessThan(web3.toWei(0.7*112.1, "finney"));
-      (await puremoney.balanceOf(pmtAccount)).should.be.bignumber.lessThan(web3.toWei(0.3*112.1, "finney"));
+      await payment.setEthPrice(ether(143), { from: minter });
+      await payment.setRoksExpected(ether(10.112), { from: minter });
+      await payment.send(ether(0.0707132867), { from: customer });
+      (await puremoney.balanceOf(vendor)).should.be.bignumber.greaterThan(veBalance + ether(9));
+      (await puremoney.balanceOf(evangelist)).should.be.bignumber.greaterThan(web3.toWei(0.7*111, "finney"));
+      (await puremoney.balanceOf(pmtAccount)).should.be.bignumber.greaterThan(web3.toWei(0.3*111, "finney"));
     });
 
     it('changing transaction fee without calling refreshFeeParams', async function() {
       await uToken.modifyTransFee(123, { from: minter });
-      await puremoney.approve(payment.address, ether(10.1), { from: minter });
+      await payment.setEthPrice(ether(148), { from: minter });
+      await payment.setRoksExpected(ether(1494.8), { from: minter });
       await payment.send(ether(10.1), { from: customer }); // should be unchanged
-      (await puremoney.balanceOf(vendor)).should.be.bignumber.equal(veBalance + ether(10));
-      (await puremoney.balanceOf(evangelist)).should.be.bignumber.equal(web3.toWei(0.7*100, "finney"));
-      (await puremoney.balanceOf(pmtAccount)).should.be.bignumber.equal(web3.toWei(0.3*100, "finney"));
+      (await puremoney.balanceOf(vendor)).should.be.bignumber.greaterThan(veBalance + ether(1400));
+      (await puremoney.balanceOf(evangelist)).should.be.bignumber.greaterThan(evBalance + web3.toWei(0.7*9999, "finney"));
+      (await puremoney.balanceOf(pmtAccount)).should.be.bignumber.greaterThan(rsBalance + web3.toWei(0.3*9999, "finney"));
     });
 
     it('modifying RSTIs fee share and then calling refreshFeeParams', async function() {
       await uToken.modifyFeeShare(2000, { from: minter });
       await payment.refreshFeeParams({ from: vendor });
-      await puremoney.approve(payment.address, ether(10.1), { from: minter });
+      await payment.setEthPrice(ether(144), { from: minter });
+      await payment.setRoksExpected(ether(1454.4), { from: minter });
       await payment.send(ether(10.1), { from: customer }); // should be unchanged
-      (await puremoney.balanceOf(vendor)).should.be.bignumber.equal(veBalance + ether(10));
-      (await puremoney.balanceOf(evangelist)).should.be.bignumber.equal(web3.toWei(0.8*100, "finney"));
-      (await puremoney.balanceOf(pmtAccount)).should.be.bignumber.equal(web3.toWei(0.2*100, "finney"));
+      (await puremoney.balanceOf(vendor)).should.be.bignumber.greaterThan(veBalance + ether(1400));
+      (await puremoney.balanceOf(evangelist)).should.be.bignumber
+                                                .greaterThan(evBalance + web3.toWei(0.8*54, "finney"));
+      (await puremoney.balanceOf(pmtAccount)).should.be.bignumber
+                                                .greaterThan(rsBalance + web3.toWei(0.2*54, "finney"));
     });
 
     it('modifying RSTIs fee share to zero and then calling refreshFeeParams', async function() {
       await uToken.modifyFeeShare(0, { from: minter });
       await payment.refreshFeeParams({ from: vendor });
-      await puremoney.approve(payment.address, ether(10.1), { from: minter });
+      await payment.setEthPrice(ether(152), { from: minter });
+      await payment.setRoksExpected(ether(1535.2), { from: minter });
       await payment.send(ether(10.1), { from: customer }); // should be unchanged
-      (await puremoney.balanceOf(vendor)).should.be.bignumber.equal(veBalance + ether(10));
-      (await puremoney.balanceOf(evangelist)).should.be.bignumber.equal(web3.toWei(100, "finney"));
+      (await puremoney.balanceOf(vendor)).should.be.bignumber.greaterThan(veBalance + ether(1500));
+      (await puremoney.balanceOf(evangelist)).should.be.bignumber.greaterThan(evBalance + web3.toWei(3400, "finney"));
       (await puremoney.balanceOf(pmtAccount)).should.be.bignumber.equal(0);
     });
   });
@@ -212,7 +232,8 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
       await lToken.modifyGovtAccount(government, { from: minter });
       await payment.setPayTax(true, { from: vendor });
       await payment.refreshFeeParams({ from: evangelist });
-      await puremoney.approve(payment.address, ether(0.1), { from: minter });
+      await payment.setEthPrice(ether(989), { from: minter });
+      await payment.setRoksExpected(ether(98.9), { from: minter });
       await payment.send(ether(0.1), { from: customer });
       (await puremoney.balanceOf(vendor))
         .should.be.bignumber.greaterThan(veBalance + web3.toWei(89, "finney"));
@@ -229,8 +250,9 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
       await lToken.modifyGovtAccount(government2, { from: minter });
       await payment.setPayTax(true, { from: vendor });
       await payment.refreshFeeParams({ from: evangelist });
-      await puremoney.approve(payment.address, ether(0.0999), { from: minter });
-      await payment.send(ether(0.0999), { from: customer });
+      await payment.setEthPrice(ether(162), { from: minter });
+      await payment.setRoksExpected(ether(0.0999), { from: minter });
+      await payment.send(ether(0.0006166666), { from: customer });
       (await puremoney.balanceOf(vendor))
         .should.be.bignumber.greaterThan(veBalance + web3.toWei(90, "finney"));
       (await puremoney.balanceOf(evangelist))
@@ -247,8 +269,9 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
       await lToken.modifyPMTAccount(pmtAccount2, { from: minter });
       await payment.setPayTax(true, { from: vendor });
       await payment.refreshFeeParams({ from: evangelist });
-      await puremoney.approve(payment.address, ether(0.124), { from: minter });
-      await payment.send(ether(0.124), { from: customer });
+      await payment.setEthPrice(ether(161), { from: minter });
+      await payment.setRoksExpected(ether(0.124), { from: minter });
+      await payment.send(ether(0.0007701863), { from: customer });
       (await puremoney.balanceOf(vendor))
         .should.be.bignumber.greaterThan(veBalance + web3.toWei(110.0, "finney"));
       (await puremoney.balanceOf(evangelist))
