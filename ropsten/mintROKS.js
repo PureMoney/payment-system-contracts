@@ -1,11 +1,12 @@
-const PureMoneyContract = artifacts.require('puremoney');
+const PureMoneyContract = artifacts.require('PureMoney2');
 // const { ZERO_ADDRESS } = require('../helpers/constants');
 
 const BigNumber = web3.BigNumber;
 const owner = '0x640C46042b4C50b4f4910b044898e80701203c58'.toLowerCase();
 // const pmtAccount = '0x1Fb18FE4a3b773d61E9851f54d35948114e4806E'.toLowerCase();
 
-const puremoney = '0x0fe5365119ba56f8f90d43c3dd724fac7c728013';
+const puremoney = '0xa3c0a5899ee55ac29ee03f104cc9b85e32f4efe4'; // PureMoney2
+// const puremoney = '0x0fe5365119ba56f8f90d43c3dd724fac7c728013';
 
 let ROKS = null;
 let cap = new BigNumber(0);
