@@ -70,7 +70,7 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
       // or maybe we just can't obtain the tx log for such failed transaction.
       //await puremoney.approve(payment.address, ether(1.21), { from: minter });
       await shouldFail.attempting(payment.setEthPrice(ether(156), { from: minter }));
-      await shouldFail.attempting(payment.setRoksExpected(ether(188,76), { from: minter }));
+      await shouldFail.attempting(payment.setRoksExpected(ether(188.76), { from: minter }));
       await payment.send(web3.toWei(1.21, "ether"), { from: customer });
       // at any rate, the way to determine whether the payment failed is to check the ethers
       // that must have been received, and also the current ether account value of the sender:
@@ -128,7 +128,9 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
 
     it('call to payable should just work if ethers > 0', async function() {
       await payment.setEthPrice(ether(149), { from: minter });
+      (await payment.getEthPrice()).should.be.bignumber.equal(ether(149));
       await payment.setRoksExpected(ether(1490), { from: minter });
+      (await payment.getRoksExpected()).should.be.bignumber.equal(ether(1490));
       await payment.send(ether(10), { from: customer });
       // check that transaction fees are paid
       (await puremoney.balanceOf(vendor)).should.be.bignumber.greaterThan(ether(1400));
