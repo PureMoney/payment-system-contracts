@@ -71,7 +71,8 @@ contract LocalToken is Token {
     function modifyGovtAccount(address govt) public
         onlyMinter
     {
-        if ((taxRateNumerator > 0 && govt == 0) || (taxRateNumerator == 0 && govt != 0)) revert('invalid input');
+        if ((taxRateNumerator > 0 && govt == address(0)) 
+            || (taxRateNumerator == 0 && govt != address(0))) revert('invalid input');
         govtAccount = govt;
     }
 

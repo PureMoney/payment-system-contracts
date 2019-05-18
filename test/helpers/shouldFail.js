@@ -29,9 +29,14 @@ async function checkGas (promise) {
   await shouldFailWithMessage(promise, 'check your gas amount');
 }
 
+async function attempting (promise) {
+  await shouldFailWithMessage(promise, 'Attempting to run transaction');
+}
+
 module.exports = {
   reverting,
   throwing,
   outOfGas,
   checkGas,
+  attempting,
 };

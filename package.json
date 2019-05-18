@@ -18,7 +18,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "truffle test",
-    "setpmt": "truffle exec ropsten/set-pmt-account.js --network ropsten"
+    "setpmt": "truffle exec ropsten/set-pmt-account.js --network ropsten",
+    "mintroks": "truffle exec ropsten/mintROKS.js --network ropsten"
   },
   "repository": {
     "type": "git",
