@@ -12,8 +12,9 @@ import { Constants, LocalToken } from "./LocalToken.sol";
 import { IPayment2 } from "./IPayment2.sol";
 import { PureMoney2 } from "./puremoney2.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+import { Ownable } from "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
-contract Payment2 is Constants, IPayment2 {
+contract Payment2 is Constants, Ownable, IPayment2 {
     using SafeMath for uint256;
     using SafeMath for uint;
 
@@ -26,8 +27,8 @@ contract Payment2 is Constants, IPayment2 {
     uint public feeRate;
     uint public taxRate;
     uint public txFeeFactor;
-    uint public ethPrice; // divide by Constants.DENOMINATOR to get price
-    uint public roksExpected; // roks payment set by API server in InitiatePayment()
+    uint private ethPrice; // divide by Constants.DENOMINATOR to get price
+    uint private roksExpected; // roks payment set by API server in InitiatePayment()
 
     address private vendor;
 
@@ -92,7 +93,7 @@ contract Payment2 is Constants, IPayment2 {
         return ethPrice;
     }
 
-    function setEthPrice(uint price) public
+    function setEthPrice(uint price) public onlyOwner
     {
         ethPrice = price;
     }
@@ -102,7 +103,7 @@ contract Payment2 is Constants, IPayment2 {
         return roksExpected;
     }
 
-    function setRoksExpected(uint roks) public
+    function setRoksExpected(uint roks) public onlyOwner
     {
         roksExpected = roks;
     }
@@ -157,7 +158,11 @@ contract Payment2 is Constants, IPayment2 {
     {
         // the statement below needs the evangelist to approve 1 local token, with this contract as spender;
         // the token is deposited also in this payment contract.
-        localToken.transferFrom(evangelist, address(this), WAD);
+        // if we are the evangelist, we obtain the local token from the vendor
+        if (evangelist == pmtAccount)
+            localToken.transferFrom(vendor, address(this), WAD);
+        else
+            localToken.transferFrom(evangelist, address(this), WAD);
     }
 
     // Deregistering this Payment contract from PureMoney2 means killing it.
