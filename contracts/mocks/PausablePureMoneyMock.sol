@@ -1,14 +1,14 @@
 pragma solidity ^0.4.24;
 
-import "../puremoney.sol";
+import "../puremoney2.sol";
 import "./PauserRoleMock.sol";
 
 // mock class using ERC20Pausable
-contract PausablePureMoneyMock is PureMoney, PauserRoleMock {
+contract PausablePureMoneyMock is PureMoney2, PauserRoleMock {
 
   constructor(address initialAccount, uint initialBalance)
       public
-      PureMoney(initialBalance.mul(2))
+      PureMoney2(initialBalance.mul(2))
   {
     if (initialAccount != msg.sender) {
       if (!super.isPauser(initialAccount)) super.addPauser(initialAccount);

@@ -1,13 +1,13 @@
 pragma solidity ^0.4.24;
 
-import "../puremoney.sol";
+import "../puremoney2.sol";
 import "./MinterRoleMock.sol";
 
-contract MintablePureMoneyMock is MinterRoleMock, PureMoney {
+contract MintablePureMoneyMock is MinterRoleMock, PureMoney2 {
 
   constructor(address initialAccount, uint256 initialCap)
       public
-      PureMoney(initialCap)
+      PureMoney2(initialCap)
   {
     if (!super.isMinter(initialAccount))
       super.addMinter(initialAccount);
