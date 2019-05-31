@@ -43,6 +43,7 @@ contract Token is Constants, Ownable, ERC20Pausable, Capped {
       if (msg.sender != _owner) {
         super.transferOwnership(_owner);
         super.addCapper(_owner);
+        super.addPauser(_owner);
       }
     }
 

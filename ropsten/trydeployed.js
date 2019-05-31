@@ -1,7 +1,7 @@
 const LocalToken = artifacts.require('LocalToken');
 const UniversalToken = artifacts.require('UniversalToken');
 const Payment = artifacts.require('Payment');
-const PureMoney = artifacts.require('PureMoney');
+const PureMoney = artifacts.require('PureMoney2');
 const { ether } = require('../helpers/ether');
 
 const BigNumber = web3.BigNumber;
