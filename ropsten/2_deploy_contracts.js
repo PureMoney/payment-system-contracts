@@ -1,6 +1,4 @@
-var Token = artifacts.require("Token");
 var UniversalToken = artifacts.require("UniversalToken");
-var CappedUniversalTokenMock = artifacts.require("CappedUniversalTokenMock");
 var LocalToken = artifacts.require("LocalToken");
 var PureMoney = artifacts.require("PureMoney2");
 var RSTIShares = artifacts.require("RSTIShares");
