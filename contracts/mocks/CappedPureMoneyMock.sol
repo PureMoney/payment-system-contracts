@@ -1,12 +1,12 @@
 pragma solidity ^0.4.24;
 
-import "../puremoney.sol";
+import "../puremoney2.sol";
 
-contract CappedPureMoneyMock is PureMoney {
+contract CappedPureMoneyMock is PureMoney2 {
 
   constructor(address initialAccount, uint256 initialCap)
     public
-    PureMoney(initialCap)
+    PureMoney2(initialCap)
   {
     if (initialAccount != super.owner()) super.transferOwnership(initialAccount);
   }

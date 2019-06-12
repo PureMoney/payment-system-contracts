@@ -1,24 +1,22 @@
-const PureMoneyContract = artifacts.require('PureMoney2');
+const EVANContract = artifacts.require('UniversalToken');
 // const { ZERO_ADDRESS } = require('../helpers/constants');
 
 const BigNumber = web3.BigNumber;
 const owner = '0x640C46042b4C50b4f4910b044898e80701203c58'.toLowerCase();
 // const pmtAccount = '0x1Fb18FE4a3b773d61E9851f54d35948114e4806E'.toLowerCase();
 
-const puremoney = '0x520e91add6be97f166c4791d9e8ca4a392467c5c'; // PureMoney2
-// const puremoney = '0xa3c0a5899ee55ac29ee03f104cc9b85e32f4efe4'; // PureMoney2
-// const puremoney = '0x0fe5365119ba56f8f90d43c3dd724fac7c728013';
+const evan_token = '0x31b7754e60342b4946cfbb4b7c6485e0c78642c0'; 
 
-let ROKS = null;
+let evans = null;
 let cap = new BigNumber(0);
 
-const _mintROKS = function(callback) {
-  PureMoneyContract.at(puremoney.toLowerCase())
+const _mintEVAN = function(callback) {
+  EVANContract.at(evan_token.toLowerCase())
   .then((result, error) => {
     if (result) {
-      ROKS = result;
-      console.log('ROKS set');
-      return ROKS.owner.call();
+      evans = result;
+      console.log('evans set');
+      return evans.owner.call();
     }
     callback(error);
   })
@@ -29,7 +27,7 @@ const _mintROKS = function(callback) {
         console.log("actual owner = ", actualOwner);
         callback();
       };
-      return ROKS.isDepot.call(owner);
+      return evans.isDepot.call(owner);
     };
     callback(error);
   })
@@ -41,12 +39,12 @@ const _mintROKS = function(callback) {
       console.log('Owner is already a depot');
       return Promise.resolve(true);
     };
-    return ROKS.addDepot(owner, { from: owner, gas: new BigNumber(320000) });
+    return evans.addDepot(owner, { from: owner, gas: new BigNumber(320000) });
   })
   .then((result, error) => {
     if (result) {
       console.log('added owner as depot');
-      return ROKS.isMinter.call(owner);
+      return evans.isMinter.call(owner);
     };
     callback(error);
   })
@@ -58,12 +56,12 @@ const _mintROKS = function(callback) {
       console.log("owner is already a minter");
       return Promise.resolve(true);
     };
-    return ROKS.addMinter(owner, { from: owner, gas: new BigNumber(320000) });
+    return evans.addMinter(owner, { from: owner, gas: new BigNumber(320000) });
   })
   .then((result, error) => {
     if (result) {
       console.log('added owner as minter');
-      return ROKS.cap.call();
+      return evans.cap.call();
     }
     console.log('add depot failed');
     callback(error);
@@ -72,7 +70,7 @@ const _mintROKS = function(callback) {
     if (result) {
       cap = result;
       console.log('cap = ', result);
-      return ROKS.totalSupply.call();
+      return evans.totalSupply.call();
     }
     callback(error);
   })
@@ -85,7 +83,7 @@ const _mintROKS = function(callback) {
       if (big.gt(one)) {
         big = new BigNumber(big / 2); // half of cap
         console.log('mint amount oK = ', big);
-        return ROKS.mint(owner, big, { from: owner, gas: new BigNumber(420000) });
+        return evans.mint(owner, big, { from: owner, gas: new BigNumber(420000) });
       }
       callback('mint request > cap');
     }
@@ -95,7 +93,7 @@ const _mintROKS = function(callback) {
   .then((result, error) => {
     if (result) {
       console.log('minting OK, result = ', result);
-      return ROKS.balanceOf(owner);
+      return evans.balanceOf(owner);
     }
     console.log('minting failed, error = ');
     callback(error);
@@ -114,5 +112,5 @@ const _mintROKS = function(callback) {
 }
 
 module.exports = function(callback) {
-  _mintROKS(callback);
+  _mintEVAN(callback);
 }

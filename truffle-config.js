@@ -22,7 +22,7 @@ module.exports = {
   networks: {
     development: {
       host: 'localhost',
-      port: 8545,
+      port: 8545, // if ganache-cli then 8545, else if truffle develop then 9545
       network_id: '*'
     },
     ropsten: {

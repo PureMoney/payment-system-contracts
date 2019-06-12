@@ -37,6 +37,7 @@ contract PureMoney2 is Token {
         onlyOwner
     {
         require(_contract != address(0), 'null contract address');
+        require(!this.isRegistered(_contract), 'payment contract is already registered');
         // address source = msg.sender;
         // emit DebugEvent(address(_contract), source, 0);
         IPayment2 pmnt = IPayment2(_contract); // reverts if _contract is not a Payment
