@@ -32,6 +32,11 @@ module.exports = {
       network_id: '3'
     }
   },
+  compilers: {
+    solc: {
+      version: "0.4.24",
+    }
+  },
   solc: {
     optimizer: {
       enabled: true,
