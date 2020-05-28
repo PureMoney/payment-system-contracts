@@ -1,4 +1,4 @@
-const BigNumber = web3.BigNumber;
+const BigNumber = web3.utils.BigNumber;
 const should = require('chai')
   .use(require('chai-bignumber')(BigNumber))
   .should();
@@ -31,7 +31,7 @@ function contains (args, key, value) {
 
 function isBigNumber (object) {
   return object.isBigNumber ||
-    object instanceof BigNumber ||
+    // object instanceof BigNumber ||
     (object.constructor && object.constructor.name === 'BigNumber');
 }
 

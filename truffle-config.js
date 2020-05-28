@@ -12,8 +12,8 @@
  *   },
  */
 
-var HDWalletProvider = require("truffle-hdwallet-provider");
-var mnemonic = "pottery wage multiply float virus endorse cake ceiling excess light awkward animal"; // 12 word mnemonic
+// var HDWalletProvider = require("truffle-hdwallet-provider");
+// var mnemonic = "pottery wage multiply float virus endorse cake ceiling excess light awkward animal"; // 12 word mnemonic
 
 
 module.exports = {
@@ -25,22 +25,25 @@ module.exports = {
       port: 8545, // if ganache-cli then 8545, else if truffle develop then 9545
       network_id: '*'
     },
-    ropsten: {
-      provider: function () {
-        return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/v3/0b49da3d2bea48b6bdd8ba70ce3fa506", 0, 10);
-      },
-      network_id: '3'
-    }
+    // ropsten: {
+    //   provider: function () {
+    //     return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/v3/0b49da3d2bea48b6bdd8ba70ce3fa506", 0, 10);
+    //   },
+    //   network_id: '3'
+    // }
   },
-  solc: {
-    optimizer: {
-      enabled: true,
-      runs: 200
-    },
-    // remappings: [":g/github.com/OpenZeppelin/openzeppelin-solidity/=/home/pmt0admin/openzeppelin-solidity/"] 
-    outputSelection: {
-      "universaltoken.sol": {
-        "*": ["abi", "evm.deployedBytecode.object"]}
+  compilers: {
+    solc: {
+      version: "0.4.24",
+      optimizer: {
+        enabled: true,
+        runs: 200
+      },
+      // remappings: [":g/github.com/OpenZeppelin/openzeppelin-solidity/=/home/pmt0admin/openzeppelin-solidity/"] 
+      outputSelection: {
+        "universaltoken.sol": {
+          "*": ["abi", "evm.deployedBytecode.object"]}
+      }
     }
   }
 };

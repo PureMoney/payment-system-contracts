@@ -1,7 +1,10 @@
 const LocalToken = artifacts.require('LocalToken');
 // const { ZERO_ADDRESS } = require('../helpers/constants');
 
-const BigNumber = web3.BigNumber;
+function ether (n) {
+  return web3.utils.toWei(n.toString(), 'ether');
+}
+
 const owner = '0x640C46042b4C50b4f4910b044898e80701203c58'.toLowerCase();
 const pmtAccount = '0x1Fb18FE4a3b773d61E9851f54d35948114e4806E'.toLowerCase();
 
@@ -22,7 +25,7 @@ const tokenContracts = [
 ];
 
 let lToken = null;
-let cap = new BigNumber(0);
+let cap = ether(0);
 
 const ModifyTokenContract = function(address, callback) {
   LocalToken.at(address.toLowerCase())
@@ -37,7 +40,7 @@ const ModifyTokenContract = function(address, callback) {
   .then((result, error) => {
     if (result) {
       console.log('current pmt account = ', result);
-      return lToken.addDepot(pmtAccount, { from: owner, gas: new BigNumber(320000) });
+      return lToken.addDepot(pmtAccount, { from: owner, gas: web3.utils.toWei("320000") });
     }
     callback(error);
   })
@@ -60,12 +63,12 @@ const ModifyTokenContract = function(address, callback) {
   .then((result, error) => {
     if (result) {
       console.log('total supply = ', result);
-      let one = new BigNumber(10**18);
+      let one = ether(1);
       let big = cap.minus(one).minus(result);
       console.log('big = ', big);
       if (big.gt(one)) {
         console.log('mint amount oK');
-        return lToken.mint(pmtAccount, big, { from: owner, gas: new BigNumber(420000) });
+        return lToken.mint(pmtAccount, big, { from: owner, gas: web3.utils.toWei("420000") });
       }
       callback('mint request > cap');
     }
@@ -83,7 +86,7 @@ const ModifyTokenContract = function(address, callback) {
   .then((result, error) => {
     if (result) {
       console.log('balance = ', result);
-      return lToken.modifyPMTAccount(pmtAccount, { from: owner, gas: new BigNumber(420000)});
+      return lToken.modifyPMTAccount(pmtAccount, { from: owner, gas: web3.utils.toWei("420000")});
     }
     console.log('balance failed:');
     callback(error);

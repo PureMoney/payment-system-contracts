@@ -2,7 +2,7 @@ const shouldFail = require('../../../helpers/shouldFail');
 const expectEvent = require('../../../helpers/expectEvent');
 const { ZERO_ADDRESS } = require('../../../helpers/constants');
 
-const BigNumber = web3.BigNumber;
+const BigNumber = web3.utils.BigNumber;
 
 require('chai')
   .use(require('chai-bignumber')(BigNumber))

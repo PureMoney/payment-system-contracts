@@ -4,7 +4,11 @@ const Payment = artifacts.require('Payment');
 const PureMoney = artifacts.require('PureMoney2');
 const { ether } = require('../helpers/ether');
 
-const BigNumber = web3.BigNumber;
+function ether (n) {
+  return web3.utils.toWei(n.toString(), 'ether');
+}
+
+const BigNumber = web3.utils.BigNumber;
 
 require('chai')
   .use(require('chai-bignumber')(BigNumber))

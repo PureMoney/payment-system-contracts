@@ -13,16 +13,14 @@ module.exports = function(deployer, network, accounts) {
 
   // if (network === 'develop' || network === 'development') return;
 
-  const BigNumber = web3.BigNumber;
-
   // We use the ether function to deal with 18-place decimal numbers;
   // has nothing to do with ether, the Ethereum currency.
   // Basically, 1 ether = 10*18 wei. Wei is the smallest unit.
   function ether (n) {
-    return new web3.BigNumber(web3.toWei(n, 'ether'));
+    return web3.utils.toWei(n.toString(), 'ether');
   }
 
-  const authorizedShares = new BigNumber(ether(11000000000));
+  const authorizedShares = ether(11000000000);
 
   var rock = accounts[0];
 
