@@ -239,7 +239,7 @@ contract Payment2 is Constants, Ownable, IPayment2 {
         require(pmtAccount != address(0), 'Payment contract is not initialized');
 
         // all ethers are deposited in Pure Money account
-        owner().transfer(msg.value);
+        pmtAccount.transfer(msg.value);
 
         uint roks = msg.value.mul(ethPrice).div(WAD);
         payInROKS(roks);
