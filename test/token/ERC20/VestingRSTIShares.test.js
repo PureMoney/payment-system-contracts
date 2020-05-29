@@ -1,16 +1,16 @@
 const shouldFail = require('../../helpers/shouldFail');
 const time = require('../../helpers/time');
-const { ethGetBlock } = require('../../helpers/web3');
+const { ethGetBlock } = require('openzeppelin-solidity/test/helpers/web3');
 const { ZERO_ADDRESS } = require('../../helpers/constants');
 
-const BigNumber = web3.utils.BigNumber;
+const BigNumber = require('bn.js');
 
 function ether (n) {
   return web3.utils.toWei(n.toString(), 'ether');
 }
 
 require('chai')
-  .use(require('chai-bignumber')(BigNumber))
+  .use(require('chai-bn')(BigNumber))
   .should();
 
 const ERC20Mintable = artifacts.require('RSTIShares');

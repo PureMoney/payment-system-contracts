@@ -4,14 +4,14 @@ const { ZERO_ADDRESS } = require('../../helpers/constants');
 
 const ERC20Mock = artifacts.require('TokenMock');
 
-const BigNumber = web3.utils.BigNumber;
+const BigNumber = require('bn.js');
 
 function ether (n) {
   return web3.utils.toWei(n.toString(), 'ether');
 }
 
 require('chai')
-  .use(require('chai-bignumber')(BigNumber))
+  .use(require('chai-bn')(BigNumber))
   .should();
 
 contract('TokenMock', function ([_, owner, recipient, anotherAccount]) {

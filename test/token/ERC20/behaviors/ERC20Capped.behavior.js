@@ -1,9 +1,9 @@
 const shouldFail = require('../../../helpers/shouldFail');
 
-const BigNumber = web3.utils.BigNumber;
+const BigNumber = require('bn.js');
 
 require('chai')
-  .use(require('chai-bignumber')(BigNumber))
+  .use(require('chai-bn')(BigNumber))
   .should();
 
 function shouldBehaveLikeERC20Capped (minter, [anyone], cap) {

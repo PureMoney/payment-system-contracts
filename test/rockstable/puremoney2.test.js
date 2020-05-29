@@ -2,10 +2,10 @@ const shouldFail = require('../helpers/shouldFail');
 const { ether } = require('../helpers/ether');
 const { ZERO_ADDRESS } = require('../helpers/constants');
 
-const BigNumber = web3.utils.BigNumber;
+const BigNumber = require('bn.js');
 
 require('chai')
-  .use(require('chai-bignumber')(BigNumber))
+  .use(require('chai-bn')(BigNumber))
   .should();
 
 const UniversalToken = artifacts.require('UniversalToken');
@@ -111,7 +111,7 @@ contract('RS PureMoney', function ([_, minter, ...otherAccounts]) {
 
       it('sending ROKS to an unknown contract address deposits ROKS to that contract', async function() {
         var prevBalance = await this.token.balanceOf(lToken.address);
-        prevBalance.should.be.bignumber.equal(ZERO_ADDRESS);
+        prevBalance.should.be.bignumber.equal(new BigNumber(0));
         await this.token.transfer(lToken.address, ether(10), { from: minter });
         (await this.token.balanceOf(lToken.address)).should.be.bignumber.equal(ether(10));
       });

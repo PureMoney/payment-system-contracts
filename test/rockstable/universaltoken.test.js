@@ -2,10 +2,10 @@ const shouldFail = require('../helpers/shouldFail');
 const { ether } = require('../helpers/ether');
 // const { ZERO_ADDRESS } = require('../helpers/constants');
 
-const BigNumber = web3.utils.BigNumber;
+const BigNumber = require('bn.js');
 
 require('chai')
-  .use(require('chai-bignumber')(BigNumber))
+  .use(require('chai-bn')(BigNumber))
   .should();
 
 const UniversalToken = artifacts.require('UniversalToken');
@@ -20,22 +20,22 @@ contract('RS UniversalToken', function ([_, minter, ...otherAccounts]) {
 
     it('can set transaction fee to zero', async function() {
       await this.token.modifyTransFee(0, { from: minter });
-      (await this.token.xactionFeeNumerator()).should.be.bignumber.equal(0);
+      (await this.token.xactionFeeNumerator()).should.be.bignumber.equal(new BigNumber(0));
     });
 
     it('can modify transaction fee to less than 1%', async function() {
       await this.token.modifyTransFee(99, { from: minter });
-      (await this.token.xactionFeeNumerator()).should.be.bignumber.equal(99);
+      (await this.token.xactionFeeNumerator()).should.be.bignumber.equal(new BigNumber(99));
     });
 
     it('can set fee share to zero', async function() {
       await this.token.modifyFeeShare(0, { from: minter });
-      (await this.token.xactionFeeShare()).should.be.bignumber.equal(0);
+      (await this.token.xactionFeeShare()).should.be.bignumber.equal(new BigNumber(0));
     });
 
     it('can modify fee share to 30%', async function() {
       await this.token.modifyFeeShare(3000, { from: minter });
-      (await this.token.xactionFeeShare()).should.be.bignumber.equal(3000);
+      (await this.token.xactionFeeShare()).should.be.bignumber.equal(new BigNumber(3000));
     });
 
     it('cannot set transaction fee to 26% (too large)', async function() {

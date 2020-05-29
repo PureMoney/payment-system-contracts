@@ -1,14 +1,14 @@
 const shouldFail = require('../../helpers/shouldFail');
 const time = require('../../helpers/time');
 
-const BigNumber = web3.utils.BigNumber;
+const BigNumber = require('bn.js');
 
 function ether (n) {
   return web3.utils.toWei(n.toString(), 'ether');
 }
 
 require('chai')
-  .use(require('chai-bignumber')(BigNumber))
+  .use(require('chai-bn')(BigNumber))
   .should();
 
 const LocalToken = artifacts.require('NoparamTokenMock');

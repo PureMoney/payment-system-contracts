@@ -7,13 +7,15 @@
     "test": "test"
   },
   "dependencies": {
+    "bn.js": "^5.1.2",
     "chai": "^4.2.0",
-    "chai-bignumber": "^2.0.2",
+    "chai-bignumber": "^3.0.0",
+    "chai-bn": "^0.2.1",
     "ethereumjs-util": "^6.0.0",
     "ethjs-abi": "^0.2.1",
-    "openzeppelin-solidity": "^2.0.0-rc.3",
-    "truffle-hdwallet-provider": "^0.0.6",
-    "web3": "^1.0.0-beta.36"
+    "openzeppelin-solidity": "2.0.0",
+    "pify": "^5.0.0",
+    "web3": "^1.0.0"
   },
   "devDependencies": {},
   "scripts": {

@@ -30,9 +30,7 @@ function contains (args, key, value) {
 }
 
 function isBigNumber (object) {
-  return object.isBigNumber ||
-    // object instanceof BigNumber ||
-    (object.constructor && object.constructor.name === 'BigNumber');
+  return web3.utils.isBigNumber(object);
 }
 
 module.exports = {
