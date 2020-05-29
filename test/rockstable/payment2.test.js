@@ -76,6 +76,7 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
       await payment.send(web3.utils.toWei("1.21", "ether"), { from: customer });
       // at any rate, the way to determine whether the payment failed is to check the ethers
       // that must have been received, and also the current ether account value of the sender:
+      customerMoney = (new BigNumber(customerMoney)).minus(web3.utils.toWei("1.21", "ether"));
       console.log('     --> post-payment balance: ', customerMoney);
       // (await web3.eth.getBalance(customer)).should.be.bignumber.greaterThan(customerMoney - web3.utils.toWei(1, "finney"));
       // it appears that the Ethereum network does not charge anything if payment fails
@@ -175,8 +176,10 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
       await payment.setRoksExpected(ether(10.112), { from: minter });
       await payment.send(ether(0.0707132867), { from: customer });
       (await puremoney.balanceOf(vendor)).should.be.bignumber.greaterThan(veBalance + ether(9));
-      (await puremoney.balanceOf(evangelist)).should.be.bignumber.greaterThan(web3.utils.toWei(0.7*111, "finney"));
-      (await puremoney.balanceOf(pmtAccount)).should.be.bignumber.greaterThan(web3.utils.toWei(0.3*111, "finney"));
+      let x = 0.7*111;
+      (await puremoney.balanceOf(evangelist)).should.be.bignumber.greaterThan(web3.utils.toWei(x.toString(), "finney"));
+      x = 0.3*111;
+      (await puremoney.balanceOf(pmtAccount)).should.be.bignumber.greaterThan(web3.utils.toWei(x.toString(), "finney"));
     });
 
     it('changing transaction fee without calling refreshFeeParams', async function() {
@@ -185,8 +188,10 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
       await payment.setRoksExpected(ether(1494.8), { from: minter });
       await payment.send(ether(10.1), { from: customer }); // should be unchanged
       (await puremoney.balanceOf(vendor)).should.be.bignumber.greaterThan(veBalance + ether(1400));
-      (await puremoney.balanceOf(evangelist)).should.be.bignumber.greaterThan(evBalance + web3.utils.toWei(0.7*9999, "finney"));
-      (await puremoney.balanceOf(pmtAccount)).should.be.bignumber.greaterThan(rsBalance + web3.utils.toWei(0.3*9999, "finney"));
+      let x = 0.7*9999;
+      (await puremoney.balanceOf(evangelist)).should.be.bignumber.greaterThan(evBalance + web3.utils.toWei(x.toString(), "finney"));
+      x = 0.3*9999;
+      (await puremoney.balanceOf(pmtAccount)).should.be.bignumber.greaterThan(rsBalance + web3.utils.toWei(x.toString(), "finney"));
     });
 
     it('modifying RSTIs fee share and then calling refreshFeeParams', async function() {
@@ -196,10 +201,12 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
       await payment.setRoksExpected(ether(1454.4), { from: minter });
       await payment.send(ether(10.1), { from: customer }); // should be unchanged
       (await puremoney.balanceOf(vendor)).should.be.bignumber.greaterThan(veBalance + ether(1400));
+      let x = 0.8*54;
       (await puremoney.balanceOf(evangelist)).should.be.bignumber
-                                                .greaterThan(evBalance + web3.utils.toWei("0.8*54", "finney"));
+                                                .greaterThan(evBalance + web3.utils.toWei(x.toString(), "finney"));
+      x = 0.2*54;
       (await puremoney.balanceOf(pmtAccount)).should.be.bignumber
-                                                .greaterThan(rsBalance + web3.utils.toWei("0.2*54", "finney"));
+                                                .greaterThan(rsBalance + web3.utils.toWei(x.toString(), "finney"));
     });
 
     it('modifying RSTIs fee share to zero and then calling refreshFeeParams', async function() {

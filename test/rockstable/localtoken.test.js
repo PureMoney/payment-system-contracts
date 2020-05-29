@@ -5,6 +5,7 @@ const { ZERO_ADDRESS } = require('../helpers/constants');
 const shouldFail = require('../helpers/shouldFail');
 
 const BigNumber = require('bn.js');
+const hex2big = require('../helpers/hex2big');
 
 require('chai')
   .use(require('chai-bn')(BigNumber))
@@ -34,7 +35,8 @@ contract('RS LocalToken', function ([_, minter, otherMinter, ...otherAccounts]) 
       await this.token.modifyTaxRate(110, { from: otherMinter });
       (await this.token.taxRateNumerator()).should.be.bignumber.equal(new BigNumber(110));
       await this.token.modifyGovtAccount(otherAccounts[0], { from: otherMinter });
-      (await this.token.govtAccount()).should.be.bignumber.equal(otherAccounts[0]);
+      hex2big(await this.token.govtAccount()).should.be.bignumber
+      .equal(hex2big(otherAccounts[0]));
     });
   });
 
@@ -70,7 +72,7 @@ contract('RS LocalToken', function ([_, minter, otherMinter, ...otherAccounts]) 
 
     it('can reset govt account because tax rate is zero', async function() {
       await this.token.modifyGovtAccount(ZERO_ADDRESS, { from: minter });
-      (await this.token.govtAccount()).should.be.bignumber.equal(new BigNumber(ZERO_ADDRESS, 'hex'));
+      hex2big(await this.token.govtAccount()).should.be.bignumber.equal(hex2big(ZERO_ADDRESS));
     });
 
     it('cannot set govt address if tax rate is zero', async function() {
@@ -81,8 +83,7 @@ contract('RS LocalToken', function ([_, minter, otherMinter, ...otherAccounts]) 
       await this.token.modifyTaxRate(850, { from: minter });
       (await this.token.taxRateNumerator()).should.be.bignumber.equal(new BigNumber(850, 10));
       await this.token.modifyGovtAccount(otherAccounts[0], { from: minter });
-      (new BigNumber(await this.token.govtAccount(), 'hex')).should.be.bignumber
-      .equal(new BigNumber(otherAccounts[0], 'hex'));
+      hex2big(await this.token.govtAccount()).should.be.bignumber.equal(hex2big(otherAccounts[0]));
     });
   });
 
@@ -97,8 +98,7 @@ contract('RS LocalToken', function ([_, minter, otherMinter, ...otherAccounts]) 
 
     it('owner can change rock stable account', async function() {
       await this.token.modifyPMTAccount(otherMinter, { from: minter });
-      (new BigNumber(await this.token.pmtAccount(), 'hex')).should.be.bignumber
-      .equal(new BigNumber(otherMinter, 'hex'));
+      hex2big(await this.token.pmtAccount()).should.be.bignumber.equal(hex2big(otherMinter));
     });
 
     it('even owner cannot set rock stable account to zero', async function() {

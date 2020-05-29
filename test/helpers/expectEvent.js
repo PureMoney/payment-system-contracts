@@ -1,6 +1,6 @@
-const BigNumber = web3.utils.BigNumber;
+const BigNumber = require('bn.js');
 const should = require('chai')
-  .use(require('chai-bignumber')(BigNumber))
+  .use(require('chai-bn')(BigNumber))
   .should();
 
 function inLogs (logs, eventName, eventArgs = {}) {

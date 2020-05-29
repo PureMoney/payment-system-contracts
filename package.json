@@ -9,7 +9,6 @@
   "dependencies": {
     "bn.js": "^5.1.2",
     "chai": "^4.2.0",
-    "chai-bignumber": "^3.0.0",
     "chai-bn": "^0.2.1",
     "ethereumjs-util": "^6.0.0",
     "ethjs-abi": "^0.2.1",
