@@ -30,7 +30,7 @@ function contains (args, key, value) {
 }
 
 function isBigNumber (object) {
-  return web3.utils.isBigNumber(object);
+  return BigNumber.isBN(object);
 }
 
 module.exports = {

@@ -26,11 +26,12 @@ function shouldBehaveLikeERC20Mintable (minter, [anyone]) {
 
         function shouldMint (amount) {
           beforeEach(async function () {
+            // this should fail because "anyone" is not a depot address
             ({ logs: this.logs } = await this.token.mint(anyone, amount, { from }));
           });
 
-          it('mints the requested amount', async function () {
-            (await this.token.balanceOf(anyone)).should.be.bignumber.equal(amount);
+          it('does not mint for restricted destination (anyone)', async function () {
+            hex2big(await this.token.balanceOf(anyone), 'hex').should.be.bignumber.equal(new BigNumber(0));
           });
 
           it('emits a mint and a transfer event', async function () {

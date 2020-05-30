@@ -1,6 +1,7 @@
 const expectEvent = require('../../helpers/expectEvent');
 const shouldFail = require('../../helpers/shouldFail');
 const { ether } = require('../../helpers/ether');
+const BigNumber = require('bn.js');
 
 const UniversalToken = artifacts.require('UniversalToken');
 const ERC20PausableMock = artifacts.require('PausableLocalTokenMock');
@@ -119,8 +120,8 @@ contract('PausableLocalToken', function ([_, pauser, otherPauser, recipient, ano
       it('allows to transfer when unpaused', async function () {
         await this.token.transfer(recipient, 100, { from: pauser });
 
-        (await this.token.balanceOf(pauser)).should.be.bignumber.equal(0);
-        (await this.token.balanceOf(recipient)).should.be.bignumber.equal(100);
+        new BigNumber(await this.token.balanceOf(pauser)).should.be.bignumber.equal(new BigNumber(0));
+        new BigNumber(await this.token.balanceOf(recipient)).should.be.bignumber.equal(new BigNumber(100));
       });
 
       it('allows to transfer when paused and then unpaused', async function () {
@@ -129,8 +130,8 @@ contract('PausableLocalToken', function ([_, pauser, otherPauser, recipient, ano
 
         await this.token.transfer(recipient, 100, { from: pauser });
 
-        (await this.token.balanceOf(pauser)).should.be.bignumber.equal(0);
-        (await this.token.balanceOf(recipient)).should.be.bignumber.equal(100);
+        new BigNumber(await this.token.balanceOf(pauser)).should.be.bignumber.equal(new BigNumber(0));
+        new BigNumber(await this.token.balanceOf(recipient)).should.be.bignumber.equal(new BigNumber(100));
       });
 
       it('reverts when trying to transfer when paused', async function () {
@@ -144,7 +145,7 @@ contract('PausableLocalToken', function ([_, pauser, otherPauser, recipient, ano
       it('allows to approve when unpaused', async function () {
         await this.token.approve(anotherAccount, 40, { from: pauser });
 
-        (await this.token.allowance(pauser, anotherAccount)).should.be.bignumber.equal(40);
+        (await this.token.allowance(pauser, anotherAccount)).should.be.bignumber.equal(new BigNumber(40));
       });
 
       it('allows to transfer when paused and then unpaused', async function () {
@@ -153,7 +154,7 @@ contract('PausableLocalToken', function ([_, pauser, otherPauser, recipient, ano
 
         await this.token.approve(anotherAccount, 40, { from: pauser });
 
-        (await this.token.allowance(pauser, anotherAccount)).should.be.bignumber.equal(40);
+        (await this.token.allowance(pauser, anotherAccount)).should.be.bignumber.equal(new BigNumber(40));
       });
 
       it('reverts when trying to transfer when paused', async function () {
@@ -171,8 +172,8 @@ contract('PausableLocalToken', function ([_, pauser, otherPauser, recipient, ano
       it('allows to transfer from when unpaused', async function () {
         await this.token.transferFrom(pauser, recipient, 40, { from: anotherAccount });
 
-        (await this.token.balanceOf(pauser)).should.be.bignumber.equal(60);
-        (await this.token.balanceOf(recipient)).should.be.bignumber.equal(40);
+        (await this.token.balanceOf(pauser)).should.be.bignumber.equal(new BigNumber(60));
+        (await this.token.balanceOf(recipient)).should.be.bignumber.equal(new BigNumber(40));
       });
 
       it('allows to transfer when paused and then unpaused', async function () {
@@ -181,8 +182,8 @@ contract('PausableLocalToken', function ([_, pauser, otherPauser, recipient, ano
 
         await this.token.transferFrom(pauser, recipient, 40, { from: anotherAccount });
 
-        (await this.token.balanceOf(pauser)).should.be.bignumber.equal(60);
-        (await this.token.balanceOf(recipient)).should.be.bignumber.equal(40);
+        (await this.token.balanceOf(pauser)).should.be.bignumber.equal(new BigNumber(60));
+        (await this.token.balanceOf(recipient)).should.be.bignumber.equal(new BigNumber(40));
       });
 
       it('reverts when trying to transfer from when paused', async function () {
@@ -200,7 +201,7 @@ contract('PausableLocalToken', function ([_, pauser, otherPauser, recipient, ano
       it('allows to decrease approval when unpaused', async function () {
         await this.token.decreaseAllowance(anotherAccount, 40, { from: pauser });
 
-        (await this.token.allowance(pauser, anotherAccount)).should.be.bignumber.equal(60);
+        (await this.token.allowance(pauser, anotherAccount)).should.be.bignumber.equal(new BigNumber(60));
       });
 
       it('allows to decrease approval when paused and then unpaused', async function () {
@@ -209,7 +210,7 @@ contract('PausableLocalToken', function ([_, pauser, otherPauser, recipient, ano
 
         await this.token.decreaseAllowance(anotherAccount, 40, { from: pauser });
 
-        (await this.token.allowance(pauser, anotherAccount)).should.be.bignumber.equal(60);
+        (await this.token.allowance(pauser, anotherAccount)).should.be.bignumber.equal(new BigNumber(60));
       });
 
       it('reverts when trying to transfer when paused', async function () {
@@ -227,7 +228,7 @@ contract('PausableLocalToken', function ([_, pauser, otherPauser, recipient, ano
       it('allows to increase approval when unpaused', async function () {
         await this.token.increaseAllowance(anotherAccount, 40, { from: pauser });
 
-        (await this.token.allowance(pauser, anotherAccount)).should.be.bignumber.equal(140);
+        (await this.token.allowance(pauser, anotherAccount)).should.be.bignumber.equal(new BigNumber(140));
       });
 
       it('allows to increase approval when paused and then unpaused', async function () {
@@ -236,7 +237,7 @@ contract('PausableLocalToken', function ([_, pauser, otherPauser, recipient, ano
 
         await this.token.increaseAllowance(anotherAccount, 40, { from: pauser });
 
-        (await this.token.allowance(pauser, anotherAccount)).should.be.bignumber.equal(140);
+        (await this.token.allowance(pauser, anotherAccount)).should.be.bignumber.equal(new BigNumber(140));
       });
 
       it('reverts when trying to increase approval when paused', async function () {

@@ -76,12 +76,15 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
       await payment.send(web3.utils.toWei("1.21", "ether"), { from: customer });
       // at any rate, the way to determine whether the payment failed is to check the ethers
       // that must have been received, and also the current ether account value of the sender:
-      customerMoney = (new BigNumber(customerMoney)).minus(web3.utils.toWei("1.21", "ether"));
+      customerMoney = (new BigNumber(customerMoney))
+                          .isub(new BigNumber(web3.utils.toWei("1.21", "ether")))
+                          .idiv(new BigNumber(1000000000000000000));
       console.log('     --> post-payment balance: ', customerMoney);
       // (await web3.eth.getBalance(customer)).should.be.bignumber.greaterThan(customerMoney - web3.utils.toWei(1, "finney"));
       // it appears that the Ethereum network does not charge anything if payment fails
       // (need to test this hypothesis in the ropsten network)
-      (await web3.eth.getBalance(customer)).should.be.bignumber.equal(customerMoney);
+      let balance = (await web3.eth.getBalance(customer)).idiv(new BigNumber(1000000000000000000));
+      balance.should.be.bignumber.equal(customerMoney);
     });
   });
 
@@ -217,7 +220,7 @@ contract('RS Payment', function ([_, minter, ...otherAccounts]) {
       await payment.send(ether(10.1), { from: customer }); // should be unchanged
       (await puremoney.balanceOf(vendor)).should.be.bignumber.greaterThan(veBalance + ether(1500));
       (await puremoney.balanceOf(evangelist)).should.be.bignumber.greaterThan(evBalance + web3.utils.toWei("3400", "finney"));
-      (await puremoney.balanceOf(pmtAccount)).should.be.bignumber.equal(0);
+      (await puremoney.balanceOf(pmtAccount)).should.be.bignumber.equal(new BigNumber(0));
     });
   });
 
