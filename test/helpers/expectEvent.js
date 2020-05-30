@@ -1,6 +1,6 @@
-const BigNumber = web3.BigNumber;
+const BigNumber = require('bn.js');
 const should = require('chai')
-  .use(require('chai-bignumber')(BigNumber))
+  .use(require('chai-bn')(BigNumber))
   .should();
 
 function inLogs (logs, eventName, eventArgs = {}) {
@@ -30,9 +30,7 @@ function contains (args, key, value) {
 }
 
 function isBigNumber (object) {
-  return object.isBigNumber ||
-    object instanceof BigNumber ||
-    (object.constructor && object.constructor.name === 'BigNumber');
+  return BigNumber.isBN(object);
 }
 
 module.exports = {

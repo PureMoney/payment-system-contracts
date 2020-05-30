@@ -4,10 +4,14 @@ const { ZERO_ADDRESS } = require('../../helpers/constants');
 
 const ERC20Mock = artifacts.require('TokenMock');
 
-const BigNumber = web3.BigNumber;
+const BigNumber = require('bn.js');
+
+function ether (n) {
+  return web3.utils.toWei(n.toString(), 'ether');
+}
 
 require('chai')
-  .use(require('chai-bignumber')(BigNumber))
+  .use(require('chai-bn')(BigNumber))
   .should();
 
 contract('TokenMock', function ([_, owner, recipient, anotherAccount]) {
@@ -398,8 +402,8 @@ contract('TokenMock', function ([_, owner, recipient, anotherAccount]) {
   });
 
   describe('_mint', function () {
-    const initialSupply = new BigNumber(100);
-    const amount = new BigNumber(50);
+    const initialSupply = ether(100);
+    const amount = ether(50);
 
     it('rejects a null account', async function () {
       await shouldFail.reverting(this.token.mint(ZERO_ADDRESS, amount));

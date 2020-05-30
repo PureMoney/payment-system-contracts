@@ -1,14 +1,17 @@
 const PureMoneyContract = artifacts.require('PureMoney2');
 // const { ZERO_ADDRESS } = require('../helpers/constants');
 
-const BigNumber = web3.BigNumber;
 const owner = '0x640C46042b4C50b4f4910b044898e80701203c58'.toLowerCase();
 // const pmtAccount = '0x1Fb18FE4a3b773d61E9851f54d35948114e4806E'.toLowerCase();
 
 const puremoney = '0xa3c0a5899ee55ac29ee03f104cc9b85e32f4efe4'; // PureMoney2
 
+function ether (n) {
+  return web3.utils.toWei(n.toString(), 'ether');
+}
+
 let ROKS = null;
-let cap = new BigNumber(0);
+let cap = ether(0);
 let actualOwner = owner;
 
 const _allowanceROKS = function(source, spender, callback) {

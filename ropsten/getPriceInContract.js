@@ -1,14 +1,17 @@
 const Payment2 = artifacts.require('Payment2');
 // const { ZERO_ADDRESS } = require('../helpers/constants');
 
-const BigNumber = web3.BigNumber;
+function ether (n) {
+  return web3.utils.toWei(n.toString(), 'ether');
+}
+
 const owner = '0x640C46042b4C50b4f4910b044898e80701203c58'.toLowerCase();
 
 const payment2 = '0x1ef01b6dbe2eecf145b0fb62a74b17eb94838db2'; // Payment2
 // 0x1fb18fe4a3b773d61e9851f54d35948114e4806e // PmtAccount
 
 let pmnt = null;
-let cap = new BigNumber(0);
+let cap = ether(0);
 let actualOwner = owner;
 
 const _getPrice = function(contract, callback) {

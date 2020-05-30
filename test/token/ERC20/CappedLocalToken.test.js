@@ -6,12 +6,14 @@ const { shouldBehaveLikeERC20Capped } = require('./behaviors/ERC20Capped.behavio
 const UniversalToken = artifacts.require('UniversalToken');
 const LocalToken = artifacts.require('LocalToken');
 
+const BigNumber = require('bn.js');
+
 contract('CappedLocalTokenMock', function ([_, minter, ...otherAccounts]) {
-  const cap = ether(1000);
+  const cap = new BigNumber(ether(1000));
   var uToken;
 
   beforeEach(async function() {
-    uToken = await UniversalToken.new(cap, 100, 3000, { from: minter });
+    uToken = await UniversalToken.new(cap, new BigNumber(100), new BigNumber(3000), { from: minter });
     // uToken.OwnerModified(function(dummy1, eventData) {
     //   console.log('universal token event');
     //   console.log('dummy1: ', dummy1);
@@ -22,14 +24,14 @@ contract('CappedLocalTokenMock', function ([_, minter, ...otherAccounts]) {
 
     it('requires a non-zero cap', async function () {
       await shouldFail.reverting(
-        LocalToken.new(0, 0, 'RSLT0001', 'RockStable LocalToken', 'Argentina', 0, minter, uToken.address, { from: minter })
+        LocalToken.new(new BigNumber(0), 0, 'RSLT0001', 'RockStable LocalToken', 'Argentina', '0xb090500000000000abc2ef000000030000000004', minter, uToken.address, { from: minter })
       );
     });
 
     it('once deployed', async function () {
       // console.log('tests start, uToken.address: ', uToken.address);
       beforeEach(async function () {
-        this.token = await LocalToken.new(cap, 0, 'RSLT0002', 'RockStable LocalToken', 'Venezuela', 0, minter, uToken.address, { from: minter });
+        this.token = await LocalToken.new(cap, 0, 'RSLT0002', 'RockStable LocalToken', 'Venezuela', '0xb090500000000000abc2ef000000030000000004', minter, uToken.address, { from: minter });
         await this.token.addDepot(otherAccounts[0], { from: minter });
         // console.log('otherAccounts[0]: ', otherAccounts[0]);
         // console.log('minter: ', minter);

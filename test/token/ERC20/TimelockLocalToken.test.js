@@ -1,17 +1,21 @@
 const shouldFail = require('../../helpers/shouldFail');
 const time = require('../../helpers/time');
 
-const BigNumber = web3.BigNumber;
+const BigNumber = require('bn.js');
+
+function ether (n) {
+  return web3.utils.toWei(n.toString(), 'ether');
+}
 
 require('chai')
-  .use(require('chai-bignumber')(BigNumber))
+  .use(require('chai-bn')(BigNumber))
   .should();
 
 const LocalToken = artifacts.require('NoparamTokenMock');
 const TokenTimelock = artifacts.require('TokenTimelock');
 
 contract('TokenTimelock', function ([_, minter, beneficiary]) {
-  const amount = new BigNumber(100);
+  const amount = ether(100);
 
   context('with token', function () {
     beforeEach(async function () {

@@ -2,10 +2,10 @@ const shouldFail = require('../helpers/shouldFail');
 const { ether } = require('../helpers/ether');
 const { ZERO_ADDRESS } = require('../helpers/constants');
 
-const BigNumber = web3.BigNumber;
+const BigNumber = require('bn.js');
 
 require('chai')
-  .use(require('chai-bignumber')(BigNumber))
+  .use(require('chai-bn')(BigNumber))
   .should();
 
 const UniversalToken = artifacts.require('UniversalToken');
@@ -111,9 +111,21 @@ contract('RS PureMoney', function ([_, minter, ...otherAccounts]) {
 
       it('sending ROKS to an unknown contract address deposits ROKS to that contract', async function() {
         var prevBalance = await this.token.balanceOf(lToken.address);
-        prevBalance.should.be.bignumber.equal(ZERO_ADDRESS);
-        await this.token.transfer(lToken.address, ether(10), { from: minter });
-        (await this.token.balanceOf(lToken.address)).should.be.bignumber.equal(ether(10));
+        prevBalance.should.be.bignumber.equal(new BigNumber(0));
+        await this.token.transfer(lToken.address, ether(100), { from: minter });
+        (await this.token.balanceOf(lToken.address)).should.be.bignumber.equal(ether(100));
+      });
+
+      it('sending all available ROKS to an unknown contract address should empty all ROKS', async function() {
+        var prevBalance = new BigNumber(await this.token.balanceOf(evangelist));
+        if (prevBalance.eq(new BigNumber(0))) {
+          await this.token.transfer(evangelist, ether(100), { from: minter });
+          // prevBalance.iadd(new BigNumber(ether(100)));
+          prevBalance = new BigNumber(await this.token.balanceOf(evangelist));
+        }
+        prevBalance.should.be.bignumber.greaterThan(new BigNumber(0));
+        await this.token.transfer(lToken.address, prevBalance, { from: evangelist });
+        (await this.token.balanceOf(evangelist)).should.be.bignumber.equal(ether(0));
       });
     });
   });

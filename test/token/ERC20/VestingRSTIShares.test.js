@@ -1,19 +1,23 @@
 const shouldFail = require('../../helpers/shouldFail');
 const time = require('../../helpers/time');
-const { ethGetBlock } = require('../../helpers/web3');
+const { ethGetBlock } = require('openzeppelin-solidity/test/helpers/web3');
 const { ZERO_ADDRESS } = require('../../helpers/constants');
 
-const BigNumber = web3.BigNumber;
+const BigNumber = require('bn.js');
+
+function ether (n) {
+  return web3.utils.toWei(n.toString(), 'ether');
+}
 
 require('chai')
-  .use(require('chai-bignumber')(BigNumber))
+  .use(require('chai-bn')(BigNumber))
   .should();
 
 const ERC20Mintable = artifacts.require('RSTIShares');
 const TokenVesting = artifacts.require('TokenVesting');
 
 contract('TokenVesting', function ([_, owner, beneficiary]) {
-  const amount = new BigNumber(1000);
+  const amount = ether(1000);
 
   beforeEach(async function () {
     // +1 minute so it starts after contract instantiation

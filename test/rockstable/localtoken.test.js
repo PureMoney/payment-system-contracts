@@ -1,13 +1,14 @@
 const LocalToken = artifacts.require('LocalToken');
 const UniversalToken = artifacts.require('UniversalToken');
-const { ether } = require('../helpers/ether');
+const { ether, wei } = require('../helpers/ether');
 const { ZERO_ADDRESS } = require('../helpers/constants');
 const shouldFail = require('../helpers/shouldFail');
 
-const BigNumber = web3.BigNumber;
+const BigNumber = require('bn.js');
+const hex2big = require('../helpers/hex2big');
 
 require('chai')
-  .use(require('chai-bignumber')(BigNumber))
+  .use(require('chai-bn')(BigNumber))
   .should();
 
 contract('RS LocalToken', function ([_, minter, otherMinter, ...otherAccounts]) {
@@ -32,9 +33,10 @@ contract('RS LocalToken', function ([_, minter, otherMinter, ...otherAccounts]) 
 
     it('other minter can change tax rate and govt account', async function() {
       await this.token.modifyTaxRate(110, { from: otherMinter });
-      (await this.token.taxRateNumerator()).should.be.bignumber.equal(110);
+      (await this.token.taxRateNumerator()).should.be.bignumber.equal(new BigNumber(110));
       await this.token.modifyGovtAccount(otherAccounts[0], { from: otherMinter });
-      (await this.token.govtAccount()).should.be.bignumber.equal(otherAccounts[0]);
+      hex2big(await this.token.govtAccount()).should.be.bignumber
+      .equal(hex2big(otherAccounts[0]));
     });
   });
 
@@ -53,7 +55,7 @@ contract('RS LocalToken', function ([_, minter, otherMinter, ...otherAccounts]) 
 
     it('other minter cannot change govt account, even if taxrate > 0', async function() {
       await this.token.modifyTaxRate(1100, { from: minter });
-      (await this.token.taxRateNumerator()).should.be.bignumber.equal(1100);
+      (await this.token.taxRateNumerator()).should.be.bignumber.equal(new BigNumber(1100, 10));
       await shouldFail.reverting(this.token.modifyGovtAccount(otherAccounts[0], { from: otherMinter }));
     });
   });
@@ -61,7 +63,7 @@ contract('RS LocalToken', function ([_, minter, otherMinter, ...otherAccounts]) 
   describe('local tax changes', function() {
     it('can change tax rate to 10%', async function() {
       await this.token.modifyTaxRate(1000, { from: minter });
-      (await this.token.taxRateNumerator()).should.be.bignumber.equal(1000);
+      (await this.token.taxRateNumerator()).should.be.bignumber.equal(new BigNumber(1000, 10));
     });
 
     it('minter cannot change tax rate to 51%', async function() {
@@ -70,7 +72,7 @@ contract('RS LocalToken', function ([_, minter, otherMinter, ...otherAccounts]) 
 
     it('can reset govt account because tax rate is zero', async function() {
       await this.token.modifyGovtAccount(ZERO_ADDRESS, { from: minter });
-      (await this.token.govtAccount()).should.be.bignumber.equal(ZERO_ADDRESS);
+      hex2big(await this.token.govtAccount()).should.be.bignumber.equal(hex2big(ZERO_ADDRESS));
     });
 
     it('cannot set govt address if tax rate is zero', async function() {
@@ -79,9 +81,9 @@ contract('RS LocalToken', function ([_, minter, otherMinter, ...otherAccounts]) 
 
     it('can set govt address if tax rate is non-zero', async function() {
       await this.token.modifyTaxRate(850, { from: minter });
-      (await this.token.taxRateNumerator()).should.be.bignumber.equal(850);
+      (await this.token.taxRateNumerator()).should.be.bignumber.equal(new BigNumber(850, 10));
       await this.token.modifyGovtAccount(otherAccounts[0], { from: minter });
-      (await this.token.govtAccount()).should.be.bignumber.equal(otherAccounts[0]);
+      hex2big(await this.token.govtAccount()).should.be.bignumber.equal(hex2big(otherAccounts[0]));
     });
   });
 
@@ -96,7 +98,7 @@ contract('RS LocalToken', function ([_, minter, otherMinter, ...otherAccounts]) 
 
     it('owner can change rock stable account', async function() {
       await this.token.modifyPMTAccount(otherMinter, { from: minter });
-      (await this.token.pmtAccount()).should.be.bignumber.equal(otherMinter);
+      hex2big(await this.token.pmtAccount()).should.be.bignumber.equal(hex2big(otherMinter));
     });
 
     it('even owner cannot set rock stable account to zero', async function() {
