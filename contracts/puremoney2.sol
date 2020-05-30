@@ -106,7 +106,7 @@ contract PureMoney2 is Token {
         emit DebugEvent(msg.sender, to, tokens);
         address addr = getAccountIfContract(to);
         require(addr != address(0), 'vendor address is zero');
-        require(balanceOf(msg.sender) > tokens, 'not enough tokens');
+        require(balanceOf(msg.sender) >= tokens, 'not enough tokens');
         super._transfer(msg.sender, addr, tokens);
         return true;
     }
