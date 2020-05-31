@@ -7,6 +7,7 @@
     "test": "test"
   },
   "dependencies": {
+    "@truffle/hdwallet-provider": "^1.0.35",
     "bn.js": "^5.1.2",
     "chai": "^4.2.0",
     "chai-bn": "^0.2.1",
