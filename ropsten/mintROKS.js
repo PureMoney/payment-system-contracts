@@ -8,7 +8,8 @@ function ether (n) {
 const owner = '0x640C46042b4C50b4f4910b044898e80701203c58'.toLowerCase();
 // const pmtAccount = '0x1Fb18FE4a3b773d61E9851f54d35948114e4806E'.toLowerCase();
 
-const puremoney = '0x520e91add6be97f166c4791d9e8ca4a392467c5c'; // PureMoney2
+const puremoney = '0x89031D05bf46458d5E907AFAae91584e19C50FB9'; // bug fixed
+// const puremoney = '0x520e91add6be97f166c4791d9e8ca4a392467c5c'; // PureMoney2
 // const puremoney = '0xa3c0a5899ee55ac29ee03f104cc9b85e32f4efe4'; // PureMoney2
 // const puremoney = '0x0fe5365119ba56f8f90d43c3dd724fac7c728013';
 
@@ -27,7 +28,7 @@ const _mintROKS = function(callback) {
   })
   .then((result, error) => {
     if (result) {
-      var actualOwner = result;
+      var actualOwner = result.toLowerCase();
       if (actualOwner !== owner) {
         console.log("actual owner = ", actualOwner);
         callback();
@@ -44,7 +45,7 @@ const _mintROKS = function(callback) {
       console.log('Owner is already a depot');
       return Promise.resolve(true);
     };
-    return ROKS.addDepot(owner, { from: owner, gas: web3.utils.toWei("320000") });
+    return ROKS.addDepot(owner, { from: owner, gas: web3.utils.toWei("320000", "wei") });
   })
   .then((result, error) => {
     if (result) {
@@ -61,7 +62,7 @@ const _mintROKS = function(callback) {
       console.log("owner is already a minter");
       return Promise.resolve(true);
     };
-    return ROKS.addMinter(owner, { from: owner, gas: web3.utils.toWei("320000") });
+    return ROKS.addMinter(owner, { from: owner, gas: web3.utils.toWei("320000", "wei") });
   })
   .then((result, error) => {
     if (result) {
@@ -83,12 +84,12 @@ const _mintROKS = function(callback) {
     if (result) {
       console.log('total supply = ', result);
       let one = ether(1);
-      let big = cap.minus(one).minus(result);
+      let big = cap.isub(result);
       console.log('big = ', big);
       if (big.gt(one)) {
-        big = ether(big / 2); // half of cap
+        // big = ether(big / 2); // half of cap
         console.log('mint amount oK = ', big);
-        return ROKS.mint(owner, big, { from: owner, gas: web3.utils.toWei("420000") });
+        return ROKS.mint(owner, big, { from: owner, gas: web3.utils.toWei("420000", "wei") });
       }
       callback('mint request > cap');
     }
