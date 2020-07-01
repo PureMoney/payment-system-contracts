@@ -1,0 +1,224 @@
+C:\Users\ctapa\source\payment-system-contracts>truffle deploy --network main
+
+Compiling your contracts...
+===========================
+> Compiling .\contracts\Capped.sol
+> Compiling .\contracts\IPayment2.sol
+> Compiling .\contracts\LocalToken.sol
+> Compiling .\contracts\RSTIShares.sol
+> Compiling .\contracts\TokenTimelock.sol
+> Compiling .\contracts\depot.sol
+> Compiling .\contracts\drafts\ERC20Migrator.sol
+> Compiling .\contracts\drafts\TokenVesting.sol
+> Compiling .\contracts\migrations.sol
+> Compiling .\contracts\mocks\CappedLocalTokenMock.sol
+> Compiling .\contracts\mocks\CappedPureMoneyMock.sol
+> Compiling .\contracts\mocks\CappedUniversalTokenMock.sol
+> Compiling .\contracts\mocks\CapperRoleMock.sol
+> Compiling .\contracts\mocks\DetailedERC20Mock.sol
+> Compiling .\contracts\mocks\MintableLocalTokenMock.sol
+> Compiling .\contracts\mocks\MintablePureMoneyMock.sol
+> Compiling .\contracts\mocks\MintableUniversalTokenMock.sol
+> Compiling .\contracts\mocks\MinterRoleMock.sol
+> Compiling .\contracts\mocks\NoparamTokenMock.sol
+> Compiling .\contracts\mocks\PausableLocalTokenMock.sol
+> Compiling .\contracts\mocks\PausableMock.sol
+> Compiling .\contracts\mocks\PausablePureMoneyMock.sol
+> Compiling .\contracts\mocks\PausableUniversalTokenMock.sol
+> Compiling .\contracts\mocks\PauserRoleMock.sol
+> Compiling .\contracts\mocks\RolesMock.sol
+> Compiling .\contracts\mocks\SafeERC20Helper.sol
+> Compiling .\contracts\mocks\SafeMathMock.sol
+> Compiling .\contracts\mocks\SecondaryMock.sol
+> Compiling .\contracts\mocks\SignerRoleMock.sol
+> Compiling .\contracts\mocks\TokenMock.sol
+> Compiling .\contracts\payment2.sol
+> Compiling .\contracts\puremoney2.sol
+> Compiling .\contracts\token.sol
+> Compiling .\contracts\universaltoken.sol
+> Compiling openzeppelin-solidity/contracts/access/Roles.sol
+> Compiling openzeppelin-solidity/contracts/access/roles/CapperRole.sol
+> Compiling openzeppelin-solidity/contracts/access/roles/MinterRole.sol
+> Compiling openzeppelin-solidity/contracts/access/roles/PauserRole.sol
+> Compiling openzeppelin-solidity/contracts/access/roles/SignerRole.sol
+> Compiling openzeppelin-solidity/contracts/math/Math.sol
+> Compiling openzeppelin-solidity/contracts/math/SafeMath.sol
+> Compiling openzeppelin-solidity/contracts/ownership/Ownable.sol
+> Compiling openzeppelin-solidity/contracts/ownership/Secondary.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20Capped.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20Pausable.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/IERC20.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/SafeERC20.sol
+> Compiling openzeppelin-solidity\contracts\access\Roles.sol
+> Compiling openzeppelin-solidity\contracts\access\roles\MinterRole.sol
+> Compiling openzeppelin-solidity\contracts\access\roles\PauserRole.sol
+> Compiling openzeppelin-solidity\contracts\lifecycle\Pausable.sol
+> Compiling openzeppelin-solidity\contracts\math\SafeMath.sol
+> Compiling openzeppelin-solidity\contracts\token\ERC20\ERC20.sol
+> Compiling openzeppelin-solidity\contracts\token\ERC20\ERC20Mintable.sol
+> Compiling openzeppelin-solidity\contracts\token\ERC20\IERC20.sol
+> Artifacts written to C:\Users\ctapa\source\payment-system-contracts\build\contracts
+> Compiled successfully using:
+   - solc: 0.4.24+commit.e67f0147.Emscripten.clang
+
+
+
+Migrations dry-run (simulation)
+===============================
+> Network name:    'main-fork'
+> Network id:      1
+> Block gas limit: 11890351 (0xb56eaf)
+
+
+2_deploy_contracts.js
+=====================
+Rock Stable Token Owner:  0x839e6034E2c4151A7222a2D48Edfd0A7CA7E0b65
+Government taxation account:  0x11C9A7E5AE8eE4c986a4c14745a86780ff9Fe5A1
+
+   Deploying 'LocalToken'
+   ----------------------
+   > block number:        10372511
+   > block timestamp:     1593593490
+   > account:             0x72ae1B583C0E86509E04dcE2c5ECDaC7127ec655
+   > balance:             5.63835436
+   > gas used:            2851530 (0x2b82ca)
+   > gas price:           40 gwei
+   > value sent:          0 ETH
+   > total cost:          0.1140612 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > block number:        10372512
+   > block timestamp:     1593593795
+   > account:             0x72ae1B583C0E86509E04dcE2c5ECDaC7127ec655
+   > balance:             5.52407408
+   > gas used:            2857007 (0x2b982f)
+   > gas price:           40 gwei
+   > value sent:          0 ETH
+   > total cost:          0.11428028 ETH
+
+
+   Deploying 'PureMoney2'
+   ----------------------
+   > block number:        10372513
+   > block timestamp:     1593593830
+   > account:             0x72ae1B583C0E86509E04dcE2c5ECDaC7127ec655
+   > balance:             5.39316712
+   > gas used:            3272674 (0x31efe2)
+   > gas price:           40 gwei
+   > value sent:          0 ETH
+   > total cost:          0.13090696 ETH
+
+
+   Deploying 'RSTIShares'
+   ----------------------
+   > block number:        10372514
+   > block timestamp:     1593593864
+   > account:             0x72ae1B583C0E86509E04dcE2c5ECDaC7127ec655
+   > balance:             5.300396
+   > gas used:            2319278 (0x2363ae)
+   > gas price:           40 gwei
+   > value sent:          0 ETH
+   > total cost:          0.09277112 ETH
+
+all contracts deployed
+   -------------------------------------
+   > Total cost:          0.45201956 ETH
+
+
+Summary
+=======
+> Total deployments:   4
+> Final cost:          0.45201956 ETH
+
+
+
+
+
+Starting migrations...
+======================
+> Network name:    'main'
+> Network id:      1
+> Block gas limit: 11867047 (0xb513a7)
+
+
+2_deploy_contracts.js
+=====================
+Rock Stable Token Owner:  0x72ae1B583C0E86509E04dcE2c5ECDaC7127ec655
+Government taxation account:  0x14e0AD254a8a15Cac2d68b6418fa99Fb54e863e2
+
+   Deploying 'LocalToken'
+   ----------------------
+   > transaction hash:    0x4b4533e0a075fcafe1ebab9c085efbc70cf9632f348796610a6b0265410e9469
+   > Blocks: 0            Seconds: 8
+   > contract address:    0x3a03C3e9eA0d3a8a2fb6E7b2B6C51F00d9bb9238
+   > block number:        10372559
+   > block timestamp:     1593593904
+   > account:             0x72ae1B583C0E86509E04dcE2c5ECDaC7127ec655
+   > balance:             5.62995436
+   > gas used:            3061530 (0x2eb71a)
+   > gas price:           40 gwei
+   > value sent:          0 ETH
+   > total cost:          0.1224612 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > transaction hash:    0xfb2b0ba568be5c9be9d369ed8613fc0684032065451b3d833d2693084ced25f3
+   > Blocks: 5            Seconds: 56
+   > contract address:    0x2fEc1C4dfC65cCAC03746a5dd1c3d458ab7c81a5
+   > block number:        10372565
+   > block timestamp:     1593593963
+   > account:             0x72ae1B583C0E86509E04dcE2c5ECDaC7127ec655
+   > balance:             5.50667408
+   > gas used:            3082007 (0x2f0717)
+   > gas price:           40 gwei
+   > value sent:          0 ETH
+   > total cost:          0.12328028 ETH
+
+
+   Deploying 'PureMoney2'
+   ----------------------
+   > transaction hash:    0x7c4c6a0fdb79de087cd28167bdf0afdba471982f4670cbbac12af8eaf48079bc
+   > Blocks: 1            Seconds: 8
+   > contract address:    0x1B48FED318245059f80F7E9344204A7284645CD9
+   > block number:        10372568
+   > block timestamp:     1593593978
+   > account:             0x72ae1B583C0E86509E04dcE2c5ECDaC7127ec655
+   > balance:             5.37096712
+   > gas used:            3392674 (0x33c4a2)
+   > gas price:           40 gwei
+   > value sent:          0 ETH
+   > total cost:          0.13570696 ETH
+
+
+   Deploying 'RSTIShares'
+   ----------------------
+   > transaction hash:    0xe752ca873084005425cb5d2aa6a3492c275e477468cd01773194eb9ea7184019
+   > Blocks: 2            Seconds: 12
+   > contract address:    0x763c99C918a06D30B3E65369E8f21e553f9B46DB
+   > block number:        10372570
+   > block timestamp:     1593593993
+   > account:             0x72ae1B583C0E86509E04dcE2c5ECDaC7127ec655
+   > balance:             5.27436488
+   > gas used:            2415056 (0x24d9d0)
+   > gas price:           40 gwei
+   > value sent:          0 ETH
+   > total cost:          0.09660224 ETH
+
+all contracts deployed
+
+   > Saving migration to chain.
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:          0.47805068 ETH
+
+
+Summary
+=======
+> Total deployments:   4
+> Final cost:          0.47805068 ETH
+

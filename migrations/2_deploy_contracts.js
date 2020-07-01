@@ -28,53 +28,59 @@ module.exports = function(deployer, network, accounts) {
   }
 
   const authorizedShares = ether(11000000000);
+  const uToken_address = "0x3bF6740F38b52F259bA7E70df9B31267D3Cb6c6f"
 
-  var rock = accounts[0];
+  const rock = accounts[0];
+  const govt = accounts[9];
+  console.log('Rock Stable Token Owner: ', rock.toString());
+  console.log('Government taxation account: ', govt.toString());
 
-  console.log('deploying the universal contract ...');
-  deployer.deploy(UniversalToken, ether(100000), 100, 3000)
-  .then((instance) => {
-    uToken = instance;
-    return deployer.deploy( LocalToken, ether(10000000), 0, "RST000101", "Local Token for Quezon City (by RockStable Inc)", "Quezon City Second District NCR National Capital Region Philippines", accounts[9], accounts[0], uToken.address );
-  })
+  // console.log('deploying the universal contract ...');
+  // deployer.deploy(UniversalToken, ether(100000), 100, 3000)
+  // .then((instance) => {
+  //   uToken = instance;
+  //   return deployer.deploy( LocalToken, ether(10000000), 0, "RST000101", "Local Token for Quezon City (by RockStable Inc)", "Quezon City Second District NCR National Capital Region Philippines", accounts[9], accounts[0], uToken_address );
+  // })
+  // deployer.deploy( LocalToken, ether(10000000), 0, "RST000101", "Local Token for Quezon City (by RockStable Inc)", "Quezon City Second District NCR National Capital Region Philippines", accounts[9], accounts[0], uToken_address )
+  // .then((token) => {
+  //   return deployer.deploy( LocalToken, ether(10000000), 0, "RST000102", "Local Token for Manila (by RockStable Inc)", "Manila First District NCR National Capital Region Philippines", accounts[9], accounts[0], uToken_address );
+  // })
+  // .then((token) => {
+  //   return deployer.deploy( LocalToken, ether(10000000), 0, "RST000103", "Local Token for Davao City (by RockStable Inc)", "Davao Davao del Sur Davao Region Philippines", accounts[9], accounts[0], uToken_address );
+  // })
+  // .then((token) => {
+  //   return deployer.deploy( LocalToken, ether(10000000), 0, "RST000104", "Local Token for Caloocan (by RockStable Inc)", "Caloocan City Third District NCR National Capital Reqion Philippines", accounts[9], accounts[0], uToken_address );
+  // })
+  // .then((token) => {
+  //   return deployer.deploy( LocalToken, ether(10000000), 0, "RST000105", "Local Token for Caloocan North (by RockStable Inc)", "Caloocan City North Third District NCR National Capital Region Philippines", accounts[9], accounts[0], uToken_address );
+  // })
+  // .then((token) => {
+  //   return deployer.deploy( LocalToken, ether(10000000), 0, "RST000106", "Local Token for Cebu City (by RockStable Inc)", "Cebu City Cebu Central Visayas Philippines", accounts[9], accounts[0], uToken_address );
+  // })
+  // .then((token) => {
+  //   return deployer.deploy( LocalToken, ether(10000000), 0, "RST000107", "Local Token for Zamboanga City (by RockStable Inc)", "Zamboanga City Zamboanga del Sur Zamboanga Peninsula Philippines", accounts[9], accounts[0], uToken_address );
+  // })
+  // .then((token) => {
+  //   return deployer.deploy( LocalToken, ether(10000000), 0, "RST000108", "Local Token for Taguig City (by RockStable Inc)", "Taguig City Fourth District NCR National Capital Region Philippines", accounts[9], accounts[0], uToken_address );
+  // })
+  // .then((token) => {
+  //   return deployer.deploy( LocalToken, ether(10000000), 0, "RST000109", "Local Token for Antipolo (by RockStable Inc)", "Antipolo Rizal Calabarzon Philippines", accounts[9], accounts[0], uToken_address );
+  // })
+  // .then((token) => {
+  //   return deployer.deploy( LocalToken, ether(10000000), 0, "RST000110", "Local Token for Pasig (by RockStable Inc)", "Pasig Second District NCR National Capital Region Philippines", accounts[9], accounts[0], uToken_address );
+  // })
+  // .then((token) => {
+  //   return deployer.deploy( LocalToken, ether(10000000), 0, "RST000111", "Local Token for Cagayan de Oro (by RockStable Inc)", "Cagayan de Oro City Misamis Oriental Northern Mindanao Philippines", accounts[9], accounts[0], uToken_address );
+  // })
+  // .then((token) => {
+  //   return deployer.deploy( LocalToken, ether(10000000), 0, "RST000112", "Local Token for Parañaque (by RockStable Inc)", "Parañaque Fourth District NCR National Capital Region Philippines", accounts[9], accounts[0], uToken_address );
+  // })
+  // .then((token) => {
+  //   return deployer.deploy( LocalToken, ether(10000000), 0, "RST000113", "Local Token for Dasmariñas (by RockStable Inc)", "Dasmariñas Cavite Calabarzon Philippines", accounts[9], accounts[0], uToken_address );
+  // })
+  deployer.deploy( LocalToken, ether(10000000), 0, "RST000113", "Local Token for Dasmariñas (by RockStable Inc)", "Dasmariñas Cavite Calabarzon Philippines", accounts[9], accounts[0], uToken_address )
   .then((token) => {
-    return deployer.deploy( LocalToken, ether(10000000), 0, "RST000102", "Local Token for Manila (by RockStable Inc)", "Manila First District NCR National Capital Region Philippines", accounts[9], accounts[0], uToken.address );
-  })
-  .then((token) => {
-    return deployer.deploy( LocalToken, ether(10000000), 0, "RST000103", "Local Token for Davao City (by RockStable Inc)", "Davao Davao del Sur Davao Region Philippines", accounts[9], accounts[0], uToken.address );
-  })
-  .then((token) => {
-    return deployer.deploy( LocalToken, ether(10000000), 0, "RST000104", "Local Token for Caloocan (by RockStable Inc)", "Caloocan City Third District NCR National Capital Reqion Philippines", accounts[9], accounts[0], uToken.address );
-  })
-  .then((token) => {
-    return deployer.deploy( LocalToken, ether(10000000), 0, "RST000105", "Local Token for Caloocan North (by RockStable Inc)", "Caloocan City North Third District NCR National Capital Region Philippines", accounts[9], accounts[0], uToken.address );
-  })
-  .then((token) => {
-    return deployer.deploy( LocalToken, ether(10000000), 0, "RST000106", "Local Token for Cebu City (by RockStable Inc)", "Cebu City Cebu Central Visayas Philippines", accounts[9], accounts[0], uToken.address );
-  })
-  .then((token) => {
-    return deployer.deploy( LocalToken, ether(10000000), 0, "RST000107", "Local Token for Zamboanga City (by RockStable Inc)", "Zamboanga City Zamboanga del Sur Zamboanga Peninsula Philippines", accounts[9], accounts[0], uToken.address );
-  })
-  .then((token) => {
-    return deployer.deploy( LocalToken, ether(10000000), 0, "RST000108", "Local Token for Taguig City (by RockStable Inc)", "Taguig City Fourth District NCR National Capital Region Philippines", accounts[9], accounts[0], uToken.address );
-  })
-  .then((token) => {
-    return deployer.deploy( LocalToken, ether(10000000), 0, "RST000109", "Local Token for Antipolo (by RockStable Inc)", "Antipolo Rizal Calabarzon Philippines", accounts[9], accounts[0], uToken.address );
-  })
-  .then((token) => {
-    return deployer.deploy( LocalToken, ether(10000000), 0, "RST000110", "Local Token for Pasig (by RockStable Inc)", "Pasig Second District NCR National Capital Region Philippines", accounts[9], accounts[0], uToken.address );
-  })
-  .then((token) => {
-    return deployer.deploy( LocalToken, ether(10000000), 0, "RST000111", "Local Token for Cagayan de Oro (by RockStable Inc)", "Cagayan de Oro City Misamis Oriental Northern Mindanao Philippines", accounts[9], accounts[0], uToken.address );
-  })
-  .then((token) => {
-    return deployer.deploy( LocalToken, ether(10000000), 0, "RST000112", "Local Token for Parañaque (by RockStable Inc)", "Parañaque Fourth District NCR National Capital Region Philippines", accounts[9], accounts[0], uToken.address );
-  })
-  .then((token) => {
-    return deployer.deploy( LocalToken, ether(10000000), 0, "RST000113", "Local Token for Dasmariñas (by RockStable Inc)", "Dasmariñas Cavite Calabarzon Philippines", accounts[9], accounts[0], uToken.address );
-  })
-  .then((token) => {
-    return deployer.deploy( LocalToken, ether(10000000), 0, "RST000114", "Local Token for Valenzuela (by RockStable Inc)", "Valenzuela Third District NCR National Capital Region Philippines", accounts[9], accounts[0], uToken.address );
+    return deployer.deploy( LocalToken, ether(10000000), 0, "RST000114", "Local Token for Valenzuela (by RockStable Inc)", "Valenzuela Third District NCR National Capital Region Philippines", accounts[9], accounts[0], uToken_address );
   })
   .then((pmnt) => {
     return deployer.deploy( PureMoney, ether(100000000000) );

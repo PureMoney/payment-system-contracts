@@ -1,0 +1,186 @@
+C:\Users\ctapa\source\payment-system-contracts>truffle deploy --network main
+
+Compiling your contracts...
+===========================
+> Compiling .\contracts\Capped.sol
+> Compiling .\contracts\IPayment2.sol
+> Compiling .\contracts\LocalToken.sol
+> Compiling .\contracts\RSTIShares.sol
+> Compiling .\contracts\TokenTimelock.sol
+> Compiling .\contracts\depot.sol
+> Compiling .\contracts\drafts\ERC20Migrator.sol
+> Compiling .\contracts\drafts\TokenVesting.sol
+> Compiling .\contracts\migrations.sol
+> Compiling .\contracts\mocks\CappedLocalTokenMock.sol
+> Compiling .\contracts\mocks\CappedPureMoneyMock.sol
+> Compiling .\contracts\mocks\CappedUniversalTokenMock.sol
+> Compiling .\contracts\mocks\CapperRoleMock.sol
+> Compiling .\contracts\mocks\DetailedERC20Mock.sol
+> Compiling .\contracts\mocks\MintableLocalTokenMock.sol
+> Compiling .\contracts\mocks\MintablePureMoneyMock.sol
+> Compiling .\contracts\mocks\MintableUniversalTokenMock.sol
+> Compiling .\contracts\mocks\MinterRoleMock.sol
+> Compiling .\contracts\mocks\NoparamTokenMock.sol
+> Compiling .\contracts\mocks\PausableLocalTokenMock.sol
+> Compiling .\contracts\mocks\PausableMock.sol
+> Compiling .\contracts\mocks\PausablePureMoneyMock.sol
+> Compiling .\contracts\mocks\PausableUniversalTokenMock.sol
+> Compiling .\contracts\mocks\PauserRoleMock.sol
+> Compiling .\contracts\mocks\RolesMock.sol
+> Compiling .\contracts\mocks\SafeERC20Helper.sol
+> Compiling .\contracts\mocks\SafeMathMock.sol
+> Compiling .\contracts\mocks\SecondaryMock.sol
+> Compiling .\contracts\mocks\SignerRoleMock.sol
+> Compiling .\contracts\mocks\TokenMock.sol
+> Compiling .\contracts\payment2.sol
+> Compiling .\contracts\puremoney2.sol
+> Compiling .\contracts\token.sol
+> Compiling .\contracts\universaltoken.sol
+> Compiling openzeppelin-solidity/contracts/access/Roles.sol
+> Compiling openzeppelin-solidity/contracts/access/roles/CapperRole.sol
+> Compiling openzeppelin-solidity/contracts/access/roles/MinterRole.sol
+> Compiling openzeppelin-solidity/contracts/access/roles/PauserRole.sol
+> Compiling openzeppelin-solidity/contracts/access/roles/SignerRole.sol
+> Compiling openzeppelin-solidity/contracts/math/Math.sol
+> Compiling openzeppelin-solidity/contracts/math/SafeMath.sol
+> Compiling openzeppelin-solidity/contracts/ownership/Ownable.sol
+> Compiling openzeppelin-solidity/contracts/ownership/Secondary.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20Capped.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20Pausable.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/IERC20.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/SafeERC20.sol
+> Compiling openzeppelin-solidity\contracts\access\Roles.sol
+> Compiling openzeppelin-solidity\contracts\access\roles\MinterRole.sol
+> Compiling openzeppelin-solidity\contracts\access\roles\PauserRole.sol
+> Compiling openzeppelin-solidity\contracts\lifecycle\Pausable.sol
+> Compiling openzeppelin-solidity\contracts\math\SafeMath.sol
+> Compiling openzeppelin-solidity\contracts\token\ERC20\ERC20.sol
+> Compiling openzeppelin-solidity\contracts\token\ERC20\ERC20Mintable.sol
+> Compiling openzeppelin-solidity\contracts\token\ERC20\IERC20.sol
+> Artifacts written to C:\Users\ctapa\source\payment-system-contracts\build\contracts
+> Compiled successfully using:
+   - solc: 0.4.24+commit.e67f0147.Emscripten.clang
+
+
+
+Migrations dry-run (simulation)
+===============================
+> Network name:    'main-fork'
+> Network id:      1
+> Block gas limit: 12035027 (0xb7a3d3)
+
+
+1_initial_migration.js
+======================
+
+   Deploying 'Migrations'
+   ----------------------
+   > block number:        10360356
+   > block timestamp:     1593428614
+   > account:             0x72ae1B583C0E86509E04dcE2c5ECDaC7127ec655
+   > balance:             7.344552812
+   > gas used:            223594 (0x3696a)
+   > gas price:           2 gwei
+   > value sent:          0 ETH
+   > total cost:          0.000447188 ETH
+
+   -------------------------------------
+   > Total cost:         0.000447188 ETH
+
+
+2_deploy_contracts.js
+=====================
+deploying the universal contract ...
+
+   Deploying 'UniversalToken'
+   --------------------------
+   > block number:        10360358
+   > block timestamp:     1593428671
+   > account:             0x72ae1B583C0E86509E04dcE2c5ECDaC7127ec655
+   > balance:             7.339515022
+   > gas used:            2491547 (0x26049b)
+   > gas price:           2 gwei
+   > value sent:          0 ETH
+   > total cost:          0.004983094 ETH
+
+
+   Deploying 'LocalToken'
+   ----------------------
+   > block number:        10360359
+   > block timestamp:     1593429030
+   > account:             0x72ae1B583C0E86509E04dcE2c5ECDaC7127ec655
+   > balance:             7.333800936
+   > gas used:            2857043 (0x2b9853)
+   > gas price:           2 gwei
+   > value sent:          0 ETH
+   > total cost:          0.005714086 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > block number:        10360360
+   > block timestamp:     1593429369
+   > account:             0x72ae1B583C0E86509E04dcE2c5ECDaC7127ec655
+   > balance:             7.328097516
+   > gas used:            2851710 (0x2b837e)
+   > gas price:           2 gwei
+   > value sent:          0 ETH
+   > total cost:          0.00570342 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > block number:        10360361
+   > block timestamp:     1593429718
+   > account:             0x72ae1B583C0E86509E04dcE2c5ECDaC7127ec655
+   > balance:             7.322394408
+   > gas used:            2851554 (0x2b82e2)
+   > gas price:           2 gwei
+   > value sent:          0 ETH
+   > total cost:          0.005703108 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > block number:        10360362
+   > block timestamp:     1593430073
+   > account:             0x72ae1B583C0E86509E04dcE2c5ECDaC7127ec655
+   > balance:             7.31668037
+   > gas used:            2857019 (0x2b983b)
+   > gas price:           2 gwei
+   > value sent:          0 ETH
+   > total cost:          0.005714038 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+
+Error:  *** Deployment Failed ***
+
+"LocalToken" ran out of gas (using Truffle's estimate.)
+   * Block limit:  12035027 (0xb7a3d3)
+   * Gas sent:     2857165 (0x2b98cd)
+   * Try:
+      + Setting a higher gas estimate multiplier for this contract
+      + Using the solc optimizer settings in 'truffle-config.js'
+      + Making your contract smaller
+      + Making your contract constructor more efficient
+      + Setting a higher network block limit if you are on a
+        private network or test client (like ganache).
+
+    at C:\Users\ctapa\AppData\Roaming\npm\node_modules\truffle\build\webpack:\packages\deployer\src\deployment.js:364:1
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    at Migration._deploy (C:\Users\ctapa\AppData\Roaming\npm\node_modules\truffle\build\webpack:\packages\migrate\migration.js:70:1)
+    at Migration._load (C:\Users\ctapa\AppData\Roaming\npm\node_modules\truffle\build\webpack:\packages\migrate\migration.js:57:1)
+    at Migration.run (C:\Users\ctapa\AppData\Roaming\npm\node_modules\truffle\build\webpack:\packages\migrate\migration.js:167:1)
+    at Object.runMigrations (C:\Users\ctapa\AppData\Roaming\npm\node_modules\truffle\build\webpack:\packages\migrate\index.js:148:1)
+    at Object.runFrom (C:\Users\ctapa\AppData\Roaming\npm\node_modules\truffle\build\webpack:\packages\migrate\index.js:110:1)
+    at Object.run (C:\Users\ctapa\AppData\Roaming\npm\node_modules\truffle\build\webpack:\packages\migrate\index.js:87:1)
+    at runMigrations (C:\Users\ctapa\AppData\Roaming\npm\node_modules\truffle\build\webpack:\packages\core\lib\commands\migrate.js:253:1)
+    at setupDryRunEnvironmentThenRunMigrations (C:\Users\ctapa\AppData\Roaming\npm\node_modules\truffle\build\webpack:\packages\core\lib\commands\migrate.js:241:1)
+    at C:\Users\ctapa\AppData\Roaming\npm\node_modules\truffle\build\webpack:\packages\core\lib\commands\migrate.js:207:1
+Truffle v5.1.27 (core: 5.1.27)
+Node v12.16.1
