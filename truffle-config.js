@@ -13,7 +13,8 @@
  */
 
 var HDWalletProvider = require("@truffle/hdwallet-provider");
-var mnemonic = "pottery wage multiply sink virus endorse cake ceiling excess dark awkward animal"; // 12 word mnemonic
+const mRopsten = "pottery wage multiply sink virus endorse cake ceiling excess dark awkward animal"; // 12 word mnemonic
+const mMainnet = "";
 
 
 module.exports = {
@@ -27,9 +28,17 @@ module.exports = {
     },
     ropsten: {
       provider: function () {
-        return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/v3/0b49da3d2bea48b6bdd8ba70ce3fa506", 0, 10);
+        return new HDWalletProvider(mRopsten, "https://ropsten.infura.io/v3/0b49da3d2bea48b6bdd8ba70ce3fa506", 0, 10);
       },
       network_id: '3'
+    },
+    main: {
+      provider: function () {
+        return new HDWalletProvider(mMainnet, "https://mainnet.infura.io/v3/4b46b3400b3f42d89df8b3871b190bcf", 0, 10);
+      },
+      network_id: '1',
+      gas: 8300000,
+      gasPrice: '40000000000'
     }
   },
   compilers: {
