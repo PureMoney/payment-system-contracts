@@ -1,0 +1,369 @@
+C:\Users\ctapa\source\payment-system-contracts>truffle deploy --network bsctest --reset
+
+Compiling your contracts...
+===========================
+> Compiling .\contracts\Capped.sol
+> Compiling .\contracts\IPayment2.sol
+> Compiling .\contracts\LocalToken.sol
+> Compiling .\contracts\RSTIShares.sol
+> Compiling .\contracts\TokenTimelock.sol
+> Compiling .\contracts\depot.sol
+> Compiling .\contracts\drafts\ERC20Migrator.sol
+> Compiling .\contracts\drafts\TokenVesting.sol
+> Compiling .\contracts\migrations.sol
+> Compiling .\contracts\mocks\CappedLocalTokenMock.sol
+> Compiling .\contracts\mocks\CappedPureMoneyMock.sol
+> Compiling .\contracts\mocks\CappedUniversalTokenMock.sol
+> Compiling .\contracts\mocks\CapperRoleMock.sol
+> Compiling .\contracts\mocks\DetailedERC20Mock.sol
+> Compiling .\contracts\mocks\MintableLocalTokenMock.sol
+> Compiling .\contracts\mocks\MintablePureMoneyMock.sol
+> Compiling .\contracts\mocks\MintableUniversalTokenMock.sol
+> Compiling .\contracts\mocks\MinterRoleMock.sol
+> Compiling .\contracts\mocks\NoparamTokenMock.sol
+> Compiling .\contracts\mocks\PausableLocalTokenMock.sol
+> Compiling .\contracts\mocks\PausableMock.sol
+> Compiling .\contracts\mocks\PausablePureMoneyMock.sol
+> Compiling .\contracts\mocks\PausableUniversalTokenMock.sol
+> Compiling .\contracts\mocks\PauserRoleMock.sol
+> Compiling .\contracts\mocks\RolesMock.sol
+> Compiling .\contracts\mocks\SafeERC20Helper.sol
+> Compiling .\contracts\mocks\SafeMathMock.sol
+> Compiling .\contracts\mocks\SecondaryMock.sol
+> Compiling .\contracts\mocks\SignerRoleMock.sol
+> Compiling .\contracts\mocks\TokenMock.sol
+> Compiling .\contracts\payment2.sol
+> Compiling .\contracts\puremoney2.sol
+> Compiling .\contracts\token.sol
+> Compiling .\contracts\universaltoken.sol
+> Compiling openzeppelin-solidity/contracts/access/Roles.sol
+> Compiling openzeppelin-solidity/contracts/access/roles/CapperRole.sol
+> Compiling openzeppelin-solidity/contracts/access/roles/MinterRole.sol
+> Compiling openzeppelin-solidity/contracts/access/roles/PauserRole.sol
+> Compiling openzeppelin-solidity/contracts/access/roles/SignerRole.sol
+> Compiling openzeppelin-solidity/contracts/math/Math.sol
+> Compiling openzeppelin-solidity/contracts/math/SafeMath.sol
+> Compiling openzeppelin-solidity/contracts/ownership/Ownable.sol
+> Compiling openzeppelin-solidity/contracts/ownership/Secondary.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20Capped.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20Pausable.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/IERC20.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/SafeERC20.sol
+> Compiling openzeppelin-solidity\contracts\access\Roles.sol
+> Compiling openzeppelin-solidity\contracts\access\roles\MinterRole.sol
+> Compiling openzeppelin-solidity\contracts\access\roles\PauserRole.sol
+> Compiling openzeppelin-solidity\contracts\lifecycle\Pausable.sol
+> Compiling openzeppelin-solidity\contracts\math\SafeMath.sol
+> Compiling openzeppelin-solidity\contracts\token\ERC20\ERC20.sol
+> Compiling openzeppelin-solidity\contracts\token\ERC20\ERC20Mintable.sol
+> Compiling openzeppelin-solidity\contracts\token\ERC20\IERC20.sol
+> Artifacts written to C:\Users\ctapa\source\payment-system-contracts\build\contracts
+> Compiled successfully using:
+   - solc: 0.4.24+commit.e67f0147.Emscripten.clang
+
+
+
+Starting migrations...
+======================
+> Network name:    'bsctest'
+> Network id:      97
+> Block gas limit: 30000000 (0x1c9c380)
+
+
+1_initial_migration.js
+======================
+
+   Replacing 'Migrations'
+   ----------------------
+   > transaction hash:    0x2b7aa20227c74bb2c5f9ba0c469f689c0fdb271c4e1f2943d468352f3d42c983
+   > Blocks: 2            Seconds: 5
+   > contract address:    0xE14511aA3C8D20AC46D2e78Aa78ADA1679b4eda5
+   > block number:        2227001
+   > block timestamp:     1601050101
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             6.06944844
+   > gas used:            238594 (0x3a402)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.008589384 ETH
+
+
+   > Saving migration to chain.
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:         0.008589384 ETH
+
+
+2_deploy_contracts.js
+=====================
+Rock Stable Token Owner:  0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+Government taxation account:  0x6f775de96357DEa56f6328ea0669dC2bA9325728
+
+   Deploying 'LocalToken'
+   ----------------------
+   > transaction hash:    0x5a8caabc946a25bdb0f10bbe31a84fa8ef995deb96270c5bce3a37d2adc1ba62
+   > Blocks: 2            Seconds: 6
+   > contract address:    0xB5E87584a60871fe37f2554d01d3E273B80f76Ee
+   > block number:        2227008
+   > block timestamp:     1601050122
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             5.956970364
+   > gas used:            3082043 (0x2f073b)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.110953548 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > transaction hash:    0x15b4c28977a8c89fd266e0ca8283170db397ffd15604550c1633f8680a72d64d
+   > Blocks: 4            Seconds: 12
+   > contract address:    0xAE0e05150Fe318C5981a90C139CbbEFB776136Ef
+   > block number:        2227012
+   > block timestamp:     1601050134
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             5.846748804
+   > gas used:            3061710 (0x2eb7ce)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.11022156 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > transaction hash:    0xf6496a5620066d9be5020f1763472c9d61a4007090bf680bddb45e8140a26d99
+   > Blocks: 2            Seconds: 6
+   > contract address:    0x0C0847b90cB6Edde5abD31537d281B3C087daBe4
+   > block number:        2227020
+   > block timestamp:     1601050158
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             5.73653286
+   > gas used:            3061554 (0x2eb732)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.110215944 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > transaction hash:    0x5b9f37131d9e33cb6e6d15d2af72447c2703727a8a8c87e0d4c3d2768bf18889
+   > Blocks: 1            Seconds: 4
+   > contract address:    0x3650Ee77486EaeB170F1A9572c9eD6Fffb63b9fF
+   > block number:        2227024
+   > block timestamp:     1601050170
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             5.625580176
+   > gas used:            3082019 (0x2f0723)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.110952684 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > transaction hash:    0xfe2fc971e85443462f7b915272b0e8933e8537136aa8fc26d18ba120f93e8649
+   > Blocks: 1            Seconds: 7
+   > contract address:    0x0A4414dc0055cAEA3beE1297596f89F54313e4D0
+   > block number:        2227029
+   > block timestamp:     1601050185
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             5.514622308
+   > gas used:            3082163 (0x2f07b3)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.110957868 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > transaction hash:    0xbff9c45a4e0cb6f9d41c3599438068656f48bc02ec08816ebffba8c0a75d9999
+   > Blocks: 1            Seconds: 5
+   > contract address:    0xADD50d279a015BD881de8Ed5dBCCE9a5558Fa6C0
+   > block number:        2227033
+   > block timestamp:     1601050197
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             5.40440766
+   > gas used:            3061518 (0x2eb70e)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.110214648 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > transaction hash:    0x0aab16c96176d7ff6f70347406a6621bde7229e9395e759cd5d61c956698a8f6
+   > Blocks: 7            Seconds: 19
+   > contract address:    0x5bdd072C73ab66795e89092301eb6fb1Fc0557BA
+   > block number:        2227037
+   > block timestamp:     1601050209
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             5.294181348
+   > gas used:            3061842 (0x2eb852)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.110226312 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > transaction hash:    0xeaaf5e128e3cc470518579990f2c7b2f4d7a42a2d7c3cfb8771f915d267ab65b
+   > Blocks: 1            Seconds: 5
+   > contract address:    0x4017bCe0d5C95B7E2Db0809093AaDF88fa73410c
+   > block number:        2227046
+   > block timestamp:     1601050236
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             5.1832278
+   > gas used:            3082043 (0x2f073b)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.110953548 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > transaction hash:    0x3772b672f4d673dd962f58d267adeb83ed79a0e3a451ffd3bd90120eef3dac53
+   > Blocks: 1            Seconds: 5
+   > contract address:    0x337fb71b875E70a574D61D5De60c97aaA5f93E78
+   > block number:        2227050
+   > block timestamp:     1601050248
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             5.073015744
+   > gas used:            3061446 (0x2eb6c6)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.110212056 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > transaction hash:    0x585bb65cf71a79cebd01d758c83fdc2eb9ae577cd5ddb9287f8dfdd814d6d8c0
+   > Blocks: 2            Seconds: 4
+   > contract address:    0xE423b01C2A77dDD1CeeE15Ef05dA3bcE83848619
+   > block number:        2227054
+   > block timestamp:     1601050260
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             4.962794616
+   > gas used:            3061698 (0x2eb7c2)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.110221128 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > transaction hash:    0xcce6199dd15233472531e8b786cadb037d82a8b530449435854b0ac8080165ef
+   > Blocks: 1            Seconds: 5
+   > contract address:    0xFDF51628b58a69eAe409FE884a24dE13364B9563
+   > block number:        2227060
+   > block timestamp:     1601050278
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             4.851840204
+   > gas used:            3082067 (0x2f0753)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.110954412 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > transaction hash:    0xfdb1bac04f68b6b3c0eef1f1de347566b90e505b3dc5b6fd56421752f94d2f19
+   > Blocks: 1            Seconds: 4
+   > contract address:    0xcD054EaDef56e8081C0035A82D7C7A2C24E1E332
+   > block number:        2227064
+   > block timestamp:     1601050290
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             4.74088752
+   > gas used:            3082019 (0x2f0723)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.110952684 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > transaction hash:    0x5b534255f7de732aacb2e3a9bf7efab2079505bbe29b60c0f58de9fa729ff31f
+   > Blocks: 1            Seconds: 5
+   > contract address:    0xaa193E5908a5B63BbC8AEe7ECcAAcE78f3436114
+   > block number:        2227068
+   > block timestamp:     1601050302
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             4.63067244
+   > gas used:            3061530 (0x2eb71a)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.11021508 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > transaction hash:    0x14a6ab36129196fae96c3eada3377d9c88b031b7f7f940c332363adf84aed4a4
+   > Blocks: 2            Seconds: 5
+   > contract address:    0xd67e0E9b6425d4A03cDDF6Be03c0E58Ab8f667DE
+   > block number:        2227072
+   > block timestamp:     1601050314
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             4.52045736
+   > gas used:            3061530 (0x2eb71a)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.11021508 ETH
+
+
+   Replacing 'LocalToken'
+   ----------------------
+   > transaction hash:    0x945e105374eb3108cc54bcd41fb4178cd9bde471c40476f030a24288043fac8d
+   > Blocks: 4            Seconds: 11
+   > contract address:    0xB8A4981050291fd1B68B583CC8Ca9F2790B3aCaA
+   > block number:        2227076
+   > block timestamp:     1601050326
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             4.409505108
+   > gas used:            3082007 (0x2f0717)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.110952252 ETH
+
+
+   Deploying 'PureMoney2'
+   ----------------------
+   > transaction hash:    0x0974e6e76507d9ea0645fddacf092bb984e09ec22d440a05171dbdc8b0657d21
+   > Blocks: 2            Seconds: 4
+   > contract address:    0x0f7490D732eC2E5F5c518BdF75890192A84406bA
+   > block number:        2227081
+   > block timestamp:     1601050341
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             4.287368844
+   > gas used:            3392674 (0x33c4a2)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.122136264 ETH
+
+
+   Deploying 'RSTIShares'
+   ----------------------
+   > transaction hash:    0x60c0cecfb88f6e69593a73a9c49315dff1bacec7a338d518672e1a645f7b5ee6
+   > Blocks: 1            Seconds: 4
+   > contract address:    0x7Ea40d00140596504f1E60935F3daA1d8F0E4F6D
+   > block number:        2227085
+   > block timestamp:     1601050353
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             4.200426828
+   > gas used:            2415056 (0x24d9d0)
+   > gas price:           36 gwei
+   > value sent:          0 ETH
+   > total cost:          0.086942016 ETH
+
+all contracts deployed
+
+   > Saving migration to chain.
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:         1.867497084 ETH
+
+
+Summary
+=======
+> Total deployments:   18
+> Final cost:          1.876086468 ETH

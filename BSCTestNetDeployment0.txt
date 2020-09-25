@@ -1,0 +1,15 @@
+Correct url for BSC TestNet node:
+https://data-seed-prebsc-1-s1.binance.org:8545
+
+RSTIShares Hash:
+0x853a8d7b21efeda59b9512d1a435043e0387de7c6157b452edfa1e324ee3895a
+RSTIShares Address:
+0x1520E66b465f31A7F5790005D473672194509eb6
+
+UniversalToken Hash:
+0xe126e895137b17cbfddf63a93396d24577c1b101a046e5108548ad73265c67f3 - dont use
+0x17bad2fb8f004973789c794ba481a1c3420ed2cedb3ee7619ea8d047c807e100 - ok
+UniversalToken Address:
+0xaa449a1f9535e8db4f0af04382e4efadcd4f996a - don't use
+0xaA449A1f9535e8db4f0AF04382E4eFaDCd4F996A - don't use
+0xdB07cb2165206563E67Eae499ca2c1625D0DaD49 - ok <--
