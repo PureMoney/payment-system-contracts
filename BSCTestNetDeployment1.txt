@@ -1,0 +1,117 @@
+C:\Users\ctapa\source\payment-system-contracts>truffle deploy --network bsctest
+
+Compiling your contracts...
+===========================
+> Compiling .\contracts\Capped.sol
+> Compiling .\contracts\IPayment2.sol
+> Compiling .\contracts\LocalToken.sol
+> Compiling .\contracts\RSTIShares.sol
+> Compiling .\contracts\TokenTimelock.sol
+> Compiling .\contracts\depot.sol
+> Compiling .\contracts\drafts\ERC20Migrator.sol
+> Compiling .\contracts\drafts\TokenVesting.sol
+> Compiling .\contracts\migrations.sol
+> Compiling .\contracts\mocks\CappedLocalTokenMock.sol
+> Compiling .\contracts\mocks\CappedPureMoneyMock.sol
+> Compiling .\contracts\mocks\CappedUniversalTokenMock.sol
+> Compiling .\contracts\mocks\CapperRoleMock.sol
+> Compiling .\contracts\mocks\DetailedERC20Mock.sol
+> Compiling .\contracts\mocks\MintableLocalTokenMock.sol
+> Compiling .\contracts\mocks\MintablePureMoneyMock.sol
+> Compiling .\contracts\mocks\MintableUniversalTokenMock.sol
+> Compiling .\contracts\mocks\MinterRoleMock.sol
+> Compiling .\contracts\mocks\NoparamTokenMock.sol
+> Compiling .\contracts\mocks\PausableLocalTokenMock.sol
+> Compiling .\contracts\mocks\PausableMock.sol
+> Compiling .\contracts\mocks\PausablePureMoneyMock.sol
+> Compiling .\contracts\mocks\PausableUniversalTokenMock.sol
+> Compiling .\contracts\mocks\PauserRoleMock.sol
+> Compiling .\contracts\mocks\RolesMock.sol
+> Compiling .\contracts\mocks\SafeERC20Helper.sol
+> Compiling .\contracts\mocks\SafeMathMock.sol
+> Compiling .\contracts\mocks\SecondaryMock.sol
+> Compiling .\contracts\mocks\SignerRoleMock.sol
+> Compiling .\contracts\mocks\TokenMock.sol
+> Compiling .\contracts\payment2.sol
+> Compiling .\contracts\puremoney2.sol
+> Compiling .\contracts\token.sol
+> Compiling .\contracts\universaltoken.sol
+> Compiling openzeppelin-solidity/contracts/access/Roles.sol
+> Compiling openzeppelin-solidity/contracts/access/roles/CapperRole.sol
+> Compiling openzeppelin-solidity/contracts/access/roles/MinterRole.sol
+> Compiling openzeppelin-solidity/contracts/access/roles/PauserRole.sol
+> Compiling openzeppelin-solidity/contracts/access/roles/SignerRole.sol
+> Compiling openzeppelin-solidity/contracts/math/Math.sol
+> Compiling openzeppelin-solidity/contracts/math/SafeMath.sol
+> Compiling openzeppelin-solidity/contracts/ownership/Ownable.sol
+> Compiling openzeppelin-solidity/contracts/ownership/Secondary.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20Capped.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/ERC20Pausable.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/IERC20.sol
+> Compiling openzeppelin-solidity/contracts/token/ERC20/SafeERC20.sol
+> Compiling openzeppelin-solidity\contracts\access\Roles.sol
+> Compiling openzeppelin-solidity\contracts\access\roles\MinterRole.sol
+> Compiling openzeppelin-solidity\contracts\access\roles\PauserRole.sol
+> Compiling openzeppelin-solidity\contracts\lifecycle\Pausable.sol
+> Compiling openzeppelin-solidity\contracts\math\SafeMath.sol
+> Compiling openzeppelin-solidity\contracts\token\ERC20\ERC20.sol
+> Compiling openzeppelin-solidity\contracts\token\ERC20\ERC20Mintable.sol
+> Compiling openzeppelin-solidity\contracts\token\ERC20\IERC20.sol
+> Artifacts written to C:\Users\ctapa\source\payment-system-contracts\build\contracts
+> Compiled successfully using:
+   - solc: 0.4.24+commit.e67f0147.Emscripten.clang
+
+
+
+Starting migrations...
+======================
+> Network name:    'bsctest'
+> Network id:      97
+> Block gas limit: 30000000 (0x1c9c380)
+
+
+1_initial_migration.js
+======================
+
+   Deploying 'Migrations'
+   ----------------------
+   > transaction hash:    0xe03583f132e29250426b509f44866497b3804b980293299240a5e50cd7fb8340
+   > Blocks: 2            Seconds: 5
+   > contract address:    0xd66286DEaBef6240210146B63bB6Ffc61F19ac51
+   > block number:        2224659
+   > block timestamp:     1601043071
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             6.132862684
+   > gas used:            238594 (0x3a402)
+   > gas price:           20 gwei
+   > value sent:          0 ETH
+   > total cost:          0.00477188 ETH
+
+
+   > Saving migration to chain.
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:          0.00477188 ETH
+
+
+2_deploy_contracts.js
+=====================
+Rock Stable Token Owner:  0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+Government taxation account:  0x6f775de96357DEa56f6328ea0669dC2bA9325728
+deploying the universal contract ...
+
+   Deploying 'UniversalToken'
+   --------------------------
+   > transaction hash:    0x17bad2fb8f004973789c794ba481a1c3420ed2cedb3ee7619ea8d047c807e100
+   > Blocks: 1            Seconds: 5
+   > contract address:    0xdB07cb2165206563E67Eae499ca2c1625D0DaD49
+   > block number:        2224666
+   > block timestamp:     1601043092
+   > account:             0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72
+   > balance:             6.078584784
+   > gas used:            2671547 (0x28c3bb)
+   > gas price:           20 gwei
+   > value sent:          0 ETH
+   > total cost:          0.05343094 ETH
