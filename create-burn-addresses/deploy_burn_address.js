@@ -1,4 +1,4 @@
-var bad = artifacts.require("burnAddress");
+var bad = artifacts.require("./burnAddress.sol");
 
 // Important Note: Before running this script, make sure that the installer (rock) has enough ethers.
 // Each contract requires about 0.358 ether to deploy, and because there are a total of 16 contracts,
