@@ -82,17 +82,14 @@ module.exports = function(deployer, network, accounts) {
     return deployer.deploy( LocalToken, ether(10000000), 0, "RST000113", "Local Token for Dasmariñas (by RockStable Inc)", "Dasmariñas Cavite Calabarzon Philippines", accounts[9], accounts[0], uToken_address );
   })
   .then((token) => {
-    return deployer.deploy( LocalToken, ether(10000000), 0, "RST000113", "Local Token for Dasmariñas (by RockStable Inc)", "Dasmariñas Cavite Calabarzon Philippines", accounts[9], accounts[0], uToken_address );
-  })
-  .then((token) => {
     return deployer.deploy( LocalToken, ether(10000000), 0, "RST000114", "Local Token for Valenzuela (by RockStable Inc)", "Valenzuela Third District NCR National Capital Region Philippines", accounts[9], accounts[0], uToken_address );
   })
   .then((pmnt) => {
     return deployer.deploy( PureMoney, ether(100000000000) );
   })
-  .then((pMoney) => {
-    return deployer.deploy(RSTIShares, accounts[0], authorizedShares);
-  })
+  // .then((pMoney) => {
+  //   return deployer.deploy(RSTIShares, accounts[0], authorizedShares);
+  // })
   .then((t) => {
     console.log('all contracts deployed');
   })

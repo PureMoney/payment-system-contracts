@@ -16,6 +16,7 @@ var HDWalletProvider = require("@truffle/hdwallet-provider");
 const mRopsten = "pottery wage multiply sink virus endorse cake ceiling excess dark awkward animal"; // 12 word mnemonic
 const mMainnet = "";
 const mBscTest = "cigar skill quarter flee usage glide clown fish human child light cause";
+const mBscMain = "";
 
 
 module.exports = {
@@ -43,7 +44,15 @@ module.exports = {
     },
     bsctest: {
       provider: function () {
-        return new HDWalletProvider(mBscTest, "https://data-seed-prebsc-1-s1.binance.org:8545", 0, 10);
+        return new HDWalletProvider(mBscTest, "https://data-seed-prebsc-1-s1.binance.org:8545", 0, 10, false, "m/44'/60'/0'/0/");
+      },
+      network_id: '97',
+      gas: '8300000',
+      gasPrice: '36000000000' // wei
+    },
+    bscmain: {
+      provider: function () {
+        return new HDWalletProvider(mBscMain, "https://bsc-dataseed1.binance.org:443", 0, 10, false, "m/44'/60'/0'/0/");
       },
       network_id: '97',
       gas: '8300000',
