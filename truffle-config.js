@@ -47,16 +47,16 @@ module.exports = {
         return new HDWalletProvider(mBscTest, "https://data-seed-prebsc-1-s1.binance.org:8545", 0, 10, false, "m/44'/60'/0'/0/");
       },
       network_id: '97',
-      gas: '8300000',
-      gasPrice: '36000000000' // wei
+      gas: '5000000',
+      gasPrice: '18000000000' // wei
     },
     bscmain: {
       provider: function () {
         return new HDWalletProvider(mBscMain, "https://bsc-dataseed1.binance.org:443", 0, 10, false, "m/44'/60'/0'/0/");
       },
-      network_id: '97',
-      gas: '8300000',
-      gasPrice: '36000000000' // wei
+      network_id: '56',
+      gas: '5000000',
+      gasPrice: '18000000000' // wei
     }
   },
   compilers: {

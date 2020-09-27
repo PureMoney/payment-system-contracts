@@ -22,8 +22,12 @@
     "test": "truffle test",
     "setpmt": "truffle exec ropsten/set-pmt-account.js --network ropsten",
     "mintroks": "truffle exec ropsten/mintROKS.js --network ropsten",
+    "setpmt-bsctest": "truffle exec ropsten/set-pmt-account.js --network bsctest",
+    "mintroks-bsctest": "truffle exec ropsten/mintROKS.js --network bsctest",
     "deploy-burn-adds": "truffle exec create-burn-addresses/deploy_burn_address.js --network ropsten",
-    "deploy-burn-main": "truffle exec create-burn-addresses/deploy_burn_address.js --network main"
+    "deploy-burn-main": "truffle exec create-burn-addresses/deploy_burn_address.js --network main",
+    "deploy-burn-bsctest": "truffle exec create-burn-addresses/deploy_burn_address.js --network bsctest",
+    "deploy-burn-bscmain": "truffle exec create-burn-addresses/deploy_burn_address.js --network bscmain"
   },
   "repository": {
     "type": "git",
