@@ -44,14 +44,12 @@ module.exports = {
     },
     bsctest: {
       provider: function () {
-        return new HDWalletProvider(mBscTest, "https://data-seed-prebsc-1-s1.binance.org:8545", 0, 10); //, 
-          // shareNonce: false, 
-          // derivationPath: "m/44'/60'/0'/0/"});
+        return new HDWalletProvider(mBscTest, "https://data-seed-prebsc-1-s1.binance.org:8545", 0, 10); 
       },
       network_id: '97',
-      networkCheckTimeout: 10000000
-      // gas: '3000000',
-      // gasPrice: '36000000000' // wei
+      // networkCheckTimeout: 10000000
+      gas: '3000000',
+      gasPrice: '36000000000' // wei
     },
     bscmain: {
       provider: function () {
