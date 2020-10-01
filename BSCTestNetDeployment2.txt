@@ -1,6 +1,3 @@
-NOTE: This deployment generated addresses that are not valid.
-See BSCTestNetDeployment0.txt for all correct addresses.
-
 C:\Users\ctapa\source\payment-system-contracts>truffle deploy --network bsctest --reset
 
 Compiling your contracts...
