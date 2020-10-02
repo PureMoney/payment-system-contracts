@@ -9,14 +9,14 @@
   "dependencies": {
     "@babel/core": "^7.11.6",
     "@truffle/hdwallet-provider": "^1.1.0",
-    "bn.js": "^4.11.9",
+    "bn.js": "^5.1.2",
     "chai": "^4.2.0",
     "chai-bn": "^0.2.1",
     "ethereumjs-util": "^6.0.0",
     "ethjs-abi": "^0.2.1",
     "openzeppelin-solidity": "2.0.0",
     "pify": "^5.0.0",
-    "web3": "^1.0.0"
+    "web3": "^1.3.0"
   },
   "devDependencies": {},
   "scripts": {
@@ -25,6 +25,7 @@
     "mintroks": "truffle exec ropsten/mintROKS.js --network ropsten",
     "setpmt-bsctest": "truffle exec ropsten/set-pmt-account.js --network bsctest",
     "mintroks-bsctest": "truffle exec ropsten/mintROKS.js --network bsctest",
+    "allowance-bsctest": "truffle exec ropsten/getAllowanceROKS.js --network bsctest",
     "deploy-burn-adds": "truffle exec create-burn-addresses/deploy_burn_address.js --network ropsten",
     "deploy-burn-main": "truffle exec create-burn-addresses/deploy_burn_address.js --network main",
     "deploy-burn-bsctest": "truffle exec create-burn-addresses/deploy_burn_address.js --network bsctest",
