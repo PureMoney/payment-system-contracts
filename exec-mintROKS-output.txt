@@ -1,0 +1,66 @@
+root@ubuntu-s-4vcpu-8gb-sfo2-01:~/payment-system-contracts# truffle exec ropsten/mintROKS.js --network bsctest
+Using network 'bsctest'.
+
+ROKS set
+now calling isDepot
+added owner as depot
+owner is already a minter
+added owner as minter
+cap =  BN {
+  negative: 0,
+  words: [ 0, 8778408, 16443095, 330872, <1 empty item> ],
+  length: 4,
+  red: null
+}
+total supply =  BN { negative: 0, words: [ 0, <1 empty item> ], length: 1, red: null }
+big =  BN {
+  negative: 0,
+  words: [ 0, 8778408, 16443095, 330872, <1 empty item> ],
+  length: 4,
+  red: null
+}
+mint amount oK =  BN {
+  negative: 0,
+  words: [ 0, 8778408, 16443095, 330872, <1 empty item> ],
+  length: 4,
+  red: null
+}
+minting OK, result =  {
+  tx: '0xc4420f727166af85455368199154b5dd35a1777d137290b69e964a3368f79fe4',
+  receipt: {
+    blockHash: '0xd83b9eb9ffbf76c32141448a0bc521e1bddae1267f73b9f71d1eaa8f2c1ff5ed',
+    blockNumber: 2416314,
+    contractAddress: null,
+    cumulativeGasUsed: 71181,
+    from: '0x3b20fe9d78e5ce1035fcbbaf8c73779e1bdabc72',
+    gasUsed: 71181,
+    logs: [ [Object] ],
+    logsBloom: '0x00000000000000000000000000000011000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000020000000000000000000800000000000000400000000010000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000000000000400000000000000000000002000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000',
+    status: true,
+    to: '0x0f7490d732ec2e5f5c518bdf75890192a84406ba',
+    transactionHash: '0xc4420f727166af85455368199154b5dd35a1777d137290b69e964a3368f79fe4',
+    transactionIndex: 0,
+    rawLogs: [ [Object] ]
+  },
+  logs: [
+    {
+      address: '0x0f7490D732eC2E5F5c518BdF75890192A84406bA',
+      blockNumber: 2416314,
+      transactionHash: '0xc4420f727166af85455368199154b5dd35a1777d137290b69e964a3368f79fe4',
+      transactionIndex: 0,
+      blockHash: '0xd83b9eb9ffbf76c32141448a0bc521e1bddae1267f73b9f71d1eaa8f2c1ff5ed',
+      logIndex: 0,
+      removed: false,
+      id: 'log_2723b084',
+      event: 'Transfer',
+      args: [Result]
+    }
+  ]
+}
+balance =  BN {
+  negative: 0,
+  words: [ 0, 8778408, 16443095, 330872, <1 empty item> ],
+  length: 4,
+  red: null
+}
+Done
