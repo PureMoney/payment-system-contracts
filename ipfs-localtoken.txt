@@ -1,0 +1,49 @@
+Metadata of "localtoken" was published successfully.
+browser/Capped.sol : 
+dweb:/ipfs/Qme89T41yyNo1Jno9KRSADNipuxQptJ7ejPw7c33dhx1xB
+browser/LocalToken.sol : 
+dweb:/ipfs/QmNo7KoawdBerZaPeURPghneD4PQbnyVLn6BZKXhpwoPzQ
+browser/depot.sol : 
+dweb:/ipfs/QmUb9imeZ2JrA9STe5WS8SQ3eFFskdMGBjaSNrg8tcAEpA
+browser/token.sol : 
+dweb:/ipfs/QmTDdSWbVD533SmKSjizGbSoK9Wt6tyvAZFvV4FcGKpVY9
+browser/universaltoken.sol : 
+dweb:/ipfs/QmRb1caP3ZdptAU7hqLzKspWbWCBMV3BN9Q6kd4MjGidFs
+openzeppelin-solidity/contracts/access/Roles.sol : 
+dweb:/ipfs/QmTF8A4QDAKnwsotd4jpaj49pmgSZ24UVe9bgVk9LX9EmJ
+openzeppelin-solidity/contracts/access/roles/CapperRole.sol : 
+dweb:/ipfs/QmYqAqmZzJaoAGTxUz426SH85bw1JDb1TT23JVvCsbpwie
+openzeppelin-solidity/contracts/access/roles/MinterRole.sol : 
+dweb:/ipfs/Qmc7CnQ92NDFwwCMpsQCvEPuxuhvmcJoi6uNTqZ5WZREsa
+openzeppelin-solidity/contracts/access/roles/PauserRole.sol : 
+dweb:/ipfs/QmS8NL5oMPwgprLk3WqYigS8NzLEV2fbsC9u69TNdNfsdA
+openzeppelin-solidity/contracts/lifecycle/Pausable.sol : 
+dweb:/ipfs/QmQUCeD53ZdJx8PEqvvtAB3nhXbAfPo37jifbJ4WYFtgJ6
+openzeppelin-solidity/contracts/math/SafeMath.sol : 
+dweb:/ipfs/QmeayLPKCKF1HujwMT98dKNBgxzjDMggH865nYX5UwtWFN
+openzeppelin-solidity/contracts/ownership/Ownable.sol : 
+dweb:/ipfs/QmW2RPfHya8iUhakeQkX2G9fRoiL6RsaCjtDb39haDRCTs
+openzeppelin-solidity/contracts/token/ERC20/ERC20.sol : 
+dweb:/ipfs/QmSE9X55x9z1WqdqcfHkv23Eo1HSUdb6YmjrgpRdU6fqF2
+openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol : 
+dweb:/ipfs/QmeHuMwMhCCgSgHZJ6Wppm6E1DygYMsPdssoW6M8wuL2LP
+openzeppelin-solidity/contracts/token/ERC20/ERC20Pausable.sol : 
+dweb:/ipfs/QmQp2VPxebSQe2hSnW96ejL4f4wxcJAFFG5TvTDZxM7pBR
+openzeppelin-solidity/contracts/token/ERC20/IERC20.sol : 
+dweb:/ipfs/QmeDLJ4rHPSXMUtxPXdf1pFm6R1W9oZqAB43gF7LSxKa6Z
+
+Addresses:
+RST000101 - 0x4333de88c71db11c612d3c9370ec274e66d8030b
+RST000102 - 0x567d3771e7fbda20be2aada10f85e0f19a20516b
+RST000103 - 0x557545c24c9e11bd8c2838b76efd94901d8d3c43
+RST000104 - 0x29d4c467faa1391e16158cf4bf27e7e1293732f0
+RST000105 - 0x5268afb8517eefedd5106e0c7d84bc1dda3843da
+RST000106 - 0xaee53e9147fdc1a5bcea6bcee689fbed900af291
+RST000107 - 0xf188cee1d8e53b0cae3f8e3399eafc7e3f196757
+RST000108 - 0x84fb14b7a22a57cd46ea91902f0c7b9f489508c1
+RST000109 - 0xe4f6ed2b35ec575571f6144e2511a9a5aa80edc3
+RST000110 - 0x28c7229c86fd7b97b3f010863bd4650b1eb846b0
+RST000111 - 0x65ff2d9d283a05059c972d730a4779cfbd30e868
+RST000112 - 0xaf56b9a86180116f525556d3a6ee5b2d9273cf3b
+RST000113 - 0x29e465025345165b9426e7377f314655dd69b395
+RST000114 - 0xee5b7969facea874f4711dfae76e15462a9133c8

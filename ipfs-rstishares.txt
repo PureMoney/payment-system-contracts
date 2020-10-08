@@ -1,0 +1,35 @@
+Metadata of "rstishares" was published successfully.
+browser/Capped.sol : 
+dweb:/ipfs/Qme89T41yyNo1Jno9KRSADNipuxQptJ7ejPw7c33dhx1xB
+browser/RSTIShares.sol : 
+dweb:/ipfs/QmaZvGFfSNP5aXFZAw7idLdotjEVgGgUxwzubpRWwfzQ14
+browser/depot.sol : 
+dweb:/ipfs/QmUb9imeZ2JrA9STe5WS8SQ3eFFskdMGBjaSNrg8tcAEpA
+browser/token.sol : 
+dweb:/ipfs/QmTDdSWbVD533SmKSjizGbSoK9Wt6tyvAZFvV4FcGKpVY9
+openzeppelin-solidity/contracts/access/Roles.sol : 
+dweb:/ipfs/QmTF8A4QDAKnwsotd4jpaj49pmgSZ24UVe9bgVk9LX9EmJ
+openzeppelin-solidity/contracts/access/roles/CapperRole.sol : 
+dweb:/ipfs/QmYqAqmZzJaoAGTxUz426SH85bw1JDb1TT23JVvCsbpwie
+openzeppelin-solidity/contracts/access/roles/MinterRole.sol : 
+dweb:/ipfs/Qmc7CnQ92NDFwwCMpsQCvEPuxuhvmcJoi6uNTqZ5WZREsa
+openzeppelin-solidity/contracts/access/roles/PauserRole.sol : 
+dweb:/ipfs/QmS8NL5oMPwgprLk3WqYigS8NzLEV2fbsC9u69TNdNfsdA
+openzeppelin-solidity/contracts/lifecycle/Pausable.sol : 
+dweb:/ipfs/QmQUCeD53ZdJx8PEqvvtAB3nhXbAfPo37jifbJ4WYFtgJ6
+openzeppelin-solidity/contracts/math/SafeMath.sol : 
+dweb:/ipfs/QmeayLPKCKF1HujwMT98dKNBgxzjDMggH865nYX5UwtWFN
+openzeppelin-solidity/contracts/ownership/Ownable.sol : 
+dweb:/ipfs/QmW2RPfHya8iUhakeQkX2G9fRoiL6RsaCjtDb39haDRCTs
+openzeppelin-solidity/contracts/token/ERC20/ERC20.sol : 
+dweb:/ipfs/QmSE9X55x9z1WqdqcfHkv23Eo1HSUdb6YmjrgpRdU6fqF2
+openzeppelin-solidity/contracts/token/ERC20/ERC20Capped.sol : 
+dweb:/ipfs/QmSpmfYYwmkuaSy7oREWqCUH3cbhEwkFkPenjiUnmfPaXi
+openzeppelin-solidity/contracts/token/ERC20/ERC20Mintable.sol : 
+dweb:/ipfs/QmeHuMwMhCCgSgHZJ6Wppm6E1DygYMsPdssoW6M8wuL2LP
+openzeppelin-solidity/contracts/token/ERC20/ERC20Pausable.sol : 
+dweb:/ipfs/QmQp2VPxebSQe2hSnW96ejL4f4wxcJAFFG5TvTDZxM7pBR
+openzeppelin-solidity/contracts/token/ERC20/IERC20.sol : 
+dweb:/ipfs/QmeDLJ4rHPSXMUtxPXdf1pFm6R1W9oZqAB43gF7LSxKa6Z
+
+Contract Address: 0x7b77322e2b0314d8ba7251222ad316e14330b473

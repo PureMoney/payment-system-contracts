@@ -5,11 +5,13 @@ function ether (n) {
   return web3.utils.toWei(n.toString(), 'ether');
 }
 
-const owner = '0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72'.toLowerCase(); // on BSC
+const owner = '0xff8ddf66bd76e0e85109ce360559fb1f5a694cb3'; // on BSCMain
+// const owner = '0x3b20FE9D78e5Ce1035FCBbAf8C73779E1BDabc72'.toLowerCase(); // on BSCTest
 // const owner = '0x640C46042b4C50b4f4910b044898e80701203c58'.toLowerCase(); // on Ethereum
 // const pmtAccount = '0x1Fb18FE4a3b773d61E9851f54d35948114e4806E'.toLowerCase();
 
-const puremoney = '0x0f7490D732eC2E5F5c518BdF75890192A84406bA'; // on BSCTest
+const puremoney = '0x12167bd75cb788f5205491ddef3ce2b72d50fc85'; // on BSCMain
+// const puremoney = '0x0f7490D732eC2E5F5c518BdF75890192A84406bA'; // on BSCTest
 // const puremoney = '0x89031D05bf46458d5E907AFAae91584e19C50FB9'; // bug fixed, on Ethereum
 // const puremoney = '0x520e91add6be97f166c4791d9e8ca4a392467c5c'; // PureMoney2
 // const puremoney = '0xa3c0a5899ee55ac29ee03f104cc9b85e32f4efe4'; // PureMoney2
