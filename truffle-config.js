@@ -16,7 +16,7 @@ var HDWalletProvider = require("@truffle/hdwallet-provider");
 const mRopsten = "pottery wage multiply float virus endorse cake ceiling excess light awkward animal"; // 12 word mnemonic
 const mMainnet = "";
 const mBscTest = "cigar skill quarter flee usage glide clown fish human child light cause";
-const mBscMain = "traffic observe move code pact educate entire yellow bench strategy shrimp tag";
+const mBscMain = "";
 
 
 module.exports = {
